@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-clean-order/error",
+    "stylelint-config-css-modules",
+    "stylelint-config-tailwindcss"
+  ],
+  "ignoreFiles": ["dist/**/*", "node_modules/**/*", "coverage/**/*"],
+  "plugins": ["stylelint-prettier"],
+  "rules": {
+    "declaration-property-value-no-unknown": true,
+    "selector-class-pattern": null,
+    "keyframes-name-pattern": null,
+    "prettier/prettier": true
+  }
+}
