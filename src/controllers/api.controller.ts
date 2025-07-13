@@ -8,17 +8,16 @@ export class ApiController {
     private params: Record<string, string>
   ) {}
 
-  public async getItems(
-    params: Record<string, string>,
-    isSearch = false
-  ): Promise<RecipesResponse> {
+  public async getItems(params: Record<string, string>): Promise<RecipesResponse> {
     const combinedParams = this.getCombinedParams(params);
-    const endpoint = isSearch ? `${this.apiUrl}/search` : this.apiUrl;
+    const response = await fetch(`${this.apiUrl}?${combinedParams.toString()}`);
 
-    const response = await fetch(`${endpoint}?${combinedParams.toString()}`);
-    const data = recipesResponseSchema.parse(await response.json());
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
 
-    return data;
+    const recipesData = recipesResponseSchema.parse(await response.json());
+    return recipesData;
   }
 
   private getCombinedParams(params: Record<string, string>): URLSearchParams {
