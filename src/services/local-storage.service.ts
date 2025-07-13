@@ -23,4 +23,6 @@ class StorageService {
   }
 }
 
-export default new StorageService(config.STORAGE_PREFIX);
+const storageService = new StorageService(config.STORAGE_PREFIX);
+
+export { storageService };

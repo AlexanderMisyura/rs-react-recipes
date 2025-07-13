@@ -35,4 +35,6 @@ export class ApiController {
   }
 }
 
-export default new ApiController(config.API_URL, { select: config.SELECT_PARAM });
+const apiController = new ApiController(config.API_URL, { select: config.SELECT_PARAM });
+
+export { apiController };
