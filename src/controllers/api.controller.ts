@@ -1,5 +1,5 @@
 import config from '@config/api.config';
-import { recipesResponseSchema } from '@schemas';
+import { recipesErrorSchema, recipesResponseSchema } from '@schemas';
 import type { RecipesResponse } from '@ts-types';
 
 export class ApiController {
@@ -13,7 +13,8 @@ export class ApiController {
     const response = await fetch(`${this.apiUrl}?${combinedParams.toString()}`);
 
     if (!response.ok) {
-      throw new Error(response.statusText);
+      const data = recipesErrorSchema.parse(await response.json());
+      throw new Error(data.message);
     }
 
     const recipesData = recipesResponseSchema.parse(await response.json());

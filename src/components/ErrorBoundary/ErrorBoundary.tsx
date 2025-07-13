@@ -20,6 +20,10 @@ export class ErrorBoundary extends Component<Props, State> {
     return { error: error };
   }
 
+  public componentDidCatch(error: Error, errorInfo: unknown) {
+    console.log('Hello from ErrorBoundary ⊂(◉‿◉)つ', error, errorInfo);
+  }
+
   public resetError() {
     this.setState({ error: null });
   }
