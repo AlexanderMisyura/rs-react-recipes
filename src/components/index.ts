@@ -3,3 +3,4 @@ export { Button } from './Button/Button';
 export { ErrorBoundary } from './ErrorBoundary/ErrorBoundary';
 export { ErrorFallback } from './ErrorFallback/ErrorFallback';
 export { Heading } from './Heading/Heading';
+export { Search } from './Search/Search';
