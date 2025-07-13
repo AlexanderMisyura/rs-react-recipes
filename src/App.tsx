@@ -23,11 +23,12 @@ interface State {
 
 const MAX_LIMIT = String(config.MAX_ITEMS);
 const PER_PAGE_LIMIT = String(config.ITEMS_PER_PAGE);
+const DEFAULT_RECIPES_DATA: RecipesResponse = { recipes: [], skip: 0, total: 0 };
 
 export class App extends Component {
   public state: State = {
     searchString: storageService.getItem('searchString') ?? '',
-    recipesData: { recipes: [], skip: 0, total: 0 },
+    recipesData: DEFAULT_RECIPES_DATA,
     loading: true,
     error: null,
   };
@@ -54,7 +55,7 @@ export class App extends Component {
       })
       .catch((error: unknown) => {
         if (error instanceof Error) {
-          this.setState({ error, loading: false });
+          this.setState({ error, loading: false, recipesData: DEFAULT_RECIPES_DATA });
         }
       });
   }
