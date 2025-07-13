@@ -5,3 +5,4 @@ export { ErrorFallback } from './ErrorFallback/ErrorFallback';
 export { Header } from './Header/Header';
 export { Heading } from './Heading/Heading';
 export { Search } from './Search/Search';
+export { Spinner } from './Spinner/Spinner';
