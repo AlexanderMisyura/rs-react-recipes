@@ -1,4 +1,4 @@
-import { BoxWrapper, Button } from '@components';
+import { BoxWrapper, Button, Heading } from '@components';
 import { Component } from 'react';
 
 interface Props {
@@ -12,9 +12,7 @@ export class ErrorFallback extends Component<Props> {
   public render() {
     return (
       <BoxWrapper className="max-w-2xl border-2 border-red-600">
-        <h1 className="text-center text-2xl font-bold text-red-600">
-          {this.props.title ?? 'Something went wrong'}
-        </h1>
+        <Heading className="text-red-600">{this.props.title ?? 'Something went wrong'}</Heading>
         <p className="text-xl">{this.props.error.message}</p>
         {this.props.resetFunction && (
           <Button onClickHandler={this.props.resetFunction}>
