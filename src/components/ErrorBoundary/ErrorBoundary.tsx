@@ -1,5 +1,5 @@
 import { ErrorFallback } from '@components';
-import { Component /* , type ErrorInfo */ } from 'react';
+import { Component, type ErrorInfo } from 'react';
 
 interface Props {
   children: React.ReactNode;
@@ -20,8 +20,8 @@ export class ErrorBoundary extends Component<Props, State> {
     return { error: error };
   }
 
-  public componentDidCatch(error: Error, errorInfo: unknown) {
-    console.log('Hello from ErrorBoundary ⊂(◉‿◉)つ', error, errorInfo);
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('Hello from ErrorBoundary ⊂(◉‿◉)つ', error, errorInfo.componentStack);
   }
 
   public resetError() {
