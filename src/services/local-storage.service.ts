@@ -5,7 +5,7 @@ class StorageService {
 
   public setItem(key: string, value: string): void {
     const storageKey = this.getStorageKey(key);
-    localStorage.setItem(storageKey, JSON.stringify(value));
+    localStorage.setItem(storageKey, value);
   }
 
   public getItem(key: string): string | null {
