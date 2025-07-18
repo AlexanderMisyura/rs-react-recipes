@@ -5,6 +5,7 @@ import { twMerge } from 'tailwind-merge';
 interface Props {
   className?: string;
   children: React.ReactNode;
+  testId?: string;
 }
 
 export class BoxWrapper extends Component<Props> {
@@ -18,6 +19,10 @@ export class BoxWrapper extends Component<Props> {
       )
     );
 
-    return <div className={combinedClasses}>{this.props.children}</div>;
+    return (
+      <div data-testid={this.props.testId} className={combinedClasses}>
+        {this.props.children}
+      </div>
+    );
   }
 }
