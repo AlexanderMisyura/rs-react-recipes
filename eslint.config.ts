@@ -81,5 +81,12 @@ export default tseslint.config(
         createViteImportResolver({ viteConfig }),
       ],
     },
+  },
+
+  {
+    files: ['vite.config.ts'],
+    rules: {
+      '@typescript-eslint/triple-slash-reference': 'off',
+    },
   }
 );
