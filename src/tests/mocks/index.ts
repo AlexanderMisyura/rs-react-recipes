@@ -1,2 +1,1 @@
-export { recipe } from './api-data';
-export { recipesResponse } from './api-data';
+export { recipe_1, recipe_2, recipesResponse, recipesResponseSingle } from './api-data';

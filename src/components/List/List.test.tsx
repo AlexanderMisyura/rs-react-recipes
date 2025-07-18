@@ -1,6 +1,6 @@
 import { List } from '@components';
 import { render, screen } from '@testing-library/react';
-import { recipesResponse } from '@tests-mocks';
+import { recipesResponse, recipesResponseSingle } from '@tests-mocks';
 
 describe('List', () => {
   it('should render list', () => {
@@ -10,11 +10,20 @@ describe('List', () => {
     expect(list).toBeInTheDocument();
   });
 
-  it('should render heading with correct number of recipes', () => {
+  it('should display heading with single recipe', () => {
+    render(<List recipesData={recipesResponseSingle} />);
+
+    const heading = screen.getByTestId('list-heading');
+    expect(heading.textContent).toEqual('1 Recipe Found');
+  });
+
+  it('should display heading with multiple recipes', () => {
     render(<List recipesData={recipesResponse} />);
 
     const heading = screen.getByTestId('list-heading');
-    expect(heading.textContent).toContain(recipesResponse.total.toString());
+    expect(heading.textContent).toEqual(
+      `${recipesResponse.recipes.length.toString()} Recipes Found`
+    );
   });
 
   it('should render a correct number of list items', () => {

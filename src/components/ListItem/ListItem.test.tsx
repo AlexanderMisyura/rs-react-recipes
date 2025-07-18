@@ -1,6 +1,6 @@
 import { ListItem } from '@components';
 import { render, screen } from '@testing-library/react';
-import { recipe } from '@tests-mocks';
+import { recipe_1 as recipe } from '@tests-mocks';
 
 const TEST_ID = `list-item-${recipe.id.toString()}`;
 
