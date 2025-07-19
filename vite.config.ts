@@ -45,7 +45,12 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/setup-tests.ts'],
     coverage: {
-      exclude: ['commitlint.config.ts', 'lint-staged.config.ts', ...coverageConfigDefaults.exclude],
+      exclude: [
+        'src/main.tsx',
+        'commitlint.config.ts',
+        'lint-staged.config.ts',
+        ...coverageConfigDefaults.exclude,
+      ],
       thresholds: {
         statements: 80,
         branches: 50,
