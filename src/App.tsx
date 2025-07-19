@@ -92,7 +92,7 @@ export class App extends Component {
           {!loading && recipesData.recipes.length > 0 && <List recipesData={recipesData} />}
 
           {!loading && !error && recipesData.recipes.length === 0 && (
-            <BoxWrapper className="border-2 border-orange-900">
+            <BoxWrapper testId="empty-fallback" className="border-2 border-orange-900">
               <Heading>Sorry, No Hot Recipes Found</Heading>
               <p className="text-xl">Try searching for something else</p>
             </BoxWrapper>
