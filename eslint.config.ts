@@ -68,7 +68,7 @@ export default tseslint.config(
       ],
       '@typescript-eslint/member-ordering': 'error',
       'no-debugger': 'warn',
-      'no-console': 'warn',
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
     },
 
     settings: {
