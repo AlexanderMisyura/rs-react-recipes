@@ -15,6 +15,7 @@ afterEach(() => {
 
 describe('App', () => {
   it('displays the spinner until the data is loaded', async () => {
+    vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
     render(<App />);
     const spinner = screen.getByText('Loading...');
     expect(spinner).toBeInTheDocument();
@@ -24,9 +25,7 @@ describe('App', () => {
   });
 
   it('displays the initial data with empty search value', async () => {
-    const mockGetItems = vi
-      .spyOn(apiController, 'getItems')
-      .mockImplementation(() => Promise.resolve(recipesResponse));
+    const mockGetItems = vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
     render(<App />);
 
     const list = await screen.findByTestId('list');
@@ -36,9 +35,7 @@ describe('App', () => {
 
   it('displays the initial data with saved search value', async () => {
     localStorage.setItem(`${STORAGE_PREFIX}_searchString`, SEARCH_VALUE);
-    const mockGetItems = vi
-      .spyOn(apiController, 'getItems')
-      .mockImplementation(() => Promise.resolve(recipesResponse));
+    const mockGetItems = vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
     render(<App />);
 
     const list = await screen.findByTestId('list');
@@ -54,7 +51,7 @@ describe('App', () => {
   it('displays the empty data fallback', async () => {
     const mockGetItems = vi
       .spyOn(apiController, 'getItems')
-      .mockImplementation(() => Promise.resolve(recipesResponseEmpty));
+      .mockResolvedValue(recipesResponseEmpty);
     render(<App />);
 
     const fallback = await screen.findByTestId('empty-fallback');
@@ -63,9 +60,7 @@ describe('App', () => {
   });
 
   it('displays the search results', async () => {
-    const mockGetItems = vi
-      .spyOn(apiController, 'getItems')
-      .mockImplementation(() => Promise.resolve(recipesResponse));
+    const mockGetItems = vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
     const { user } = setupUser(<App />);
 
     const search = screen.getByRole('searchbox');
@@ -93,7 +88,7 @@ describe('App', () => {
   it('trims and overwrites the search value in localStorage', async () => {
     const valueToOverwrite = 'overwrite';
     localStorage.setItem(`${STORAGE_PREFIX}_searchString`, valueToOverwrite);
-    vi.spyOn(apiController, 'getItems').mockImplementation(() => Promise.resolve(recipesResponse));
+    vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
     const { user } = setupUser(<App />);
 
     const search = screen.getByRole('searchbox');
