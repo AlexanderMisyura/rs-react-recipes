@@ -25,3 +25,10 @@ export const recipesResponseSingle = {
   total: 1,
   limit: 1,
 };
+
+export const recipesResponseEmpty = {
+  recipes: [],
+  skip: 0,
+  total: 0,
+  limit: 0,
+};
