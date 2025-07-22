@@ -4,4 +4,4 @@ export {
   recipesResponse,
   recipesResponseEmpty,
   recipesResponseSingle,
-} from './api-data';
+} from './mock-recipes';
