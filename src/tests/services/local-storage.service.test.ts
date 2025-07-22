@@ -3,21 +3,57 @@ import { storageService } from '@services';
 
 const { STORAGE_PREFIX } = config;
 const TEST_KEY = 'key';
+const TEST_VALUE = 'value';
+
+const storage = new Map<string, string>();
+
+const mockedStorage = {
+  getItem: (key: string) => storage.get(key) ?? null,
+  setItem: (key: string, value: string) => {
+    storage.set(key, value);
+  },
+  removeItem: (key: string) => {
+    storage.delete(key);
+  },
+};
+
+beforeAll(() => {
+  vi.stubGlobal('localStorage', mockedStorage);
+});
 
 afterEach(() => {
-  localStorage.removeItem(`${STORAGE_PREFIX}_${TEST_KEY}`);
+  storage.clear();
+});
+
+afterAll(() => {
+  vi.unstubAllGlobals();
 });
 
 describe('StorageService', () => {
-  it('should save and get value from localStorage', () => {
-    storageService.setItem(TEST_KEY, 'value');
+  it('should save value to localStorage', () => {
+    storageService.setItem(TEST_KEY, TEST_VALUE);
+
+    const key = `${STORAGE_PREFIX}_${TEST_KEY}`;
+    const value = localStorage.getItem(key);
+
+    expect(value).toBe(TEST_VALUE);
+  });
+
+  it('should get value from localStorage', () => {
+    const key = `${STORAGE_PREFIX}_${TEST_KEY}`;
+    localStorage.setItem(key, TEST_VALUE);
+
     const value = storageService.getItem(TEST_KEY);
-    expect(value).toBe('value');
+
+    expect(value).toBe(TEST_VALUE);
   });
 
   it('should remove value from localStorage', () => {
-    localStorage.setItem(`${STORAGE_PREFIX}_${TEST_KEY}`, 'value');
+    const key = `${STORAGE_PREFIX}_${TEST_KEY}`;
+
+    localStorage.setItem(key, TEST_VALUE);
     storageService.removeItem(TEST_KEY);
-    expect(localStorage.getItem(`${STORAGE_PREFIX}${TEST_KEY}`)).toBe(null);
+
+    expect(localStorage.getItem(`${STORAGE_PREFIX}_${TEST_KEY}`)).toBe(null);
   });
 });

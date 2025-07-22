@@ -1,5 +1,6 @@
 import config from '@config/app.config';
 import { apiController } from '@controllers';
+import { storageService } from '@services';
 import { setupUser } from '@test-utils';
 import { render, screen } from '@testing-library/react';
 import { recipesResponse, recipesResponseEmpty } from '@tests-mocks';
@@ -34,7 +35,7 @@ describe('App', () => {
   });
 
   it('displays the initial data with saved search value', async () => {
-    localStorage.setItem(`${STORAGE_PREFIX}_searchString`, SEARCH_VALUE);
+    vi.spyOn(storageService, 'getItem').mockReturnValue(SEARCH_VALUE);
     const mockGetItems = vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
     render(<App />);
 
@@ -44,8 +45,6 @@ describe('App', () => {
 
     const search = screen.getByRole('searchbox');
     expect(search).toHaveValue(SEARCH_VALUE);
-
-    localStorage.removeItem(`${STORAGE_PREFIX}_searchString`);
   });
 
   it('displays the empty data fallback', async () => {
@@ -86,8 +85,17 @@ describe('App', () => {
   });
 
   it('trims and overwrites the search value in localStorage', async () => {
-    const valueToOverwrite = 'overwrite';
-    localStorage.setItem(`${STORAGE_PREFIX}_searchString`, valueToOverwrite);
+    const mockedStorage: Record<string, string> = {
+      [`${STORAGE_PREFIX}_searchString`]: 'overwrite',
+    };
+
+    const getFromMockedStorage = (key: string) => mockedStorage[`${STORAGE_PREFIX}_${key}`] ?? null;
+    const setToMockedStorage = (key: string, value: string) => {
+      mockedStorage[`${STORAGE_PREFIX}_${key}`] = value;
+    };
+
+    vi.spyOn(storageService, 'getItem').mockImplementation(getFromMockedStorage);
+    vi.spyOn(storageService, 'setItem').mockImplementation(setToMockedStorage);
     vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
     const { user } = setupUser(<App />);
 
@@ -98,7 +106,8 @@ describe('App', () => {
     const searchButton = screen.getByTestId('search-button');
     await user.click(searchButton);
 
-    const searchValue = localStorage.getItem(`${STORAGE_PREFIX}_searchString`);
+    const searchValue = storageService.getItem('searchString');
+
     expect(searchValue).toBe(SEARCH_VALUE);
   });
 });
