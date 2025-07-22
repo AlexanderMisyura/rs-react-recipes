@@ -67,8 +67,19 @@ export default tseslint.config(
         { accessibility: 'explicit', overrides: { constructors: 'off' } },
       ],
       '@typescript-eslint/member-ordering': 'error',
+      '@typescript-eslint/restrict-template-expressions': [
+        'error',
+        {
+          allow: [{ name: ['Error', 'URL', 'URLSearchParams'], from: 'lib' }],
+          allowAny: true,
+          allowBoolean: true,
+          allowNullish: true,
+          allowNumber: true,
+          allowRegExp: true,
+        },
+      ],
       'no-debugger': 'warn',
-      'no-console': 'warn',
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
     },
 
     settings: {
@@ -80,6 +91,13 @@ export default tseslint.config(
         importX.createNodeResolver(),
         createViteImportResolver({ viteConfig }),
       ],
+    },
+  },
+
+  {
+    files: ['vite.config.ts'],
+    rules: {
+      '@typescript-eslint/triple-slash-reference': 'off',
     },
   }
 );

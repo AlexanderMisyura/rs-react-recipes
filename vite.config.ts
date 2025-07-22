@@ -1,3 +1,5 @@
+/// <reference types="vitest/config" />
+
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
@@ -5,6 +7,7 @@ import eslint from 'vite-plugin-eslint2';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import stylelint from 'vite-plugin-stylelint';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { coverageConfigDefaults } from 'vitest/config';
 
 const title = 'Recipes';
 
@@ -36,4 +39,24 @@ export default defineConfig({
     tailwindcss(),
     tsconfigPaths(),
   ],
+
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./src/setup-tests.ts'],
+    coverage: {
+      exclude: [
+        'src/main.tsx',
+        'commitlint.config.ts',
+        'lint-staged.config.ts',
+        ...coverageConfigDefaults.exclude,
+      ],
+      thresholds: {
+        statements: 80,
+        branches: 50,
+        functions: 50,
+        lines: 50,
+      },
+    },
+  },
 });

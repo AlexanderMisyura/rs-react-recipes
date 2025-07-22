@@ -13,9 +13,9 @@ export class List extends Component<Props> {
     } = this.props;
 
     return (
-      <div className="flex w-full max-w-2xl flex-col gap-4">
+      <div data-testid="list" className="flex w-full max-w-2xl flex-col gap-4">
         <BoxWrapper>
-          <Heading>{total === 1 ? '1 Recipe Found' : `${total.toString()} Recipes Found`}</Heading>
+          <Heading>{total === 1 ? '1 Recipe Found' : `${total} Recipes Found`}</Heading>
         </BoxWrapper>
         <ul className="flex w-full flex-col gap-4">
           {recipes.map((recipe) => {

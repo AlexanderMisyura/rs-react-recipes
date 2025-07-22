@@ -11,7 +11,7 @@ interface Props {
 export class ErrorFallback extends Component<Props> {
   public render() {
     return (
-      <BoxWrapper className="max-w-2xl border-2 border-red-600">
+      <BoxWrapper testId="error-fallback" className="max-w-2xl border-2 border-red-600">
         <Heading className="text-red-600">{this.props.title ?? 'Something went wrong'}</Heading>
         <p className="text-xl">{this.props.error.message}</p>
         {this.props.resetFunction && (

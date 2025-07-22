@@ -6,6 +6,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   type?: 'button' | 'submit' | 'reset';
   children?: React.ReactNode;
   onClickHandler?: () => void;
+  testId?: string;
 }
 
 export class Button extends Component<Props> {
@@ -23,6 +24,7 @@ export class Button extends Component<Props> {
 
     return (
       <button
+        data-testid={this.props.testId}
         type={this.props.type ?? 'button'}
         className={combinedClasses}
         onClick={this.props.onClickHandler}

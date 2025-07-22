@@ -34,11 +34,14 @@
       "@schemas": ["schemas/index.ts"],
       "@services": ["services/index.ts"],
       "@styles/*": ["styles/*"],
+      "@tests-mocks": ["tests/mocks/index.ts"],
+      "@test-utils": ["tests/utils/index.ts"],
       "@ts-enums": ["models/enums/index.ts"],
       "@ts-interfaces": ["models/interfaces/index.ts"],
       "@ts-types": ["models/types/index.ts"],
       "@utils": ["utils/index.ts"]
-    }
+    },
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
   "include": ["src"]
 }

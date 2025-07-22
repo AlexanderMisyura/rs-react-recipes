@@ -29,7 +29,7 @@ export class Search extends Component<Props> {
           type="search"
           placeholder="Search"
         />
-        <Button type="submit">
+        <Button testId="search-button" type="submit">
           <img src={searchIcon} className="h-6" alt="" />
         </Button>
       </form>
