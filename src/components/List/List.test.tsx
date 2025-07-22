@@ -3,27 +3,18 @@ import { render, screen } from '@testing-library/react';
 import { recipesResponse, recipesResponseSingle } from '@tests-mocks';
 
 describe('List', () => {
-  it('should render list', () => {
-    render(<List recipesData={recipesResponse} />);
-
-    const list = screen.getByTestId('list');
-    expect(list).toBeInTheDocument();
-  });
-
   it('should display heading with single recipe', () => {
     render(<List recipesData={recipesResponseSingle} />);
 
-    const heading = screen.getByTestId('list-heading');
-    expect(heading.textContent).toEqual('1 Recipe Found');
+    const heading = screen.getByText('1 Recipe Found');
+    expect(heading).toBeInTheDocument();
   });
 
   it('should display heading with multiple recipes', () => {
     render(<List recipesData={recipesResponse} />);
 
-    const heading = screen.getByTestId('list-heading');
-    expect(heading.textContent).toEqual(
-      `${recipesResponse.recipes.length.toString()} Recipes Found`
-    );
+    const heading = screen.getByText(`${recipesResponse.recipes.length.toString()} Recipes Found`);
+    expect(heading).toBeInTheDocument();
   });
 
   it('should render a correct number of list items', () => {

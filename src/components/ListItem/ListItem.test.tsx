@@ -2,17 +2,7 @@ import { ListItem } from '@components';
 import { render, screen } from '@testing-library/react';
 import { recipe_1 as recipe } from '@tests-mocks';
 
-const TEST_ID = `list-item-${recipe.id.toString()}`;
-
 describe('ListItem', () => {
-  it('should render list item', () => {
-    render(<ListItem recipe={recipe} />);
-
-    const listItem = screen.getByTestId(TEST_ID);
-
-    expect(listItem).toBeInTheDocument();
-  });
-
   it('should display a correct name', () => {
     render(<ListItem recipe={recipe} />);
 
@@ -28,6 +18,7 @@ describe('ListItem', () => {
 
     expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute('src', recipe.image);
+    expect(image).toHaveAttribute('alt', recipe.name);
   });
 
   it('should display correct ingredients', () => {

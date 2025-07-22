@@ -5,7 +5,6 @@ import { twMerge } from 'tailwind-merge';
 interface Props {
   className?: string;
   children: React.ReactNode;
-  testId?: string;
 }
 
 export class Heading extends Component<Props> {
@@ -13,10 +12,6 @@ export class Heading extends Component<Props> {
     const combinedClasses = twMerge(
       clsx('text-center text-2xl font-bold text-orange-900', this.props.className)
     );
-    return (
-      <h1 data-testid={this.props.testId} className={combinedClasses}>
-        {this.props.children}
-      </h1>
-    );
+    return <h1 className={combinedClasses}>{this.props.children}</h1>;
   }
 }

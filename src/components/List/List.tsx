@@ -15,9 +15,7 @@ export class List extends Component<Props> {
     return (
       <div data-testid="list" className="flex w-full max-w-2xl flex-col gap-4">
         <BoxWrapper>
-          <Heading testId="list-heading">
-            {total === 1 ? '1 Recipe Found' : `${total.toString()} Recipes Found`}
-          </Heading>
+          <Heading>{total === 1 ? '1 Recipe Found' : `${total.toString()} Recipes Found`}</Heading>
         </BoxWrapper>
         <ul className="flex w-full flex-col gap-4">
           {recipes.map((recipe) => {
