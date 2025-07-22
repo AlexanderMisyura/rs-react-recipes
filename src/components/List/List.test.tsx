@@ -13,7 +13,7 @@ describe('List', () => {
   it('should display heading with multiple recipes', () => {
     render(<List recipesData={recipesResponse} />);
 
-    const heading = screen.getByText(`${recipesResponse.recipes.length.toString()} Recipes Found`);
+    const heading = screen.getByText(`${recipesResponse.recipes.length} Recipes Found`);
     expect(heading).toBeInTheDocument();
   });
 

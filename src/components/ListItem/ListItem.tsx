@@ -11,7 +11,7 @@ export class ListItem extends Component<Props> {
     const { name, image, ingredients, id } = this.props.recipe;
 
     return (
-      <BoxWrapper testId={`list-item-${id.toString()}`} className="flex flex-row gap-4">
+      <BoxWrapper testId={`list-item-${id}`} className="flex flex-row gap-4">
         <figure className="flex w-[50%] flex-col items-center justify-center gap-4">
           <figcaption className="text-xl font-bold text-orange-900">
             <h2 className="text-center text-balance">{name}</h2>
