@@ -1,13 +1,4 @@
-import {
-  BoxWrapper,
-  ErrorFallback,
-  ErrorTrigger,
-  Header,
-  Heading,
-  List,
-  Search,
-  Spinner,
-} from '@components';
+import { BoxWrapper, ErrorFallback, Header, Heading, List, Search, Spinner } from '@components';
 import config from '@config/api.config';
 import { apiController } from '@controllers';
 import { storageService } from '@services';
@@ -98,8 +89,6 @@ export class App extends Component {
             </BoxWrapper>
           )}
         </main>
-
-        <ErrorTrigger />
       </div>
     );
   }
