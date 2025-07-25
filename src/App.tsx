@@ -3,93 +3,79 @@ import config from '@config/api.config';
 import { apiController } from '@controllers';
 import { storageService } from '@services';
 import type { RecipesResponse } from '@ts-types';
-import { Component } from 'react';
-
-interface State {
-  searchString: string;
-  recipesData: RecipesResponse;
-  loading: boolean;
-  error: Error | null;
-}
+import { useEffect, useState } from 'react';
 
 const MAX_LIMIT = String(config.MAX_ITEMS);
 const PER_PAGE_LIMIT = String(config.ITEMS_PER_PAGE);
 const DEFAULT_RECIPES_DATA: RecipesResponse = { recipes: [], skip: 0, total: 0 };
 
-export class App extends Component {
-  public state: State = {
-    searchString: storageService.getItem('searchString') ?? '',
-    recipesData: DEFAULT_RECIPES_DATA,
-    loading: true,
-    error: null,
+export const App: React.FC = () => {
+  const [searchString, setSearchString] = useState(storageService.getItem('searchString') ?? '');
+  const [recipesData, setRecipesData] = useState(DEFAULT_RECIPES_DATA);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  const updateSearch = (searchString: string) => {
+    storageService.setItem('searchString', searchString);
+    setSearchString(searchString);
   };
 
-  public boundUpdateSearch = this.updateSearch.bind(this);
+  useEffect(() => {
+    let isFetchCanceled = false;
 
-  public updateSearch(searchString: string) {
-    storageService.setItem('searchString', searchString);
-    this.setState({ searchString });
-  }
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
 
-  public getRecipes() {
-    this.setState({ loading: true, error: null });
+      try {
+        const params: Record<string, string> = {
+          q: searchString,
+          limit: searchString === '' ? MAX_LIMIT : PER_PAGE_LIMIT,
+        };
 
-    const params: Record<string, string> = {
-      q: this.state.searchString,
-      limit: this.state.searchString === '' ? MAX_LIMIT : PER_PAGE_LIMIT,
+        const recipesResponse = await apiController.getItems(params);
+        if (!isFetchCanceled) {
+          setRecipesData(recipesResponse);
+        }
+      } catch (error: unknown) {
+        if (error instanceof Error && !isFetchCanceled) {
+          setError(error);
+          setRecipesData(DEFAULT_RECIPES_DATA);
+        }
+      } finally {
+        setLoading(false);
+      }
     };
 
-    apiController
-      .getItems(params)
-      .then((recipesResponse) => {
-        this.setState({ recipesData: recipesResponse, loading: false });
-      })
-      .catch((error: unknown) => {
-        if (error instanceof Error) {
-          this.setState({ error, loading: false, recipesData: DEFAULT_RECIPES_DATA });
-        }
-      });
-  }
+    void fetchData();
 
-  public componentDidMount(): void {
-    this.getRecipes();
-  }
+    return () => {
+      isFetchCanceled = true;
+    };
+  }, [searchString]);
 
-  public componentDidUpdate(_prevProps: Readonly<object>, prevState: Readonly<State>): void {
-    const search = this.state.searchString;
-    const prevSearch = prevState.searchString;
+  return (
+    <div className="flex w-full grow flex-col gap-4">
+      <Header>
+        <Search searchString={searchString} updateHandler={updateSearch} />
+      </Header>
 
-    if (search !== prevSearch) {
-      this.getRecipes();
-    }
-  }
+      <main className="flex grow flex-col items-center justify-center">
+        {loading && <Spinner />}
 
-  public render() {
-    const { recipesData, loading, error } = this.state;
+        {error && (
+          <ErrorFallback error={error} title="Sorry, an error occurred while fetching recipes" />
+        )}
 
-    return (
-      <div className="flex w-full grow flex-col gap-4">
-        <Header>
-          <Search searchString={this.state.searchString} updateHandler={this.boundUpdateSearch} />
-        </Header>
+        {!loading && recipesData.recipes.length > 0 && <List recipesData={recipesData} />}
 
-        <main className="flex grow flex-col items-center justify-center">
-          {loading && <Spinner />}
-
-          {error && (
-            <ErrorFallback error={error} title="Sorry, an error occurred while fetching recipes" />
-          )}
-
-          {!loading && recipesData.recipes.length > 0 && <List recipesData={recipesData} />}
-
-          {!loading && !error && recipesData.recipes.length === 0 && (
-            <BoxWrapper testId="empty-fallback" className="border-2 border-orange-900">
-              <Heading>Sorry, No Hot Recipes Found</Heading>
-              <p className="text-xl">Try searching for something else</p>
-            </BoxWrapper>
-          )}
-        </main>
-      </div>
-    );
-  }
-}
+        {!loading && !error && recipesData.recipes.length === 0 && (
+          <BoxWrapper testId="empty-fallback" className="border-2 border-orange-900">
+            <Heading>Sorry, No Hot Recipes Found</Heading>
+            <p className="text-xl">Try searching for something else</p>
+          </BoxWrapper>
+        )}
+      </main>
+    </div>
+  );
+};
