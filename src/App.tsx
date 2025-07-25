@@ -1,6 +1,7 @@
 import { BoxWrapper, ErrorFallback, Header, Heading, List, Search, Spinner } from '@components';
 import config from '@config/api.config';
 import { apiController } from '@controllers';
+import { useLocalStorage } from '@hooks';
 import { storageService } from '@services';
 import type { RecipesResponse } from '@ts-types';
 import { useEffect, useState } from 'react';
@@ -10,7 +11,7 @@ const PER_PAGE_LIMIT = String(config.ITEMS_PER_PAGE);
 const DEFAULT_RECIPES_DATA: RecipesResponse = { recipes: [], skip: 0, total: 0 };
 
 export const App: React.FC = () => {
-  const [searchString, setSearchString] = useState(storageService.getItem('searchString') ?? '');
+  const [searchString, setSearchString] = useLocalStorage('searchString');
   const [recipesData, setRecipesData] = useState(DEFAULT_RECIPES_DATA);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);

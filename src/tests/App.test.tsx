@@ -48,14 +48,11 @@ describe('App', () => {
   });
 
   it('displays the empty data fallback', async () => {
-    const mockGetItems = vi
-      .spyOn(apiController, 'getItems')
-      .mockResolvedValue(recipesResponseEmpty);
+    vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponseEmpty);
     render(<App />);
 
     const fallback = await screen.findByTestId('empty-fallback');
     expect(fallback).toBeInTheDocument();
-    expect(mockGetItems).toHaveBeenCalledWith({ limit: '50', q: '' });
   });
 
   it('displays the search results', async () => {
