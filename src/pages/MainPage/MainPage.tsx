@@ -58,7 +58,7 @@ export const MainPage = () => {
     <>
       <Search searchString={searchString} updateHandler={updateSearch} />
 
-      <div className="flex grow flex-col items-center justify-center gap-4">
+      <div data-testid="main-page" className="flex grow flex-col items-center justify-center gap-4">
         {loading && <Spinner />}
 
         {error && (
