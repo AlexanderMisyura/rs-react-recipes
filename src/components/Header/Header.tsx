@@ -1,19 +1,32 @@
 import logo from '@assets/logo.png';
+import { UrlPath } from '@ts-enums';
 import { BoxWrapper } from 'components/BoxWrapper/BoxWrapper';
+import { Link, NavLink } from 'react-router';
 
-interface HeaderProps {
-  children: React.ReactNode;
-}
-
-export const Header: React.FC<HeaderProps> = ({ children }) => {
+export const Header: React.FC = () => {
   return (
     <header className="sticky top-0 flex w-full justify-center">
       <BoxWrapper className="m-0 w-full flex-row flex-wrap justify-between gap-4 p-2 max-sm:justify-center">
-        <div className="flex items-center gap-2 select-none">
-          <img src={logo} alt="logo" className="h-12" />
-          <span className="text-2xl font-bold text-orange-900">Hot Recipes</span>
-        </div>
-        {children}
+        <Link to={UrlPath.HOME}>
+          <div className="flex items-center gap-2 select-none">
+            <img src={logo} alt="logo" className="h-12" />
+            <span className="text-2xl font-bold text-orange-900">Hot Recipes</span>
+          </div>
+        </Link>
+        <nav className="p-4 text-center">
+          <ul>
+            <li className="flex flex-col text-xl text-orange-900">
+              <NavLink
+                to={UrlPath.ABOUT}
+                style={({ isActive }) => ({
+                  fontWeight: isActive ? 'bold' : 'inherit',
+                })}
+              >
+                About
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
       </BoxWrapper>
     </header>
   );
