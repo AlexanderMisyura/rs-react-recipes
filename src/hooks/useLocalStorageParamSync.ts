@@ -1,6 +1,6 @@
 import { PARAMS_MAP } from '@constants';
 import { storageService } from '@services';
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useSearchParams } from 'react-router';
 
 export const useLocalStorageParamSync = (key: string, defaultValue = '') => {
@@ -9,9 +9,13 @@ export const useLocalStorageParamSync = (key: string, defaultValue = '') => {
     () => searchParams.get(PARAMS_MAP[key]) ?? storageService.getItem(key) ?? defaultValue
   );
 
-  useEffect(() => {
-    storageService.setItem(key, value);
-  }, [key, value]);
+  const setValueSynchronously = useCallback(
+    (newValue: string) => {
+      storageService.setItem(key, newValue);
+      setValue(newValue);
+    },
+    [key]
+  );
 
-  return [value, setValue] as const;
+  return [value, setValueSynchronously] as const;
 };
