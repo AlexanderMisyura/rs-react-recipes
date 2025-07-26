@@ -1,9 +1,12 @@
+import { Spinner } from '@components';
 import { AboutPage, ErrorPage, MainPage } from '@pages';
 import { UrlPath } from '@ts-enums';
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter, redirect, type RouteObject } from 'react-router';
 import { RootLayout } from 'RootLayout';
 
-export const router = createBrowserRouter([
+import { recipesLoader } from './loaders/recipes.loader';
+
+export const routes: RouteObject[] = [
   {
     Component: RootLayout,
     path: UrlPath.HOME,
@@ -14,7 +17,13 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
+            loader: () => redirect(UrlPath.RECIPES),
+          },
+          {
+            path: UrlPath.RECIPES,
             Component: MainPage,
+            loader: recipesLoader,
+            HydrateFallback: Spinner,
           },
           {
             path: UrlPath.ABOUT,
@@ -28,4 +37,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+];
+
+export const router = createBrowserRouter(routes);
