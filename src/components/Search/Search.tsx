@@ -1,36 +1,40 @@
 import searchIcon from '@assets/search.svg';
 import { BoxWrapper, Button } from '@components';
+import { useLocalStorageParamSync } from '@hooks';
 import { searchFormDataSchema } from '@schemas';
+import { Form, useNavigation, useSubmit } from 'react-router';
 
-interface SearchProps {
-  searchString?: string;
-  updateHandler: (searchString: string) => void;
-}
+export const Search: React.FC = () => {
+  const [searchString, setSearchString] = useLocalStorageParamSync('searchString');
+  const navigation = useNavigation();
+  const submit = useSubmit();
 
-export const Search: React.FC<SearchProps> = ({ searchString, updateHandler }) => {
+  const loading = navigation.state === 'loading';
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const formData = new FormData(e.currentTarget);
-    const { searchString } = searchFormDataSchema.parse(Object.fromEntries(formData));
+    const searchData = searchFormDataSchema.parse(Object.fromEntries(formData));
 
-    updateHandler(searchString.trim());
+    setSearchString(searchData.q.trim());
+    void submit({ q: searchData.q.trim() });
   };
 
   return (
     <BoxWrapper className="flex w-full max-w-2xl">
-      <form onSubmit={handleSubmit} className="flex items-center gap-2">
+      <Form onSubmit={handleSubmit} className="flex items-center gap-2">
         <input
-          name="searchString"
+          name="q"
           defaultValue={searchString}
           className="rounded-md border-2 border-sky-200 bg-gray-50 px-4 py-2 hover:border-sky-300"
           type="search"
           placeholder="Search"
+          disabled={loading}
         />
-        <Button testId="search-button" type="submit">
+        <Button testId="search-button" type="submit" disabled={loading}>
           <img src={searchIcon} className="h-6" alt="" />
         </Button>
-      </form>
+      </Form>
     </BoxWrapper>
   );
 };
