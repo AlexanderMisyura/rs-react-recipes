@@ -1,10 +1,12 @@
 import { apiController } from '@controllers';
 import { AboutPage, ErrorPage, MainPage } from '@pages';
-import { render, screen } from '@testing-library/react';
+import { setupUserWithRouter } from '@test-utils';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { recipesResponse } from '@tests-mocks';
 import { UrlPath } from '@ts-enums';
 import { createRoutesStub, data } from 'react-router';
+import { routes } from 'router';
 
 import { RootLayout } from '../RootLayout';
 
@@ -18,18 +20,7 @@ afterEach(() => {
 
 describe('RootLayout', () => {
   it('navigates from Main page to About page and back', async () => {
-    const user = userEvent.setup();
-    const Stub = createRoutesStub([
-      {
-        Component: RootLayout,
-        children: [
-          { path: UrlPath.HOME, Component: () => <MainPage /> },
-          { path: UrlPath.ABOUT, Component: () => <AboutPage /> },
-        ],
-      },
-    ]);
-
-    render(<Stub />);
+    const { user } = setupUserWithRouter(routes, [UrlPath.RECIPES]);
 
     const aboutLink = screen.getByRole('link', { name: 'About' });
     await user.click(aboutLink);
@@ -40,9 +31,11 @@ describe('RootLayout', () => {
     const homeLink = screen.getByRole('link', { name: 'logo Hot Recipes' });
     await user.click(homeLink);
 
-    expect(aboutPage).not.toBeInTheDocument();
-    const homePage = screen.getByTestId('main-page');
-    expect(homePage).toBeInTheDocument();
+    await waitFor(() => {
+      expect(aboutPage).not.toBeInTheDocument();
+      const homePage = screen.getByTestId('main-page');
+      expect(homePage).toBeInTheDocument();
+    });
   });
 
   it('displays the Error page when the route is not found', () => {
@@ -90,7 +83,6 @@ describe('RootLayout', () => {
             index: true,
             Component: MainPage,
             loader: () => {
-              // eslint-disable-next-line @typescript-eslint/only-throw-error
               throw data('test error', { status: 404 });
             },
           },
@@ -101,8 +93,8 @@ describe('RootLayout', () => {
 
     render(<Stub initialEntries={[UrlPath.ABOUT]} />);
 
-    const aboutLink = screen.getByRole('link', { name: 'logo Hot Recipes' });
-    await userEvent.click(aboutLink);
+    const homeLink = screen.getByRole('link', { name: 'logo Hot Recipes' });
+    await userEvent.click(homeLink);
 
     const errorPage = screen.getByTestId('error-page');
     expect(errorPage).toBeInTheDocument();
