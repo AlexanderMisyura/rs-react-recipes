@@ -1,1 +1,1 @@
-export { useLocalStorage } from './useLocalStorage';
+export { useLocalStorageParamSync } from './useLocalStorageParamSync';
