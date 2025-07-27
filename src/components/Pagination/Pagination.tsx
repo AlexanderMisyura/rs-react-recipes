@@ -2,7 +2,8 @@ import backIcon from '@assets/chevron-left.svg';
 import forwardIcon from '@assets/chevron-right.svg';
 import { BoxWrapper, Button } from '@components';
 import config from '@config/api.config';
-import { useLocation, useNavigation, useSearchParams } from 'react-router';
+import { UrlPath } from '@ts-enums';
+import { useNavigation, useSearchParams } from 'react-router';
 
 const { ITEMS_PER_PAGE } = config;
 
@@ -13,7 +14,6 @@ interface PaginationProps {
 export const Pagination: React.FC<PaginationProps> = ({ total }) => {
   const navigation = useNavigation();
   const isLoading = navigation.state === 'loading';
-  const location = useLocation();
   const [searchParams] = useSearchParams();
 
   const page = Number(searchParams.get('page') ?? '1');
@@ -28,8 +28,8 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
   const nextParams = new URLSearchParams(searchParams);
   nextParams.set('page', String(page + 1));
 
-  const prevPageLink = page > 1 ? `${location.pathname}?${prevParams.toString()}` : null;
-  const nextPageLink = page < pages ? `${location.pathname}?${nextParams.toString()}` : null;
+  const prevPageLink = page > 1 ? `${UrlPath.RECIPES}?${prevParams.toString()}` : null;
+  const nextPageLink = page < pages ? `${UrlPath.RECIPES}?${nextParams.toString()}` : null;
 
   return (
     <div className="my-4 flex items-center justify-center gap-4">
