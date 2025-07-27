@@ -1,26 +1,38 @@
-import { List } from '@components';
-import { render, screen } from '@testing-library/react';
+import { apiController } from '@controllers';
+import { renderWithRouter } from '@test-utils';
+import { screen } from '@testing-library/react';
 import { recipesResponse, recipesResponseSingle } from '@tests-mocks';
+import { UrlPath } from '@ts-enums';
+import { routes } from 'router';
+
+beforeEach(() => {
+  vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe('List', () => {
-  it('should display heading with single recipe', () => {
-    render(<List recipesData={recipesResponseSingle} />);
+  it('should display heading with single recipe', async () => {
+    vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponseSingle);
+    renderWithRouter(routes, [UrlPath.RECIPES]);
 
-    const heading = screen.getByText('1 Recipe Found');
+    const heading = await screen.findByText('1 Recipe Found');
     expect(heading).toBeInTheDocument();
   });
 
-  it('should display heading with multiple recipes', () => {
-    render(<List recipesData={recipesResponse} />);
+  it('should display heading with multiple recipes', async () => {
+    renderWithRouter(routes, [UrlPath.RECIPES]);
 
-    const heading = screen.getByText(`${recipesResponse.recipes.length} Recipes Found`);
+    const heading = await screen.findByText(`${recipesResponse.recipes.length} Recipes Found`);
     expect(heading).toBeInTheDocument();
   });
 
-  it('should render a correct number of list items', () => {
-    render(<List recipesData={recipesResponse} />);
+  it('should render a correct number of list items', async () => {
+    renderWithRouter(routes, [UrlPath.RECIPES]);
 
-    const listItems = screen.getAllByTestId('list-item', { exact: false });
+    const listItems = await screen.findAllByTestId('list-item', { exact: false });
     expect(listItems).toHaveLength(recipesResponse.recipes.length);
   });
 });
