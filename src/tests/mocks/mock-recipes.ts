@@ -32,3 +32,9 @@ export const recipesResponseEmpty = {
   total: 0,
   limit: 0,
 };
+
+export const instructionsResponse = {
+  id: 1,
+  instructions: ['test_ingredient-1-1', 'test_ingredient-1-2', 'test_ingredient-1-3'],
+  name: 'test_name',
+};
