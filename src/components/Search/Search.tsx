@@ -15,9 +15,17 @@ export const Search: React.FC = () => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const searchData = searchFormDataSchema.parse(Object.fromEntries(formData));
+    const trimmedSearch = searchData.q.trim();
 
-    setSearchString(searchData.q.trim());
-    void submit({ q: searchData.q.trim() });
+    setSearchString(trimmedSearch);
+
+    const submission: { q?: string } = {};
+
+    if (trimmedSearch) {
+      submission.q = trimmedSearch;
+    }
+
+    void submit(submission);
   };
 
   return (
