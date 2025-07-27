@@ -6,5 +6,6 @@ export { Header } from './Header/Header';
 export { Heading } from './Heading/Heading';
 export { List } from './List/List';
 export { ListItem } from './ListItem/ListItem';
+export { Pagination } from './Pagination/Pagination';
 export { Search } from './Search/Search';
 export { Spinner } from './Spinner/Spinner';
