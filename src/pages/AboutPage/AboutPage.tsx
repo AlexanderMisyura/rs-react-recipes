@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 
 export const AboutPage = () => {
   return (
-    <BoxWrapper data-testid="about-page" className="max-w-2xl text-center text-xl">
+    <BoxWrapper testId="about-page" className="max-w-2xl text-center text-xl">
       <div className="flex flex-col items-center gap-5">
         <Heading className="text-pretty">About me and this project</Heading>
         <section className="flex flex-col items-center gap-2">
