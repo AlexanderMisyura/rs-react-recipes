@@ -11,7 +11,7 @@ export const BoxWrapper: React.FC<BowWrapperProps> = ({ children, className, tes
   const combinedClasses = twMerge(
     clsx(
       'rounded-sm bg-amber-50 shadow-xl',
-      'mx-2 p-4 flex flex-col place-items-center gap-4',
+      'p-4 flex flex-col place-items-center gap-4',
       'max-w-5xl',
       className
     )

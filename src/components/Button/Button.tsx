@@ -31,7 +31,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   if (linkTo) {
     return (
-      <Link data-testid={testId} to={linkTo} className={combinedClasses}>
+      <Link data-testid={testId} to={linkTo} className={combinedClasses} viewTransition>
         {children}
       </Link>
     );

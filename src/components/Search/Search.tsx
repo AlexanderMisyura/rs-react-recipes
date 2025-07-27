@@ -29,7 +29,7 @@ export const Search: React.FC = () => {
   };
 
   return (
-    <BoxWrapper className="flex w-full max-w-2xl">
+    <BoxWrapper className="mx-2 flex">
       <Form onSubmit={handleSubmit} className="flex items-center gap-2">
         <input
           name="q"
