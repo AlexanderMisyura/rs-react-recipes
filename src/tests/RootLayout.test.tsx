@@ -25,7 +25,7 @@ describe('RootLayout', () => {
     const aboutLink = screen.getByRole('link', { name: 'About' });
     await user.click(aboutLink);
 
-    const aboutPage = screen.getByTestId('about-page');
+    const aboutPage = await screen.findByTestId('about-page');
     expect(aboutPage).toBeInTheDocument();
 
     const homeLink = screen.getByRole('link', { name: 'logo Hot Recipes' });
