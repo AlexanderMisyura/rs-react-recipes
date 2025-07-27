@@ -80,7 +80,7 @@ describe('RootLayout', () => {
         ErrorBoundary: ErrorPage,
         children: [
           {
-            index: true,
+            path: UrlPath.RECIPES,
             Component: MainPage,
             loader: () => {
               throw data('test error', { status: 404 });

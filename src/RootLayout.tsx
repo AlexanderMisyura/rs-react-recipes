@@ -1,14 +1,17 @@
 import { Header } from '@components';
-import { Outlet } from 'react-router';
+import { Outlet, ScrollRestoration } from 'react-router';
 
 export const RootLayout: React.FC = () => {
   return (
-    <div className="flex w-full grow flex-col gap-4">
-      <Header />
+    <>
+      <div className="flex w-full grow flex-col gap-4">
+        <Header />
 
-      <main className="flex grow flex-col items-center justify-center gap-4">
-        <Outlet />
-      </main>
-    </div>
+        <main className="flex grow flex-col items-center justify-center gap-4">
+          <Outlet />
+        </main>
+      </div>
+      <ScrollRestoration />
+    </>
   );
 };
