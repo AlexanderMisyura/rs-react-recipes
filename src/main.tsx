@@ -1,6 +1,7 @@
 import '@styles/global.css';
 
 import { ErrorBoundary } from '@components';
+import { ThemeProvider } from '@context';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router';
@@ -13,7 +14,9 @@ document.body.append(root);
 createRoot(root).render(
   <StrictMode>
     <ErrorBoundary>
-      <RouterProvider router={router} />
+      <ThemeProvider>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </ErrorBoundary>
   </StrictMode>
 );
