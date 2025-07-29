@@ -1,5 +1,6 @@
 export { BoxWrapper } from './BoxWrapper/BoxWrapper';
 export { Button } from './Button/Button';
+export { ThemeModeButton } from './Button/ThemeModeButton/ThemeModeButton';
 export { ErrorBoundary } from './ErrorBoundary/ErrorBoundary';
 export { ErrorFallback } from './ErrorFallback/ErrorFallback';
 export { Header } from './Header/Header';
