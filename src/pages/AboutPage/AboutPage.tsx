@@ -3,11 +3,18 @@ import d20TwentyIcon from '@assets/d20-twenty.svg';
 import githubLogo from '@assets/github-logo.svg';
 import rssLogo from '@assets/rss-logo.svg';
 import { BoxWrapper, Heading } from '@components';
+import { useThemeContext } from '@hooks';
+import { clsx } from 'clsx';
 import { Link } from 'react-router';
 
 export const AboutPage = () => {
+  const { theme } = useThemeContext();
+
   return (
-    <BoxWrapper testId="about-page" className="max-w-2xl text-center text-xl">
+    <BoxWrapper
+      testId="about-page"
+      className={clsx(`${theme}-text`, 'max-w-2xl text-center text-xl')}
+    >
       <div className="flex flex-col items-center gap-5">
         <Heading className="text-pretty">About me and this project</Heading>
         <section className="flex flex-col items-center gap-2">

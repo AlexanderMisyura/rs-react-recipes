@@ -1,4 +1,5 @@
 import { BoxWrapper } from '@components';
+import { useThemeContext } from '@hooks';
 import type { Recipe } from '@ts-types';
 import { clsx } from 'clsx';
 import { Link, useParams, useSearchParams } from 'react-router';
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export const ListItem: React.FC<Props> = ({ recipe }) => {
+  const { theme } = useThemeContext();
   const { name, image, ingredients, id } = recipe;
   const { detailsId } = useParams();
   const [searchParams] = useSearchParams();
@@ -39,7 +41,7 @@ export const ListItem: React.FC<Props> = ({ recipe }) => {
             <ul className="flex list-disc flex-col gap-1 pl-6 text-left text-sm">
               {ingredients.map((ingredient) => {
                 return (
-                  <li data-testid="ingredient" key={ingredient}>
+                  <li className={`${theme}-text`} data-testid="ingredient" key={ingredient}>
                     {ingredient}
                   </li>
                 );

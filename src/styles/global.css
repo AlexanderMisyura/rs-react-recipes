@@ -1,4 +1,9 @@
 @import 'tailwindcss';
+@import './box-wrapper.css';
+@import './button.css';
+@import './text.css';
+@import './search.css';
+@import './root-layout.css';
 
 body {
   position: relative;
