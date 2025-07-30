@@ -16,7 +16,7 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
   const isLoading = navigation.state === 'loading';
   const [searchParams] = useSearchParams();
 
-  const page = Number(searchParams.get('page') ?? '1');
+  const page = +(searchParams.get('page') ?? '1');
   const pages = Math.ceil(total / ITEMS_PER_PAGE);
 
   if (isLoading || pages === 1) {

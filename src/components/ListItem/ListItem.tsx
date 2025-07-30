@@ -12,7 +12,7 @@ export const ListItem: React.FC<Props> = ({ recipe }) => {
   const { detailsId } = useParams();
   const [searchParams] = useSearchParams();
 
-  const queryString = [...searchParams.values()].length > 0 ? `?${searchParams.toString()}` : '';
+  const queryString = [...searchParams.values()].length ? `?${searchParams.toString()}` : '';
 
   return (
     <Link to={`${id}/${queryString}`} viewTransition className="flex w-full">

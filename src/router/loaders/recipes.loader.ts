@@ -16,15 +16,15 @@ export async function recipesLoader({ request }: LoaderFunctionArgs) {
     throw redirect(`${url.pathname}?${newParams.toString()}`);
   }
 
-  const search = searchFromParams ?? searchFromStorage ?? '';
-  const page = Number(url.searchParams.get('page') ?? '1');
+  const search = searchFromParams ?? searchFromStorage;
+  const page = +(url.searchParams.get('page') ?? '1');
 
-  const limit = String(config.ITEMS_PER_PAGE);
-  const skip = String(config.ITEMS_PER_PAGE * (page - 1));
+  const limit = config.ITEMS_PER_PAGE.toString();
+  const skip = (config.ITEMS_PER_PAGE * (page - 1)).toString();
 
   try {
     const response = await apiController.getItems({
-      q: search,
+      q: search ?? '',
       limit,
       skip,
     });

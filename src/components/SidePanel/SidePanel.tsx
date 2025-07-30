@@ -6,7 +6,7 @@ export const SidePanel: React.FC = () => {
   const { instructions, name } = useLoaderData<RecipeInstructionsResponse>();
   const [searchParams] = useSearchParams();
 
-  const queryString = [...searchParams.values()].length > 0 ? `?${searchParams.toString()}` : '';
+  const queryString = [...searchParams.values()].length ? `?${searchParams.toString()}` : '';
 
   return (
     <BoxWrapper testId="side-panel" className="flex w-full flex-col gap-4">
