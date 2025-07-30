@@ -8,6 +8,7 @@ export const RootLayout: React.FC = () => {
 
   return (
     <>
+      <title>Hot Recipes</title>
       <div className={clsx(`${theme}-layout`, 'flex w-full grow flex-col gap-4')}>
         <Header />
 

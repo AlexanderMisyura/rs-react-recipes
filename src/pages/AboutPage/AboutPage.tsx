@@ -15,6 +15,7 @@ export const AboutPage = () => {
       testId="about-page"
       className={clsx(`${theme}-text`, 'max-w-2xl text-center text-xl')}
     >
+      <title>Hot Recipes | About</title>
       <div className="flex flex-col items-center gap-5">
         <Heading className="text-pretty">About me and this project</Heading>
         <section className="flex flex-col items-center gap-2">
