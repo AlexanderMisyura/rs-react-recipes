@@ -36,7 +36,7 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
         disabled={!prevPageLink}
         linkTo={prevPageLink ?? undefined}
       >
-        <img src={backIcon} className="h-6" alt="" />
+        <img src={backIcon} className="h-6" alt="previous page" />
       </Button>
 
       <BoxWrapper className="text-xl font-bold text-orange-900">
@@ -44,7 +44,7 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
       </BoxWrapper>
 
       <Button testId="pagination-next" disabled={!nextPageLink} linkTo={nextPageLink ?? undefined}>
-        <img src={forwardIcon} className="h-6" alt="" />
+        <img src={forwardIcon} className="h-6" alt="next page" />
       </Button>
     </div>
   );
