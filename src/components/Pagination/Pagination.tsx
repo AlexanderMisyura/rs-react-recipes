@@ -3,7 +3,7 @@ import forwardIcon from '@assets/chevron-right.svg';
 import { BoxWrapper, Button } from '@components';
 import config from '@config/api.config';
 import { UrlPath } from '@ts-enums';
-import { useNavigation, useSearchParams } from 'react-router';
+import { useSearchParams } from 'react-router';
 
 const { ITEMS_PER_PAGE } = config;
 
@@ -12,16 +12,10 @@ interface PaginationProps {
 }
 
 export const Pagination: React.FC<PaginationProps> = ({ total }) => {
-  const navigation = useNavigation();
-  const isLoading = navigation.state === 'loading';
   const [searchParams] = useSearchParams();
 
   const page = +(searchParams.get('page') ?? '1');
   const pages = Math.ceil(total / ITEMS_PER_PAGE);
-
-  if (isLoading || pages === 1) {
-    return null;
-  }
 
   const prevParams = new URLSearchParams(searchParams);
   prevParams.set('page', String(page - 1));
@@ -30,6 +24,10 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
 
   const prevPageLink = page > 1 ? `${UrlPath.RECIPES}?${prevParams.toString()}` : null;
   const nextPageLink = page < pages ? `${UrlPath.RECIPES}?${nextParams.toString()}` : null;
+
+  if (pages === 1) {
+    return null;
+  }
 
   return (
     <div className="my-4 flex items-center justify-center gap-4">
