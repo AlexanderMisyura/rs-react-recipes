@@ -1,4 +1,5 @@
 import { BoxWrapper } from '@components';
+import { UrlPath } from '@ts-enums';
 import type { Recipe } from '@ts-types';
 import { clsx } from 'clsx';
 import { Link, useParams, useSearchParams } from 'react-router';
@@ -15,7 +16,7 @@ export const ListItem: React.FC<Props> = ({ recipe }) => {
   const queryString = [...searchParams.values()].length ? `?${searchParams.toString()}` : '';
 
   return (
-    <Link to={`${id}/${queryString}`} viewTransition className="flex w-full">
+    <Link to={`${UrlPath.RECIPES}/${id}/${queryString}`} viewTransition className="flex w-full">
       <BoxWrapper
         testId={`list-item-${id}`}
         className={clsx(

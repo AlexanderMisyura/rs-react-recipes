@@ -1,4 +1,5 @@
 import { BoxWrapper, Button } from '@components';
+import { UrlPath } from '@ts-enums';
 import type { RecipeInstructionsResponse } from '@ts-types';
 import { useLoaderData, useSearchParams } from 'react-router';
 
@@ -22,7 +23,7 @@ export const SidePanel: React.FC = () => {
           );
         })}
       </ul>
-      <Button className="text-orange-900" linkTo={`../${queryString}`}>
+      <Button className="text-orange-900" linkTo={`${UrlPath.RECIPES}/${queryString}`}>
         Close
       </Button>
     </BoxWrapper>
