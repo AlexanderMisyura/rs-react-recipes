@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@context';
 import { apiController } from '@controllers';
 import { setupUserWithRouter } from '@test-utils';
 import { screen, waitFor } from '@testing-library/react';
@@ -12,7 +13,11 @@ beforeEach(() => {
 
 describe('SidePanel', () => {
   it('should display a correct list of instructions after clicking on a recipe and close the list', async () => {
-    const { user, router } = setupUserWithRouter(routes, [UrlPath.RECIPES]);
+    const { user, router } = setupUserWithRouter({
+      routes,
+      initialEntries: [UrlPath.RECIPES],
+      wrapper: ThemeProvider,
+    });
 
     const recipe = await screen.findByTestId('list-item-', { exact: false });
     await user.click(recipe);
@@ -43,9 +48,11 @@ describe('SidePanel', () => {
 
   it('should create a correct url with query params after closing the side panel', async () => {
     const searchParamsString = '?q=test&page=1';
-    const { user, router } = setupUserWithRouter(routes, [
-      `${UrlPath.RECIPES}/1/${searchParamsString}`,
-    ]);
+    const { user, router } = setupUserWithRouter({
+      routes,
+      initialEntries: [`${UrlPath.RECIPES}/1/${searchParamsString}`],
+      wrapper: ThemeProvider,
+    });
 
     const closeLink = await screen.findByRole('link', { name: 'Close' });
     await user.click(closeLink);

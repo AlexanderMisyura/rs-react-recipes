@@ -1,11 +1,12 @@
+import { ThemeProvider } from '@context';
 import { apiController } from '@controllers';
 import { AboutPage, ErrorPage, MainPage } from '@pages';
-import { setupUserWithRouter } from '@test-utils';
-import { render, screen, waitFor } from '@testing-library/react';
+import { renderWithRouter, setupUserWithRouter } from '@test-utils';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { recipesResponse } from '@tests-mocks';
 import { UrlPath } from '@ts-enums';
-import { createRoutesStub, data } from 'react-router';
+import { data } from 'react-router';
 import { routes } from 'router';
 
 import { RootLayout } from '../RootLayout';
@@ -20,7 +21,11 @@ afterEach(() => {
 
 describe('RootLayout', () => {
   it('navigates from Main page to About page and back', async () => {
-    const { user } = setupUserWithRouter(routes, [UrlPath.RECIPES]);
+    const { user } = setupUserWithRouter({
+      routes,
+      initialEntries: [UrlPath.RECIPES],
+      wrapper: ThemeProvider,
+    });
 
     const aboutLink = screen.getByRole('link', { name: 'About' });
     await user.click(aboutLink);
@@ -39,14 +44,7 @@ describe('RootLayout', () => {
   });
 
   it('displays the Error page when the route is not found', () => {
-    const Stub = createRoutesStub([
-      {
-        Component: RootLayout,
-        children: [{ path: UrlPath.NOT_FOUND, Component: ErrorPage }],
-      },
-    ]);
-
-    render(<Stub initialEntries={['/invalid']} />);
+    renderWithRouter({ routes, initialEntries: ['/invalid'], wrapper: ThemeProvider });
 
     const errorPage = screen.getByTestId('error-page');
     expect(errorPage).toBeInTheDocument();
@@ -57,15 +55,17 @@ describe('RootLayout', () => {
     const ErrorTrigger = () => {
       throw new Error('test error');
     };
-    const Stub = createRoutesStub([
-      {
-        Component: RootLayout,
-        ErrorBoundary: ErrorPage,
-        children: [{ index: true, Component: ErrorTrigger }],
-      },
-    ]);
-
-    render(<Stub />);
+    renderWithRouter({
+      routes: [
+        {
+          Component: RootLayout,
+          ErrorBoundary: ErrorPage,
+          children: [{ index: true, Component: ErrorTrigger }],
+        },
+      ],
+      initialEntries: ['/'],
+      wrapper: ThemeProvider,
+    });
 
     const errorPage = screen.getByTestId('error-page');
     expect(errorPage).toBeInTheDocument();
@@ -74,24 +74,26 @@ describe('RootLayout', () => {
   it('displays the Error page when loader throws data and navigates back', async () => {
     vi.spyOn(apiController, 'getItems').mockRejectedValue(new Error('test error'));
 
-    const Stub = createRoutesStub([
-      {
-        Component: RootLayout,
-        ErrorBoundary: ErrorPage,
-        children: [
-          {
-            path: UrlPath.RECIPES,
-            Component: MainPage,
-            loader: () => {
-              throw data('test error', { status: 404 });
+    renderWithRouter({
+      routes: [
+        {
+          Component: RootLayout,
+          ErrorBoundary: ErrorPage,
+          children: [
+            {
+              path: UrlPath.RECIPES,
+              Component: MainPage,
+              loader: () => {
+                throw data('test error', { status: 404 });
+              },
             },
-          },
-          { path: UrlPath.ABOUT, Component: AboutPage },
-        ],
-      },
-    ]);
-
-    render(<Stub initialEntries={[UrlPath.ABOUT]} />);
+            { path: UrlPath.ABOUT, Component: AboutPage },
+          ],
+        },
+      ],
+      initialEntries: [UrlPath.ABOUT],
+      wrapper: ThemeProvider,
+    });
 
     const homeLink = screen.getByRole('link', { name: 'Hot Recipes logo Hot Recipes' });
     await userEvent.click(homeLink);

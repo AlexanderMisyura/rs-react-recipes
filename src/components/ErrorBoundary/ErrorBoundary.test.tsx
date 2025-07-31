@@ -1,4 +1,5 @@
 import { ErrorBoundary } from '@components';
+import { ThemeProvider } from '@context';
 import { setupUser } from '@test-utils';
 import { screen } from '@testing-library/react';
 
@@ -14,7 +15,8 @@ describe('ErrorBoundary', () => {
     const { user } = setupUser(
       <ErrorBoundary>
         <ErrorTrigger />
-      </ErrorBoundary>
+      </ErrorBoundary>,
+      ThemeProvider
     );
 
     const errorFallback = screen.getByRole('heading', { name: ERROR_HEADING });

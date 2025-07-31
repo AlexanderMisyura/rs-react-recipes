@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@context';
 import { apiController } from '@controllers';
 import { renderWithRouter } from '@test-utils';
 import { screen } from '@testing-library/react';
@@ -11,7 +12,7 @@ beforeEach(() => {
 
 describe('ListItem', () => {
   it('should display a correct name', async () => {
-    renderWithRouter(routes, [UrlPath.RECIPES]);
+    renderWithRouter({ routes, initialEntries: [UrlPath.RECIPES], wrapper: ThemeProvider });
 
     const name = await screen.findByText(recipe.name);
 
@@ -19,7 +20,7 @@ describe('ListItem', () => {
   });
 
   it('should display a correct image', async () => {
-    renderWithRouter(routes, [UrlPath.RECIPES]);
+    renderWithRouter({ routes, initialEntries: [UrlPath.RECIPES], wrapper: ThemeProvider });
 
     const image = await screen.findByAltText(recipe.name);
 
@@ -29,7 +30,7 @@ describe('ListItem', () => {
   });
 
   it('should display correct ingredients', async () => {
-    renderWithRouter(routes, [UrlPath.RECIPES]);
+    renderWithRouter({ routes, initialEntries: [UrlPath.RECIPES], wrapper: ThemeProvider });
 
     const ingredients = await screen.findAllByTestId('ingredient');
     expect(ingredients).toHaveLength(recipe.ingredients.length);

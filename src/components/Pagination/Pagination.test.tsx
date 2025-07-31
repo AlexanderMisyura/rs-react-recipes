@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@context';
 import { apiController } from '@controllers';
 import { createMockRecipes, setupUserWithRouter } from '@test-utils';
 import { screen, waitFor } from '@testing-library/react';
@@ -12,7 +13,11 @@ describe('Pagination', () => {
       total: 6,
       limit: 5,
     });
-    const { user, router } = setupUserWithRouter(routes, [UrlPath.RECIPES]);
+    const { user, router } = setupUserWithRouter({
+      routes,
+      initialEntries: [UrlPath.RECIPES],
+      wrapper: ThemeProvider,
+    });
 
     const prevButton = await screen.findByTestId('pagination-previous');
     expect(prevButton).toHaveAttribute('disabled');
