@@ -41,7 +41,7 @@ export const Search: React.FC = () => {
           disabled={loading}
         />
         <Button testId="search-button" type="submit" disabled={loading}>
-          <img src={searchIcon} className="h-6" alt="" />
+          <img src={searchIcon} className="h-6" alt="search submit" />
         </Button>
       </Form>
     </BoxWrapper>

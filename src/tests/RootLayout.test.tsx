@@ -28,7 +28,7 @@ describe('RootLayout', () => {
     const aboutPage = await screen.findByTestId('about-page');
     expect(aboutPage).toBeInTheDocument();
 
-    const homeLink = screen.getByRole('link', { name: 'logo Hot Recipes' });
+    const homeLink = screen.getByRole('link', { name: 'Hot Recipes logo Hot Recipes' });
     await user.click(homeLink);
 
     await waitFor(() => {
@@ -93,7 +93,7 @@ describe('RootLayout', () => {
 
     render(<Stub initialEntries={[UrlPath.ABOUT]} />);
 
-    const homeLink = screen.getByRole('link', { name: 'logo Hot Recipes' });
+    const homeLink = screen.getByRole('link', { name: 'Hot Recipes logo Hot Recipes' });
     await userEvent.click(homeLink);
 
     const errorPage = screen.getByTestId('error-page');

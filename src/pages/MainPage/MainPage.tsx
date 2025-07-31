@@ -17,14 +17,14 @@ export const MainPage = () => {
       <div data-testid="main-page" className="flex grow flex-col items-center justify-center gap-4">
         {isListLoading && <Spinner />}
 
-        {!isListLoading && recipesData.recipes.length > 0 && (
+        {!isListLoading && recipesData.recipes.length && (
           <>
             <List recipesData={recipesData} />
             <Pagination total={recipesData.total} />
           </>
         )}
 
-        {!isListLoading && recipesData.recipes.length === 0 && (
+        {!isListLoading && !recipesData.recipes.length && (
           <BoxWrapper testId="empty-fallback" className="border-2 border-orange-900">
             <Heading>Sorry, No Hot Recipes Found</Heading>
             <p className="text-xl">Try searching for something else</p>

@@ -16,7 +16,7 @@ export const Header: React.FC = () => {
           to={UrlPath.RECIPES}
         >
           <div className="flex items-center gap-2 select-none">
-            <img src={logoIcon} alt="logo" className="h-12" />
+            <img src={logoIcon} alt="Hot Recipes logo" className="h-12" />
             <span
               style={{ fontWeight: 'inherit' }}
               className="text-2xl text-orange-900 transition-colors in-[a:hover]:text-orange-950"
