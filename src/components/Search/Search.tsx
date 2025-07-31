@@ -1,38 +1,48 @@
 import searchIcon from '@assets/search.svg';
-import { Button } from '@components';
+import { BoxWrapper, Button } from '@components';
+import { useLocalStorageParamSync } from '@hooks';
 import { searchFormDataSchema } from '@schemas';
-import { Component } from 'react';
+import { Form, useNavigation, useSubmit } from 'react-router';
 
-interface Props {
-  searchString?: string;
-  updateHandler: (searchString: string) => void;
-}
+export const Search: React.FC = () => {
+  const [searchString, setSearchString] = useLocalStorageParamSync('searchString');
+  const navigation = useNavigation();
+  const submit = useSubmit();
 
-export class Search extends Component<Props> {
-  public boundSubmitHandler = this.submitHandler.bind(this);
+  const loading = navigation.state === 'loading';
 
-  public submitHandler(e: React.FormEvent<HTMLFormElement>) {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const { searchString } = searchFormDataSchema.parse(Object.fromEntries(formData));
+    const searchData = searchFormDataSchema.parse(Object.fromEntries(formData));
+    const trimmedSearch = searchData.q.trim();
 
-    this.props.updateHandler(searchString.trim());
-  }
+    setSearchString(trimmedSearch);
 
-  public render() {
-    return (
-      <form onSubmit={this.boundSubmitHandler} className="flex items-center gap-2">
+    const submission: { q?: string } = {};
+
+    if (trimmedSearch) {
+      submission.q = trimmedSearch;
+    }
+
+    void submit(submission);
+  };
+
+  return (
+    <BoxWrapper className="mx-2 flex">
+      <Form onSubmit={handleSubmit} className="flex items-center gap-2">
         <input
-          name="searchString"
-          defaultValue={this.props.searchString}
+          name="q"
+          defaultValue={searchString}
           className="rounded-md border-2 border-sky-200 bg-gray-50 px-4 py-2 hover:border-sky-300"
           type="search"
           placeholder="Search"
+          disabled={loading}
         />
-        <Button testId="search-button" type="submit">
-          <img src={searchIcon} className="h-6" alt="" />
+        <Button testId="search-button" type="submit" disabled={loading}>
+          <img src={searchIcon} className="h-6" alt="search submit" />
         </Button>
-      </form>
-    );
-  }
-}
+      </Form>
+    </BoxWrapper>
+  );
+};

@@ -1,25 +1,25 @@
 import { BoxWrapper, Button, Heading } from '@components';
-import { Component } from 'react';
 
-interface Props {
+interface ErrorFallbackProps {
   error: Error;
   title?: string;
   resetFunction?: () => void;
   btnChildren?: React.ReactNode;
+  testId?: string;
 }
 
-export class ErrorFallback extends Component<Props> {
-  public render() {
-    return (
-      <BoxWrapper testId="error-fallback" className="max-w-2xl border-2 border-red-600">
-        <Heading className="text-red-600">{this.props.title ?? 'Something went wrong'}</Heading>
-        <p className="text-xl">{this.props.error.message}</p>
-        {this.props.resetFunction && (
-          <Button onClickHandler={this.props.resetFunction}>
-            {this.props.btnChildren ?? 'Fix'}
-          </Button>
-        )}
-      </BoxWrapper>
-    );
-  }
-}
+export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
+  error,
+  title,
+  resetFunction,
+  btnChildren,
+  testId,
+}) => {
+  return (
+    <BoxWrapper testId={testId ?? 'error-fallback'} className="max-w-2xl border-2 border-red-600">
+      <Heading className="text-red-600">{title ?? 'Something went wrong'}</Heading>
+      <p className="text-xl">{error.message}</p>
+      {resetFunction && <Button onClickHandler={resetFunction}>{btnChildren ?? 'Fix'}</Button>}
+    </BoxWrapper>
+  );
+};

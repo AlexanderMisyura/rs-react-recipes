@@ -99,5 +99,12 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/triple-slash-reference': 'off',
     },
+  },
+
+  {
+    files: ['**/*.loader.{ts,tsx}', '**/*.action.{ts,tsx}', '**/*.test.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/only-throw-error': 'off',
+    },
   }
 );

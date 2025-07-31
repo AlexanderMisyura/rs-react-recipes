@@ -1,28 +1,25 @@
 import { clsx } from 'clsx/lite';
-import { Component } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-interface Props {
+interface BowWrapperProps {
   className?: string;
   children: React.ReactNode;
   testId?: string;
 }
 
-export class BoxWrapper extends Component<Props> {
-  public render() {
-    const combinedClasses = twMerge(
-      clsx(
-        'rounded-sm bg-amber-50 shadow-xl',
-        'mx-2 p-4 flex flex-col place-items-center gap-4',
-        'max-w-5xl',
-        this.props.className
-      )
-    );
+export const BoxWrapper: React.FC<BowWrapperProps> = ({ children, className, testId }) => {
+  const combinedClasses = twMerge(
+    clsx(
+      'rounded-sm bg-amber-50 shadow-xl',
+      'p-4 flex flex-col place-items-center gap-4',
+      'max-w-5xl',
+      className
+    )
+  );
 
-    return (
-      <div data-testid={this.props.testId} className={combinedClasses}>
-        {this.props.children}
-      </div>
-    );
-  }
-}
+  return (
+    <div data-testid={testId} className={combinedClasses}>
+      {children}
+    </div>
+  );
+};
