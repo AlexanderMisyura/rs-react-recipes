@@ -1,4 +1,4 @@
-import { MODE_TOGGLE_MAP, THEME_MODE } from '@constants';
+import { MODE_TOGGLE_MAP, STORAGE_KEY, THEME_MODE } from '@constants';
 import { ThemeContext } from '@context';
 import { useBrowserDarkMode, useLocalStorage } from '@hooks';
 import { themeModeSchema, themeSchema } from '@schemas';
@@ -10,7 +10,7 @@ interface ThemeProviderProps {
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const isBrowserDarkMode = useBrowserDarkMode();
   const [mode, setMode] = useLocalStorage({
-    key: 'theme',
+    key: STORAGE_KEY.THEME,
     defaultValue: THEME_MODE.SYSTEM,
   });
 

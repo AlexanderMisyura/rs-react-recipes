@@ -1,5 +1,6 @@
 import searchIcon from '@assets/search.svg';
 import { BoxWrapper, Button } from '@components';
+import { STORAGE_KEY } from '@constants';
 import { useParamToStorageSync, useThemeContext } from '@hooks';
 import { searchFormDataSchema } from '@schemas';
 import { clsx } from 'clsx';
@@ -7,7 +8,7 @@ import { Form, useNavigation, useSubmit } from 'react-router';
 
 export const Search: React.FC = () => {
   const { theme } = useThemeContext();
-  const [searchString, setSearchString] = useParamToStorageSync('searchString');
+  const [searchString, setSearchString] = useParamToStorageSync(STORAGE_KEY.SEARCH_STRING);
   const navigation = useNavigation();
   const submit = useSubmit();
 
