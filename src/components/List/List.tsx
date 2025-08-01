@@ -9,7 +9,6 @@ interface ListProps {
 
 export const List: React.FC<ListProps> = ({ recipesData }) => {
   const { recipes, total } = recipesData;
-  console.log('recipes.length, total', recipes.length, total);
   const { detailsId } = useParams();
   const navigation = useNavigation();
 
