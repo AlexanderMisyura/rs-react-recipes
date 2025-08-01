@@ -3,6 +3,7 @@ import { useThemeContext } from '@hooks';
 import { UrlPath } from '@ts-enums';
 import type { Recipe } from '@ts-types';
 import { clsx } from 'clsx';
+import { useEffect, useRef } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router';
 
 interface Props {
@@ -14,16 +15,27 @@ export const ListItem: React.FC<Props> = ({ recipe }) => {
   const { name, image, ingredients, id } = recipe;
   const { detailsId } = useParams();
   const [searchParams] = useSearchParams();
+  const itemRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    if (detailsId === id.toString()) {
+      itemRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [detailsId, id]);
 
   const queryString = [...searchParams.values()].length ? `?${searchParams.toString()}` : '';
 
   return (
-    <Link to={`${UrlPath.RECIPES}/${id}/${queryString}`} viewTransition className="flex w-full">
+    <Link
+      ref={itemRef}
+      to={`${UrlPath.RECIPES}/${id}/${queryString}`}
+      preventScrollReset
+      className="flex w-full scroll-mt-[92px]"
+    >
       <BoxWrapper
         testId={`list-item-${id}`}
         className={clsx(
-          'flex cursor-pointer flex-row gap-4 transition-transform duration-200 ease-in-out hover:scale-103',
-          'w-full'
+          'flex w-full cursor-pointer flex-row gap-4 transition-transform duration-200 ease-in-out hover:scale-103'
         )}
       >
         <div className={clsx('flex w-full gap-4', detailsId ? 'flex-col' : 'flex-row')}>

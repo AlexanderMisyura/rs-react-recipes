@@ -5,6 +5,10 @@
 @import './search.css';
 @import './root-layout.css';
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   position: relative;
   display: flex;

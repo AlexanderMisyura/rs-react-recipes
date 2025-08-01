@@ -14,6 +14,7 @@ export const Header: React.FC = () => {
             fontWeight: isActive ? 'bold' : 'inherit',
           })}
           to={UrlPath.RECIPES}
+          viewTransition
         >
           <div className="flex items-center gap-2 select-none">
             <img src={logoIcon} alt="Hot Recipes logo" className="h-12" />
@@ -34,6 +35,7 @@ export const Header: React.FC = () => {
                 style={({ isActive }) => ({
                   fontWeight: isActive ? 'bold' : 'inherit',
                 })}
+                viewTransition
               >
                 About
               </NavLink>

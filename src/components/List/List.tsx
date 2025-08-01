@@ -9,6 +9,7 @@ interface ListProps {
 
 export const List: React.FC<ListProps> = ({ recipesData }) => {
   const { recipes, total } = recipesData;
+  console.log('recipes.length, total', recipes.length, total);
   const { detailsId } = useParams();
   const navigation = useNavigation();
 
@@ -20,7 +21,13 @@ export const List: React.FC<ListProps> = ({ recipesData }) => {
         <Heading>{total === 1 ? '1 Recipe Found' : `${total} Recipes Found`}</Heading>
       </BoxWrapper>
 
-      <div className={clsx('grid w-full gap-2', detailsId ? 'grid-cols-2' : 'grid-cols-1')}>
+      <div
+        className={clsx(
+          'grid w-full gap-2',
+          detailsId ? 'grid-cols-2' : 'grid-cols-1',
+          recipes.length <= total && 'mb-4'
+        )}
+      >
         <ul className={clsx('flex flex-col gap-4', 'w-full')}>
           {recipes.map((recipe) => {
             return (
