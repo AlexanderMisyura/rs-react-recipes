@@ -1,4 +1,4 @@
-import { Header, Spinner } from '@components';
+import { Header, SelectionFlyout, Spinner } from '@components';
 import { useThemeContext } from '@hooks';
 import { clsx } from 'clsx';
 import { Outlet, ScrollRestoration, useLocation, useNavigation } from 'react-router';
@@ -27,6 +27,7 @@ export const RootLayout: React.FC = () => {
           {isNewPageLoading ? <Spinner /> : <Outlet />}
         </main>
       </div>
+      <SelectionFlyout />
       <ScrollRestoration />
     </>
   );
