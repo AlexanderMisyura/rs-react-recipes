@@ -6,9 +6,10 @@ interface BowWrapperProps {
   className?: string;
   children: React.ReactNode;
   testId?: string;
+  ref?: React.Ref<HTMLDivElement>;
 }
 
-export const BoxWrapper: React.FC<BowWrapperProps> = ({ children, className, testId }) => {
+export const BoxWrapper: React.FC<BowWrapperProps> = ({ children, className, testId, ref }) => {
   const { theme } = useThemeContext();
 
   const combinedClasses = twMerge(
@@ -22,7 +23,7 @@ export const BoxWrapper: React.FC<BowWrapperProps> = ({ children, className, tes
   );
 
   return (
-    <div data-testid={testId} className={combinedClasses}>
+    <div ref={ref} data-testid={testId} className={combinedClasses}>
       {children}
     </div>
   );
