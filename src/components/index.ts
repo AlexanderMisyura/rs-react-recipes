@@ -3,6 +3,7 @@ export { Button } from './Button/Button';
 export { ThemeModeButton } from './Button/ThemeModeButton/ThemeModeButton';
 export { ErrorBoundary } from './ErrorBoundary/ErrorBoundary';
 export { ErrorFallback } from './ErrorFallback/ErrorFallback';
+export { Flyout } from './Flyout/Flyout';
 export { Header } from './Header/Header';
 export { Heading } from './Heading/Heading';
 export { ItemSelector } from './ItemSelector/ItemSelector';
