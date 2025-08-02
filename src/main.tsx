@@ -4,7 +4,9 @@ import { ErrorBoundary } from '@components';
 import { ThemeProvider } from '@context';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { Provider as ReduxProvider } from 'react-redux';
 import { RouterProvider } from 'react-router';
+import { store } from 'redux/store';
 import { router } from 'router';
 
 const root = document.createElement('div');
@@ -13,10 +15,12 @@ document.body.append(root);
 
 createRoot(root).render(
   <StrictMode>
-    <ErrorBoundary>
-      <ThemeProvider>
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </ErrorBoundary>
+    <ThemeProvider>
+      <ErrorBoundary>
+        <ReduxProvider store={store}>
+          <RouterProvider router={router} />
+        </ReduxProvider>
+      </ErrorBoundary>
+    </ThemeProvider>
   </StrictMode>
 );
