@@ -8,12 +8,13 @@ import type { RecipeInstructionsResponse, RecipesResponse } from '@ts-types';
 
 export class ApiController {
   constructor(
-    private apiUrl: string,
-    private params: Record<string, string>
+    private readonly apiUrl: string,
+    private readonly recipesParams: Record<string, string>,
+    private readonly detailsParams: Record<string, string>
   ) {}
 
   public async getItems(params: Record<string, string>): Promise<RecipesResponse> {
-    const combinedParams = this.getCombinedParams(params);
+    const combinedParams = this.getCombinedParams(this.recipesParams, params);
     const response = await fetch(`${this.apiUrl}/search?${combinedParams.toString()}`);
 
     if (!response.ok) {
@@ -26,10 +27,9 @@ export class ApiController {
   }
 
   public async getDetails(recipeId: string): Promise<RecipeInstructionsResponse> {
-    const params = new URLSearchParams();
-    params.set('select', 'instructions,name');
+    const combinedParams = this.getCombinedParams(this.detailsParams);
 
-    const response = await fetch(`${this.apiUrl}/${recipeId}?${params.toString()}`);
+    const response = await fetch(`${this.apiUrl}/${recipeId}?${combinedParams.toString()}`);
 
     if (!response.ok) {
       const data = recipesErrorSchema.parse(await response.json());
@@ -40,12 +40,20 @@ export class ApiController {
     return recipeData;
   }
 
-  private getCombinedParams(params: Record<string, string>): URLSearchParams {
+  private getCombinedParams(
+    innerParams: Record<string, string>,
+    params?: Record<string, string>
+  ): URLSearchParams {
     const combinedParams = new URLSearchParams();
 
-    Object.entries(this.params).forEach(([key, value]) => {
+    Object.entries(innerParams).forEach(([key, value]) => {
       combinedParams.append(key, value);
     });
+
+    if (!params) {
+      return combinedParams;
+    }
+
     Object.entries(params).forEach(([key, value]) => {
       combinedParams.append(key, value);
     });
@@ -54,6 +62,10 @@ export class ApiController {
   }
 }
 
-const apiController = new ApiController(config.API_URL, { select: config.SELECT_PARAM });
+const apiController = new ApiController(
+  config.API_URL,
+  { select: config.SELECT_RECIPES_PARAM },
+  { select: config.SELECT_DETAILS_PARAM }
+);
 
 export { apiController };
