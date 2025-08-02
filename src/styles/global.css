@@ -33,3 +33,31 @@ body {
     filter: contrast(50%) brightness(150%) grayscale(50%);
   }
 }
+
+input[type='checkbox'] {
+  cursor: pointer;
+
+  position: relative;
+
+  aspect-ratio: 1;
+  width: 1.5em;
+  height: 1.5em;
+  border: 2px solid #7e2a0c;
+  border-radius: 3px;
+
+  appearance: none;
+}
+
+input[type='checkbox']::before {
+  content: '🌶️';
+
+  position: absolute;
+  top: -0.2em;
+  right: -1px;
+
+  visibility: hidden;
+}
+
+input[type='checkbox']:checked::before {
+  visibility: visible;
+}
