@@ -9,7 +9,7 @@ import { recipesResponse, recipesResponseEmpty } from '@tests-mocks';
 import { UrlPath } from '@ts-enums';
 import { routes } from 'router';
 
-const { STORAGE_PREFIX } = config;
+const { DATA_PREFIX } = config;
 const SEARCH_VALUE = 'test';
 
 beforeEach(() => {
@@ -96,12 +96,12 @@ describe('MainPage', () => {
 
   it('trims and overwrites the search value in localStorage', async () => {
     const mockedStorage: Record<string, string> = {
-      [`${STORAGE_PREFIX}_searchString`]: 'overwrite',
+      [`${DATA_PREFIX}_searchString`]: 'overwrite',
     };
 
-    const getFromMockedStorage = (key: string) => mockedStorage[`${STORAGE_PREFIX}_${key}`] ?? null;
+    const getFromMockedStorage = (key: string) => mockedStorage[`${DATA_PREFIX}_${key}`] ?? null;
     const setToMockedStorage = (key: string, value: string) => {
-      mockedStorage[`${STORAGE_PREFIX}_${key}`] = value;
+      mockedStorage[`${DATA_PREFIX}_${key}`] = value;
     };
 
     vi.spyOn(storageService, 'getItem').mockImplementation(getFromMockedStorage);

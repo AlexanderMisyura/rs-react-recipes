@@ -1,7 +1,7 @@
 import config from '@config/app.config';
 import { storageService } from '@services';
 
-const { STORAGE_PREFIX } = config;
+const { DATA_PREFIX } = config;
 const TEST_KEY = 'key';
 const TEST_VALUE = 'value';
 
@@ -33,14 +33,14 @@ describe('StorageService', () => {
   it('should save value to localStorage', () => {
     storageService.setItem(TEST_KEY, TEST_VALUE);
 
-    const key = `${STORAGE_PREFIX}_${TEST_KEY}`;
+    const key = `${DATA_PREFIX}_${TEST_KEY}`;
     const value = localStorage.getItem(key);
 
     expect(value).toBe(TEST_VALUE);
   });
 
   it('should get value from localStorage', () => {
-    const key = `${STORAGE_PREFIX}_${TEST_KEY}`;
+    const key = `${DATA_PREFIX}_${TEST_KEY}`;
     localStorage.setItem(key, TEST_VALUE);
 
     const value = storageService.getItem(TEST_KEY);
@@ -49,11 +49,11 @@ describe('StorageService', () => {
   });
 
   it('should remove value from localStorage', () => {
-    const key = `${STORAGE_PREFIX}_${TEST_KEY}`;
+    const key = `${DATA_PREFIX}_${TEST_KEY}`;
 
     localStorage.setItem(key, TEST_VALUE);
     storageService.removeItem(TEST_KEY);
 
-    expect(localStorage.getItem(`${STORAGE_PREFIX}_${TEST_KEY}`)).toBe(null);
+    expect(localStorage.getItem(`${DATA_PREFIX}_${TEST_KEY}`)).toBe(null);
   });
 });
