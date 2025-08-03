@@ -1,11 +1,14 @@
 import { ThemeProvider } from '@context';
+import type { RenderOptions } from '@testing-library/react';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UrlPath } from '@ts-enums';
+import type { PropsWithChildren } from 'react';
+import { Provider as ReduxProvider } from 'react-redux';
 import { createMemoryRouter, type RouteObject, RouterProvider } from 'react-router';
-import { routes } from 'router';
-
-import { ReduxStoreWrapper } from './store-wrapper';
+import type { AppStore, RootState } from 'redux/store';
+import { setupStore } from 'redux/store';
+import { routes as routeObjects } from 'router';
 
 interface RenderWithRouterProps {
   routes: RouteObject[];
@@ -22,25 +25,32 @@ export const renderWithRouter = ({ routes, initialEntries, wrapper }: RenderWith
   return { ...renderResult, router };
 };
 
-export const setupUserWithRouter = ({ routes, initialEntries, wrapper }: RenderWithRouterProps) => {
-  return {
-    user: userEvent.setup(),
-    ...renderWithRouter({ routes, initialEntries, wrapper }),
-  };
-};
+interface ExtendedRenderOptions extends RenderOptions {
+  routes?: RouteObject[];
+  initialEntries?: string[];
+  preloadedState?: Partial<RootState>;
+  store?: AppStore;
+}
 
 export const setupUserWithProviders = ({
-  routeObjects = routes,
+  routes = routeObjects,
   initialEntries = [UrlPath.RECIPES],
-}: { routeObjects?: RouteObject[]; initialEntries?: string[] } = {}) => {
-  const Wrapper = ({ children }: React.PropsWithChildren) => (
+  preloadedState = {},
+  store = setupStore(preloadedState),
+  ...restOptions
+}: ExtendedRenderOptions = {}) => {
+  const router = createMemoryRouter(routes, { initialEntries });
+
+  const Wrapper = ({ children }: PropsWithChildren) => (
     <ThemeProvider>
-      <ReduxStoreWrapper>{children}</ReduxStoreWrapper>
+      <ReduxProvider store={store}>{children}</ReduxProvider>
     </ThemeProvider>
   );
 
-  return {
-    user: userEvent.setup(),
-    ...renderWithRouter({ routes: routeObjects, initialEntries, wrapper: Wrapper }),
-  };
+  const renderResult = render(<RouterProvider router={router} />, {
+    wrapper: Wrapper,
+    ...restOptions,
+  });
+
+  return { ...renderResult, user: userEvent.setup(), router, store };
 };

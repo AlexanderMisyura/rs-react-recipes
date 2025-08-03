@@ -6,12 +6,14 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider as ReduxProvider } from 'react-redux';
 import { RouterProvider } from 'react-router';
-import { store } from 'redux/store';
+import { setupStore } from 'redux/store';
 import { router } from 'router';
 
 const root = document.createElement('div');
 root.classList.add('flex', 'flex-col', 'grow', 'h-full', 'items-center', 'justify-center');
 document.body.append(root);
+
+const store = setupStore();
 
 createRoot(root).render(
   <StrictMode>

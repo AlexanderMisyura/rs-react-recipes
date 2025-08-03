@@ -50,7 +50,7 @@ describe('RootLayout', () => {
       throw new Error('test error');
     };
     setupUserWithProviders({
-      routeObjects: [
+      routes: [
         {
           Component: RootLayout,
           ErrorBoundary: ErrorPage,
@@ -68,7 +68,7 @@ describe('RootLayout', () => {
     vi.spyOn(apiController, 'getItems').mockRejectedValue(new Error('test error'));
 
     setupUserWithProviders({
-      routeObjects: [
+      routes: [
         {
           Component: RootLayout,
           ErrorBoundary: ErrorPage,
