@@ -27,7 +27,6 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({ recipe }) => {
 
   return (
     <label
-      data-testid="item-selector"
       className={clsx(
         'flex w-full items-center justify-center gap-2 px-4 py-2',
         'cursor-pointer rounded-md border-2 border-transparent text-center font-bold tracking-wide text-orange-900 shadow-sm select-none',
@@ -38,6 +37,7 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({ recipe }) => {
     >
       <span className={`${theme}-text`}>Select</span>
       <input
+        data-testid="item-selector"
         className={`${theme}-selector`}
         onChange={handleCheck}
         checked={isChecked}
