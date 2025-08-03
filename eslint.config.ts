@@ -106,5 +106,11 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/only-throw-error': 'off',
     },
+  },
+  {
+    files: ['**/*.test.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/unbound-method': 'off',
+    },
   }
 );
