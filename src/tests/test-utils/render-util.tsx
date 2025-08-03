@@ -1,6 +1,11 @@
+import { ThemeProvider } from '@context';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { UrlPath } from '@ts-enums';
 import { createMemoryRouter, type RouteObject, RouterProvider } from 'react-router';
+import { routes } from 'router';
+
+import { ReduxStoreWrapper } from './store-wrapper';
 
 interface RenderWithRouterProps {
   routes: RouteObject[];
@@ -21,5 +26,21 @@ export const setupUserWithRouter = ({ routes, initialEntries, wrapper }: RenderW
   return {
     user: userEvent.setup(),
     ...renderWithRouter({ routes, initialEntries, wrapper }),
+  };
+};
+
+export const setupUserWithProviders = ({
+  routeObjects = routes,
+  initialEntries = [UrlPath.RECIPES],
+}: { routeObjects?: RouteObject[]; initialEntries?: string[] } = {}) => {
+  const Wrapper = ({ children }: React.PropsWithChildren) => (
+    <ThemeProvider>
+      <ReduxStoreWrapper>{children}</ReduxStoreWrapper>
+    </ThemeProvider>
+  );
+
+  return {
+    user: userEvent.setup(),
+    ...renderWithRouter({ routes: routeObjects, initialEntries, wrapper: Wrapper }),
   };
 };
