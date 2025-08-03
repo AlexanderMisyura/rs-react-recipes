@@ -5,6 +5,7 @@
 @import './search.css';
 @import './root-layout.css';
 @import './item-selector.css';
+@import './theme-button.css';
 
 html {
   scrollbar-gutter: stable;

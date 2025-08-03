@@ -3,7 +3,7 @@ import moonIcon from '@assets/moon.svg';
 import sunIcon from '@assets/sun.svg';
 import { MODE_TOGGLE_MAP, THEME_MODE } from '@constants';
 import { useThemeContext } from '@hooks';
-import { useState } from 'react';
+import { clsx } from 'clsx';
 
 const MODE_ICON_MAP = {
   [THEME_MODE.LIGHT]: sunIcon,
@@ -13,28 +13,19 @@ const MODE_ICON_MAP = {
 
 export const ThemeModeButton = () => {
   const { mode, toggleMode } = useThemeContext();
-  const [icon, setIcon] = useState<string>(MODE_ICON_MAP[mode]);
-
-  const changeToHoverIcon = () => {
-    setIcon(MODE_ICON_MAP[MODE_TOGGLE_MAP[mode]]);
-  };
-
-  const changeToDefaultIcon = () => {
-    setIcon(MODE_ICON_MAP[mode]);
-  };
+  const { theme } = useThemeContext();
 
   return (
     <button
       type="button"
       onClick={toggleMode}
-      onMouseOver={changeToHoverIcon}
-      onFocus={changeToHoverIcon}
-      onMouseOut={changeToDefaultIcon}
-      onBlur={changeToDefaultIcon}
-      className="cursor-pointer p-2"
-      title={`change to ${MODE_TOGGLE_MAP[mode]} theme mode`}
+      className={clsx(
+        'cursor-pointer rounded-md border-2 border-transparent p-2',
+        `${theme}-theme-button`
+      )}
+      title={`change ${mode} mode to ${MODE_TOGGLE_MAP[mode]}`}
     >
-      <img src={icon} alt={`${MODE_TOGGLE_MAP[mode]} theme mode`} className="h-8" />
+      <img src={MODE_ICON_MAP[mode]} alt={`${MODE_TOGGLE_MAP[mode]} theme mode`} className="h-8" />
     </button>
   );
 };
