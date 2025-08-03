@@ -1,6 +1,6 @@
 import { Button } from '@components';
 import { ThemeProvider } from '@context';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { setupUser } from 'tests/test-utils';
 
 describe('Button', () => {
@@ -10,6 +10,9 @@ describe('Button', () => {
 
     const button = screen.getByRole('button');
     await user.click(button);
-    expect(mockOnClickHandler).toHaveBeenCalled();
+
+    await waitFor(() => {
+      expect(mockOnClickHandler).toHaveBeenCalled();
+    });
   });
 });

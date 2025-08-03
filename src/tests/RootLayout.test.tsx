@@ -90,13 +90,16 @@ describe('RootLayout', () => {
     const homeLink = screen.getByRole('link', { name: 'Hot Recipes logo Hot Recipes' });
     await userEvent.click(homeLink);
 
-    const errorPage = screen.getByTestId('error-page');
+    const errorPage = await screen.findByTestId('error-page');
     expect(errorPage).toBeInTheDocument();
 
     const backButton = screen.getByRole('button', { name: 'Go Back' });
     await userEvent.click(backButton);
 
-    const aboutPage = screen.getByTestId('about-page');
-    expect(aboutPage).toBeInTheDocument();
+    const aboutPage = await screen.findByTestId('about-page');
+
+    await waitFor(() => {
+      expect(aboutPage).toBeInTheDocument();
+    });
   });
 });

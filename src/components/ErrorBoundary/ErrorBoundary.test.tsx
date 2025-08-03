@@ -1,6 +1,6 @@
 import { ErrorBoundary } from '@components';
 import { ThemeProvider } from '@context';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { setupUser } from 'tests/test-utils';
 
 const FIX_TEXT = 'Fix';
@@ -26,6 +26,8 @@ describe('ErrorBoundary', () => {
     const fix = screen.getByRole('button', { name: FIX_TEXT });
     await user.click(fix);
 
-    expect(errorFallback).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(errorFallback).not.toBeInTheDocument();
+    });
   });
 });

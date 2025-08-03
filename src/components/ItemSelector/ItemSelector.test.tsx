@@ -1,5 +1,5 @@
 import { apiController } from '@controllers';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { recipesResponseSingle } from '@tests-mocks';
 import { setupUserWithProviders } from 'tests/test-utils';
 
@@ -36,10 +36,14 @@ describe('ItemSelector', () => {
     const itemSelector = await screen.findByRole('checkbox', { name: 'Select' });
     await user.click(itemSelector);
 
-    expect(store.getState().recipes.recipesChecked).toHaveLength(1);
+    await waitFor(() => {
+      expect(store.getState().recipes.recipesChecked).toHaveLength(1);
+    });
 
     await user.click(itemSelector);
 
-    expect(store.getState().recipes.recipesChecked).toHaveLength(0);
+    await waitFor(() => {
+      expect(store.getState().recipes.recipesChecked).toHaveLength(0);
+    });
   });
 });

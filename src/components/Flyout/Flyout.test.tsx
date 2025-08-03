@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { setupUserWithProviders } from 'tests/test-utils';
 
 beforeAll(() => {
@@ -17,6 +17,8 @@ describe('Flyout', () => {
     const itemSelector = await screen.findAllByTestId('item-selector');
     await user.click(itemSelector[0]);
 
-    expect(flyout).toHaveClass('translate-y-0 opacity-100');
+    await waitFor(() => {
+      expect(flyout).toHaveClass('translate-y-0 opacity-100');
+    });
   });
 });

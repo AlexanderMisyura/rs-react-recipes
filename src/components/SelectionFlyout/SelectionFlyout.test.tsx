@@ -1,5 +1,5 @@
 import { apiController } from '@controllers';
-import { screen } from '@testing-library/dom';
+import { screen, waitFor } from '@testing-library/dom';
 import { recipesResponse } from '@tests-mocks';
 import { createMockRecipes, setupUserWithProviders } from 'tests/test-utils';
 
@@ -39,7 +39,9 @@ describe('SelectionFlyout', () => {
     const unselectButton = await screen.findByRole('button', { name: 'Unselect All' });
     await user.click(unselectButton);
 
-    expect(store.getState().recipes.recipesChecked).toHaveLength(0);
+    await waitFor(() => {
+      expect(store.getState().recipes.recipesChecked).toHaveLength(0);
+    });
   });
 
   it('should receive a correct download link', async () => {
