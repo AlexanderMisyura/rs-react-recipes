@@ -35,7 +35,7 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({ recipe }) => {
         'transition-colors'
       )}
     >
-      <span className={`${theme}-text`}>Select</span>
+      <span className="text-inherit">Select</span>
       <input
         data-testid="item-selector"
         className={`${theme}-selector`}
