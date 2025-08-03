@@ -1,18 +1,14 @@
-import { ThemeProvider } from '@context';
-import { setupUserWithRouter } from '@test-utils';
 import { screen, waitFor } from '@testing-library/react';
 import { UrlPath } from '@ts-enums';
-import { routes } from 'router';
+import { setupUserWithProviders } from 'tests/test-utils';
 
 describe('Search', () => {
   const INITIAL_VALUE = 'initial';
   const TYPED_VALUE = 'typed';
 
   it('should update search string and change search params', async () => {
-    const { user, router } = setupUserWithRouter({
-      routes,
+    const { user, router } = setupUserWithProviders({
       initialEntries: [`${UrlPath.RECIPES}?q=${INITIAL_VALUE}`],
-      wrapper: ThemeProvider,
     });
 
     const input = await screen.findByRole('searchbox');

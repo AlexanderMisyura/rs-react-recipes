@@ -3,6 +3,8 @@ import { expect } from 'vitest';
 
 window.scrollTo = vi.fn();
 
+Element.prototype.scrollIntoView = vi.fn();
+
 beforeAll(() => {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,

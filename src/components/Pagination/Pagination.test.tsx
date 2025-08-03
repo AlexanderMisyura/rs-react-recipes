@@ -1,23 +1,16 @@
-import { ThemeProvider } from '@context';
 import { apiController } from '@controllers';
-import { createMockRecipes, setupUserWithRouter } from '@test-utils';
 import { screen, waitFor } from '@testing-library/react';
-import { UrlPath } from '@ts-enums';
-import { routes } from 'router';
+import { createMockRecipes, setupUserWithProviders } from 'tests/test-utils';
 
 describe('Pagination', () => {
   it('should be able to navigate between pages and have disabled buttons', async () => {
     vi.spyOn(apiController, 'getItems').mockResolvedValue({
-      recipes: createMockRecipes(6),
+      recipes: createMockRecipes(7),
       skip: 0,
-      total: 6,
-      limit: 5,
+      total: 7,
+      limit: 6,
     });
-    const { user, router } = setupUserWithRouter({
-      routes,
-      initialEntries: [UrlPath.RECIPES],
-      wrapper: ThemeProvider,
-    });
+    const { user, router } = setupUserWithProviders();
 
     const prevButton = await screen.findByTestId('pagination-previous');
     expect(prevButton).toHaveAttribute('disabled');

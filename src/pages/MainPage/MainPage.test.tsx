@@ -1,13 +1,10 @@
 import config from '@config/app.config';
 import { STORAGE_KEY, THEME } from '@constants';
-import { ThemeProvider } from '@context';
 import { apiController } from '@controllers';
 import { storageService } from '@services';
-import { renderWithRouter, setupUserWithRouter } from '@test-utils';
 import { screen } from '@testing-library/react';
 import { recipesResponse, recipesResponseEmpty } from '@tests-mocks';
-import { UrlPath } from '@ts-enums';
-import { routes } from 'router';
+import { setupUserWithProviders } from 'tests/test-utils';
 
 const { DATA_PREFIX } = config;
 const SEARCH_VALUE = 'test';
@@ -22,7 +19,7 @@ afterEach(() => {
 
 describe('MainPage', () => {
   it('displays the spinner until the data is loaded', async () => {
-    renderWithRouter({ routes, initialEntries: [UrlPath.RECIPES], wrapper: ThemeProvider });
+    setupUserWithProviders();
 
     const spinner = screen.getByText('Loading...');
     expect(spinner).toBeInTheDocument();
@@ -32,7 +29,7 @@ describe('MainPage', () => {
   });
 
   it('displays the initial data with empty search value', async () => {
-    renderWithRouter({ routes, initialEntries: [UrlPath.RECIPES], wrapper: ThemeProvider });
+    setupUserWithProviders();
 
     const list = await screen.findByTestId('list');
     expect(list).toBeInTheDocument();
@@ -49,11 +46,11 @@ describe('MainPage', () => {
       return null;
     });
     const mockGetItems = vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
-    renderWithRouter({ routes, initialEntries: [UrlPath.RECIPES], wrapper: ThemeProvider });
+    setupUserWithProviders();
 
     const list = await screen.findByTestId('list');
     expect(list).toBeInTheDocument();
-    expect(mockGetItems).toHaveBeenCalledWith({ limit: '5', q: SEARCH_VALUE, skip: '0' });
+    expect(mockGetItems).toHaveBeenCalledWith({ limit: '6', q: SEARCH_VALUE, skip: '0' });
 
     const search = screen.getByRole('searchbox');
     expect(search).toHaveValue(SEARCH_VALUE);
@@ -61,18 +58,14 @@ describe('MainPage', () => {
 
   it('displays the empty data fallback', async () => {
     vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponseEmpty);
-    renderWithRouter({ routes, initialEntries: [UrlPath.RECIPES], wrapper: ThemeProvider });
+    setupUserWithProviders();
 
     const fallback = await screen.findByTestId('empty-fallback');
     expect(fallback).toBeInTheDocument();
   });
 
   it('displays the search results', async () => {
-    const { user } = setupUserWithRouter({
-      routes,
-      initialEntries: [UrlPath.RECIPES],
-      wrapper: ThemeProvider,
-    });
+    const { user } = setupUserWithProviders();
 
     const search = await screen.findByRole('searchbox');
     await user.type(search, SEARCH_VALUE);
@@ -88,7 +81,7 @@ describe('MainPage', () => {
     vi.spyOn(apiController, 'getItems').mockImplementation(() =>
       Promise.reject(new Error('test error'))
     );
-    renderWithRouter({ routes, initialEntries: [UrlPath.RECIPES], wrapper: ThemeProvider });
+    setupUserWithProviders();
 
     const fallback = await screen.findByTestId('error-page');
     expect(fallback).toBeInTheDocument();
@@ -108,11 +101,7 @@ describe('MainPage', () => {
     vi.spyOn(storageService, 'setItem').mockImplementation(setToMockedStorage);
     vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
 
-    const { user } = setupUserWithRouter({
-      routes,
-      initialEntries: [UrlPath.RECIPES],
-      wrapper: ThemeProvider,
-    });
+    const { user } = setupUserWithProviders();
 
     const search = await screen.findByRole('searchbox');
     await user.clear(search);

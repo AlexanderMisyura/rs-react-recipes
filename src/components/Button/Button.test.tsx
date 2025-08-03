@@ -1,7 +1,7 @@
 import { Button } from '@components';
 import { ThemeProvider } from '@context';
-import { setupUser } from '@test-utils';
 import { screen } from '@testing-library/react';
+import { setupUser } from 'tests/test-utils';
 
 describe('Button', () => {
   it('should call onClick handler', async () => {

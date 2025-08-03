@@ -1,10 +1,8 @@
-import { ThemeProvider } from '@context';
 import { apiController } from '@controllers';
-import { setupUserWithRouter } from '@test-utils';
 import { screen, waitFor } from '@testing-library/react';
 import { instructionsResponse, recipesResponseSingle } from '@tests-mocks';
 import { UrlPath } from '@ts-enums';
-import { routes } from 'router';
+import { setupUserWithProviders } from 'tests/test-utils';
 
 beforeEach(() => {
   vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponseSingle);
@@ -13,13 +11,9 @@ beforeEach(() => {
 
 describe('SidePanel', () => {
   it('should display a correct list of instructions after clicking on a recipe and close the list', async () => {
-    const { user, router } = setupUserWithRouter({
-      routes,
-      initialEntries: [UrlPath.RECIPES],
-      wrapper: ThemeProvider,
-    });
+    const { user, router } = setupUserWithProviders();
 
-    const recipe = await screen.findByTestId('list-item-', { exact: false });
+    const recipe = await screen.findByRole('link', { name: 'Details' });
     await user.click(recipe);
 
     expect(router.state.location.pathname).toBe(
@@ -48,10 +42,8 @@ describe('SidePanel', () => {
 
   it('should create a correct url with query params after closing the side panel', async () => {
     const searchParamsString = '?q=test&page=1';
-    const { user, router } = setupUserWithRouter({
-      routes,
+    const { user, router } = setupUserWithProviders({
       initialEntries: [`${UrlPath.RECIPES}/1/${searchParamsString}`],
-      wrapper: ThemeProvider,
     });
 
     const closeLink = await screen.findByRole('link', { name: 'Close' });

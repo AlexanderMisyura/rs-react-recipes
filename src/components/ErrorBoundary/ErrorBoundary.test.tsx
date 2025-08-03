@@ -1,7 +1,7 @@
 import { ErrorBoundary } from '@components';
 import { ThemeProvider } from '@context';
-import { setupUser } from '@test-utils';
 import { screen } from '@testing-library/react';
+import { setupUser } from 'tests/test-utils';
 
 const FIX_TEXT = 'Fix';
 const ERROR_HEADING = 'Something went wrong';
