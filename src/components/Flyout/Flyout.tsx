@@ -15,8 +15,8 @@ export const Flyout: React.FC<FlyoutProps> = ({ children, isOpen }) => {
     <BoxWrapper
       className={twMerge(
         clsx(
-          'fixed right-4 bottom-4 flex translate-y-[calc(100%+1rem)] gap-4 shadow-lg transition-all duration-300 ease-in-out',
-          'border-2 border-amber-900 opacity-0',
+          'fixed right-1 bottom-1 flex translate-y-[calc(100%+1rem)] gap-4 shadow-lg transition-all duration-300 ease-in-out',
+          'border-2 border-amber-900 p-2 opacity-0',
           `${theme}-text`,
           isOpen && 'translate-y-0 opacity-100'
         )

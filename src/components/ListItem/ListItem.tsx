@@ -30,10 +30,15 @@ export const ListItem: React.FC<Props> = ({ recipe }) => {
       ref={itemRef}
       testId={`list-item-${id}`}
       className={clsx(
-        'flex w-full scroll-mt-[83px] flex-row gap-4 transition-transform duration-200 ease-in-out hover:scale-103'
+        '@container/itemWrapper flex h-full w-full scroll-mt-[83px] flex-row items-stretch gap-4 transition-transform duration-200 ease-in-out hover:scale-102'
       )}
     >
-      <div className={clsx('flex w-full gap-4', detailsId ? 'flex-col' : 'flex-row')}>
+      <div
+        className={clsx(
+          'flex w-full gap-4',
+          detailsId ? 'flex-col' : 'flex-col @sm/itemWrapper:flex-row'
+        )}
+      >
         <figure className={clsx('flex flex-col items-center justify-center gap-4', 'w-full')}>
           <figcaption className="text-xl font-bold text-orange-900">
             <h2 className="text-center text-balance">{name}</h2>
@@ -43,13 +48,13 @@ export const ListItem: React.FC<Props> = ({ recipe }) => {
             className="h-50 w-full rounded-sm border-2 border-orange-900 object-cover"
             alt={name}
           />
-          <div className="flex grow flex-col items-center justify-end">
-            <Button linkTo={`${UrlPath.RECIPES}/${id}/${queryString}`} className="">
-              Show Details
+          <div className="flex w-full grow flex-col items-center justify-end">
+            <Button linkTo={`${UrlPath.RECIPES}/${id}/${queryString}`} className="w-full">
+              Details
             </Button>
           </div>
         </figure>
-        <div className={clsx('flex flex-col gap-4', 'w-full')}>
+        <div className={clsx('flex grow flex-col gap-4', 'w-full')}>
           <h3 className="font-bold text-orange-900">Ingredients</h3>
           <ul className="flex list-disc flex-col gap-1 pl-6 text-left text-sm">
             {ingredients.map((ingredient) => {

@@ -15,7 +15,13 @@ export const List: React.FC<ListProps> = ({ recipesData }) => {
   const isLoading = navigation.state === 'loading';
 
   return (
-    <div data-testid="list" className="flex w-full max-w-2xl flex-col gap-4 px-2">
+    <div
+      data-testid="list"
+      className={clsx(
+        'flex w-full max-w-5xl flex-col items-center gap-4 px-2',
+        '@container/listWrapper'
+      )}
+    >
       <BoxWrapper>
         <Heading>{total === 1 ? '1 Recipe Found' : `${total} Recipes Found`}</Heading>
       </BoxWrapper>
@@ -23,11 +29,16 @@ export const List: React.FC<ListProps> = ({ recipesData }) => {
       <div
         className={clsx(
           'grid w-full gap-2',
-          detailsId ? 'grid-cols-2' : 'grid-cols-1',
+          detailsId ? 'grid-cols-2 @max-md/listWrapper:grid-cols-1' : 'grid-cols-1',
           recipes.length <= total && 'mb-4'
         )}
       >
-        <ul className={clsx('flex flex-col gap-4', 'w-full')}>
+        <ul
+          className={clsx(
+            'grid w-full gap-4',
+            detailsId ? 'grid-cols-1 @max-md/listWrapper:hidden' : 'grid-cols-1 sm:grid-cols-2'
+          )}
+        >
           {recipes.map((recipe) => {
             return (
               <li key={recipe.id}>

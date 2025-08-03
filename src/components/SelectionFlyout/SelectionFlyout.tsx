@@ -42,14 +42,14 @@ export const SelectionFlyout: React.FC = () => {
         <h3 className={clsx(`${theme}-text`, 'font-semibold')}>
           {`${checkedTotal} ${checkedTotal === 1 ? 'Recipe' : 'Recipes'} Checked`}
         </h3>
-        <Button className="px-3 py-1.5 text-sm" onClickHandler={() => dispatch(wipe())}>
+        <Button className="w-full px-3 py-1.5 text-sm" onClickHandler={() => dispatch(wipe())}>
           Unselect All
         </Button>
         <a
           href={downloadUrl}
           download={downloadName}
           className={clsx(
-            'flex items-center gap-4 px-3 py-1.5 text-sm',
+            'flex w-full items-center justify-center gap-4 px-3 py-1.5 text-sm',
             'cursor-pointer rounded-md border-2 border-transparent text-center font-bold tracking-wide text-orange-900 shadow-sm select-none',
             'active:shadow-inner',
             `${theme}-button`,

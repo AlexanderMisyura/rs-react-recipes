@@ -26,7 +26,7 @@ export const SidePanel: React.FC = () => {
           );
         })}
       </ul>
-      <Button className="text-orange-900" linkTo={`${UrlPath.RECIPES}/${queryString}`}>
+      <Button className="w-full text-orange-900" linkTo={`${UrlPath.RECIPES}/${queryString}`}>
         Close
       </Button>
     </BoxWrapper>

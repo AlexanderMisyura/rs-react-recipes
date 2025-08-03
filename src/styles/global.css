@@ -4,6 +4,7 @@
 @import './text.css';
 @import './search.css';
 @import './root-layout.css';
+@import './item-selector.css';
 
 html {
   scrollbar-gutter: stable;
@@ -42,7 +43,7 @@ input[type='checkbox'] {
   aspect-ratio: 1;
   width: 1.5em;
   height: 1.5em;
-  border: 2px solid #7e2a0c;
+  border: 2px solid;
   border-radius: 3px;
 
   appearance: none;

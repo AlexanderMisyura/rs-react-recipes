@@ -1,0 +1,7 @@
+.light-selector {
+  @apply border-sky-100!;
+}
+
+.dark-selector {
+  @apply border-amber-700!;
+}

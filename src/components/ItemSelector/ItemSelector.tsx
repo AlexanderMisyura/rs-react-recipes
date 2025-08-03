@@ -28,15 +28,21 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({ recipe }) => {
   return (
     <label
       className={clsx(
-        'flex items-center gap-4 px-4 py-2',
+        'flex w-full items-center justify-center gap-2 px-4 py-2',
         'cursor-pointer rounded-md border-2 border-transparent text-center font-bold tracking-wide text-orange-900 shadow-sm select-none',
         'active:shadow-inner',
         `${theme}-button`,
         'transition-colors'
       )}
     >
-      <span className={`${theme}-text`}>Select Recipe</span>
-      <input onChange={handleCheck} checked={isChecked} type="checkbox" id={id.toString()} />
+      <span className={`${theme}-text`}>Select</span>
+      <input
+        className={`${theme}-selector`}
+        onChange={handleCheck}
+        checked={isChecked}
+        type="checkbox"
+        id={id.toString()}
+      />
     </label>
   );
 };
