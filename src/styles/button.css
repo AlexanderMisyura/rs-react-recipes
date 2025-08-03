@@ -3,5 +3,5 @@
 }
 
 .dark-button {
-  @apply bg-amber-600 hover:border-amber-800 active:border-amber-800 active:bg-amber-700 active:text-gray-600;
+  @apply bg-amber-700 text-amber-950 hover:border-amber-900 active:border-amber-900 active:bg-amber-800 active:text-amber-900;
 }
