@@ -1,4 +1,6 @@
+import { STORAGE_KEY } from '@constants';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { storageService } from '@services';
 
 import recipesReducer from './recipesSlice';
 
@@ -7,10 +9,20 @@ const rootReducer = combineReducers({
 });
 
 export function setupStore(preloadedState?: Partial<RootState>) {
-  return configureStore({
+  const store = configureStore({
     reducer: rootReducer,
     preloadedState,
   });
+
+  store.subscribe(() => {
+    const state = store.getState();
+    storageService.setItem(
+      STORAGE_KEY.RECIPES_CHECKED,
+      JSON.stringify(state.recipes.recipesChecked)
+    );
+  });
+
+  return store;
 }
 
 export type AppStore = ReturnType<typeof setupStore>;
