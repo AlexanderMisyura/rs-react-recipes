@@ -1,6 +1,6 @@
-import config from '@config/api.config';
 import { PARAMS_MAP, STORAGE_KEY } from '@constants';
 import { storageService } from '@services';
+import { getRecipesFetchParams } from '@utils';
 import { data, type LoaderFunctionArgs, redirect } from 'react-router';
 import { recipesApi } from 'redux/apiRecipesSlice';
 import { dispatch } from 'redux/store';
@@ -18,15 +18,8 @@ export async function recipesLoader({ request }: LoaderFunctionArgs) {
     throw redirect(`${url.pathname}?${newParams.toString()}`);
   }
 
-  const search = searchFromParams ?? searchFromStorage;
-  const page = +(url.searchParams.get('page') ?? '1');
-
-  const limit = config.ITEMS_PER_PAGE.toString();
-  const skip = (config.ITEMS_PER_PAGE * (page - 1)).toString();
-
-  const recipesPromise = dispatch(
-    recipesApi.endpoints.getItems.initiate({ q: search ?? '', limit, skip })
-  );
+  const recipesParams = getRecipesFetchParams(url.searchParams);
+  const recipesPromise = dispatch(recipesApi.endpoints.getItems.initiate(recipesParams));
 
   try {
     const recipesResult = await recipesPromise;
