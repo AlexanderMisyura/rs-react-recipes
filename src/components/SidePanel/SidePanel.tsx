@@ -1,34 +1,54 @@
-import { BoxWrapper, Button } from '@components';
+import { BoxWrapper, Button, ErrorFallback } from '@components';
 import { useThemeContext } from '@hooks';
 import { UrlPath } from '@ts-enums';
-import type { RecipeInstructionsResponse } from '@ts-types';
 import { clsx } from 'clsx';
-import { useLoaderData, useSearchParams } from 'react-router';
+import { useNavigate, useParams, useSearchParams } from 'react-router';
+import { useGetDetailsQuery } from 'redux/apiRecipesSlice';
 
 export const SidePanel: React.FC = () => {
   const { theme } = useThemeContext();
-  const { instructions, name } = useLoaderData<RecipeInstructionsResponse>();
+  const { detailsId } = useParams();
+  const { data, isError, error } = useGetDetailsQuery(detailsId ?? '');
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const queryString = [...searchParams.values()].length ? `?${searchParams.toString()}` : '';
 
   return (
-    <BoxWrapper testId="side-panel" className={clsx(`${theme}-text`, 'flex w-full flex-col gap-4')}>
-      <h3 className="text-center font-bold text-balance text-orange-900">
-        Instructions for cooking {name}
-      </h3>
-      <ul className="flex list-disc flex-col gap-1 pl-6 text-sm">
-        {instructions.map((instruction) => {
-          return (
-            <li data-testid="instruction" key={instruction}>
-              {instruction}
-            </li>
-          );
-        })}
-      </ul>
-      <Button className="w-full text-orange-900" linkTo={`${UrlPath.RECIPES}/${queryString}`}>
-        Close
-      </Button>
-    </BoxWrapper>
+    <>
+      {isError ? (
+        <ErrorFallback
+          title={'status' in error ? error.status.toString() : 'Error'}
+          error={
+            new Error('data' in error ? String(error.data) : 'Something went wrong with the data')
+          }
+          btnChildren="Close"
+          resetFunction={() => void navigate(`${UrlPath.RECIPES}/${queryString}`)}
+        />
+      ) : (
+        data && (
+          <BoxWrapper
+            testId="side-panel"
+            className={clsx(`${theme}-text`, 'flex w-full flex-col gap-4')}
+          >
+            <h3 className="text-center font-bold text-balance text-orange-900">
+              Instructions for cooking {data.name}
+            </h3>
+            <ul className="flex list-disc flex-col gap-1 pl-6 text-sm">
+              {data.instructions.map((instruction) => {
+                return (
+                  <li data-testid="instruction" key={instruction}>
+                    {instruction}
+                  </li>
+                );
+              })}
+            </ul>
+            <Button className="w-full text-orange-900" linkTo={`${UrlPath.RECIPES}/${queryString}`}>
+              Close
+            </Button>
+          </BoxWrapper>
+        )
+      )}
+    </>
   );
 };
