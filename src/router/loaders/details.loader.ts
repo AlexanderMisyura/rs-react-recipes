@@ -1,16 +1,23 @@
-import { apiController } from '@controllers';
 import { data, type LoaderFunctionArgs } from 'react-router';
+import { recipesApi } from 'redux/apiRecipesSlice';
+import { dispatch } from 'redux/store';
 
-export function detailsLoader({ params }: LoaderFunctionArgs) {
+export async function detailsLoader({ params }: LoaderFunctionArgs) {
   const { detailsId } = params;
 
   if (detailsId) {
+    const detailsPromise = dispatch(recipesApi.endpoints.getDetails.initiate(detailsId));
+
     try {
-      return apiController.getDetails(detailsId);
+      const detailsResult = await detailsPromise;
+
+      return detailsResult.data;
     } catch (error) {
       if (error instanceof Error) {
         throw data(error.message, { status: 404 });
       }
+    } finally {
+      detailsPromise.unsubscribe();
     }
   }
 }
