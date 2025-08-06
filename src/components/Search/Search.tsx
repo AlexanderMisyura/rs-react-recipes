@@ -4,15 +4,21 @@ import { STORAGE_KEY } from '@constants';
 import { useParamToStorageSync, useThemeContext } from '@hooks';
 import { searchFormDataSchema } from '@schemas';
 import { clsx } from 'clsx';
+import { useEffect, useState } from 'react';
 import { Form, useNavigation, useSubmit } from 'react-router';
 
 export const Search: React.FC = () => {
   const { theme } = useThemeContext();
   const [searchString, setSearchString] = useParamToStorageSync(STORAGE_KEY.SEARCH_STRING);
+  const [searchInputValue, setSearchInputValue] = useState(searchString);
   const navigation = useNavigation();
   const submit = useSubmit();
 
   const loading = navigation.state === 'loading';
+
+  useEffect(() => {
+    setSearchInputValue(searchString);
+  }, [searchString]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,7 +41,10 @@ export const Search: React.FC = () => {
       <Form onSubmit={handleSubmit} className="flex items-center gap-2">
         <input
           name="q"
-          defaultValue={searchString}
+          onChange={(e) => {
+            setSearchInputValue(e.target.value);
+          }}
+          value={searchInputValue}
           className={clsx(`${theme}-search`, `${theme}-text`, 'rounded-md border-2 px-4 py-2')}
           type="search"
           placeholder="Search"
