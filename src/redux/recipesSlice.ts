@@ -23,13 +23,13 @@ export const recipesSlice = createSlice({
       const id = action.payload;
       state.recipesChecked = state.recipesChecked.filter((recipe) => recipe.id !== id);
     },
-    wipe: (state) => {
+    clear: (state) => {
       state.recipesChecked = [];
     },
   },
 });
 
-export const { add, remove, wipe } = recipesSlice.actions;
+export const { add, remove, clear } = recipesSlice.actions;
 
 export default recipesSlice.reducer;
 
