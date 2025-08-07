@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
   [recipesApi.reducerPath]: recipesApi.reducer,
 });
 
-function setupStore(preloadedState?: Partial<RootState>) {
+export function setupStore(preloadedState?: Partial<RootState>) {
   const store = configureStore({
     reducer: rootReducer,
     preloadedState,
