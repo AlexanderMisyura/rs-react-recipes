@@ -20,7 +20,7 @@ export const MainPage = () => {
       >
         {isListLoading && <Spinner />}
 
-        {!isListLoading && recipesData.recipes.length > 0 && (
+        {!isListLoading && !!recipesData.recipes.length && (
           <>
             <List recipesData={recipesData} />
             <Pagination total={recipesData.total} />
