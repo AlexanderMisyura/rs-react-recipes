@@ -1,11 +1,14 @@
 import searchIcon from '@assets/search.svg';
 import { BoxWrapper, Button } from '@components';
-import { useLocalStorageParamSync } from '@hooks';
+import { STORAGE_KEY } from '@constants';
+import { useParamToStorageSync, useThemeContext } from '@hooks';
 import { searchFormDataSchema } from '@schemas';
+import { clsx } from 'clsx';
 import { Form, useNavigation, useSubmit } from 'react-router';
 
 export const Search: React.FC = () => {
-  const [searchString, setSearchString] = useLocalStorageParamSync('searchString');
+  const { theme } = useThemeContext();
+  const [searchString, setSearchString] = useParamToStorageSync(STORAGE_KEY.SEARCH_STRING);
   const navigation = useNavigation();
   const submit = useSubmit();
 
@@ -24,7 +27,6 @@ export const Search: React.FC = () => {
     if (trimmedSearch) {
       submission.q = trimmedSearch;
     }
-
     void submit(submission);
   };
 
@@ -34,7 +36,7 @@ export const Search: React.FC = () => {
         <input
           name="q"
           defaultValue={searchString}
-          className="rounded-md border-2 border-sky-200 bg-gray-50 px-4 py-2 hover:border-sky-300"
+          className={clsx(`${theme}-search`, `${theme}-text`, 'rounded-md border-2 px-4 py-2')}
           type="search"
           placeholder="Search"
           disabled={loading}

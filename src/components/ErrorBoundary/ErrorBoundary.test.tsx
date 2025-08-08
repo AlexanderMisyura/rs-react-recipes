@@ -1,6 +1,7 @@
 import { ErrorBoundary } from '@components';
-import { setupUser } from '@test-utils';
-import { screen } from '@testing-library/react';
+import { ThemeProvider } from '@context';
+import { screen, waitFor } from '@testing-library/react';
+import { setupUser } from 'tests/test-utils';
 
 const FIX_TEXT = 'Fix';
 const ERROR_HEADING = 'Something went wrong';
@@ -14,7 +15,8 @@ describe('ErrorBoundary', () => {
     const { user } = setupUser(
       <ErrorBoundary>
         <ErrorTrigger />
-      </ErrorBoundary>
+      </ErrorBoundary>,
+      ThemeProvider
     );
 
     const errorFallback = screen.getByRole('heading', { name: ERROR_HEADING });
@@ -24,6 +26,8 @@ describe('ErrorBoundary', () => {
     const fix = screen.getByRole('button', { name: FIX_TEXT });
     await user.click(fix);
 
-    expect(errorFallback).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(errorFallback).not.toBeInTheDocument();
+    });
   });
 });

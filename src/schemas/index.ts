@@ -3,3 +3,4 @@ export { recipeInstructionsResponseSchema } from './recipeInstructionsResponse.s
 export { recipesErrorSchema } from './recipesError.schema';
 export { recipesResponseSchema } from './recipesResponse.schema';
 export { searchFormDataSchema } from './searchFormData.schema';
+export { themeModeSchema, themeSchema } from './theme.schema';

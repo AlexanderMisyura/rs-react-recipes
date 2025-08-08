@@ -27,13 +27,13 @@ export const routes: RouteObject[] = [
           {
             index: true,
             loader: () => redirect(UrlPath.RECIPES),
+            HydrateFallback: Spinner,
             Component: () => null,
           },
           {
             path: UrlPath.RECIPES,
             Component: MainPage,
             loader: recipesLoader,
-            HydrateFallback: Spinner,
             shouldRevalidate: shouldRevalidate,
             children: [
               {

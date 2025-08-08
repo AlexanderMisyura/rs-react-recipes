@@ -14,10 +14,13 @@ export const MainPage = () => {
     <>
       <Search />
 
-      <div data-testid="main-page" className="flex grow flex-col items-center justify-center gap-4">
+      <div
+        data-testid="main-page"
+        className="flex w-full grow flex-col items-center justify-center gap-4"
+      >
         {isListLoading && <Spinner />}
 
-        {!isListLoading && recipesData.recipes.length && (
+        {!isListLoading && !!recipesData.recipes.length && (
           <>
             <List recipesData={recipesData} />
             <Pagination total={recipesData.total} />

@@ -1,16 +1,19 @@
 import { BoxWrapper, Button } from '@components';
+import { useThemeContext } from '@hooks';
 import { UrlPath } from '@ts-enums';
 import type { RecipeInstructionsResponse } from '@ts-types';
+import { clsx } from 'clsx';
 import { useLoaderData, useSearchParams } from 'react-router';
 
 export const SidePanel: React.FC = () => {
+  const { theme } = useThemeContext();
   const { instructions, name } = useLoaderData<RecipeInstructionsResponse>();
   const [searchParams] = useSearchParams();
 
   const queryString = [...searchParams.values()].length ? `?${searchParams.toString()}` : '';
 
   return (
-    <BoxWrapper testId="side-panel" className="flex w-full flex-col gap-4">
+    <BoxWrapper testId="side-panel" className={clsx(`${theme}-text`, 'flex w-full flex-col gap-4')}>
       <h3 className="text-center font-bold text-balance text-orange-900">
         Instructions for cooking {name}
       </h3>
@@ -23,7 +26,7 @@ export const SidePanel: React.FC = () => {
           );
         })}
       </ul>
-      <Button className="text-orange-900" linkTo={`${UrlPath.RECIPES}/${queryString}`}>
+      <Button className="w-full text-orange-900" linkTo={`${UrlPath.RECIPES}/${queryString}`}>
         Close
       </Button>
     </BoxWrapper>

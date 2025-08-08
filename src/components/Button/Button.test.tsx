@@ -1,14 +1,18 @@
 import { Button } from '@components';
-import { setupUser } from '@test-utils';
-import { screen } from '@testing-library/react';
+import { ThemeProvider } from '@context';
+import { screen, waitFor } from '@testing-library/react';
+import { setupUser } from 'tests/test-utils';
 
 describe('Button', () => {
   it('should call onClick handler', async () => {
     const mockOnClickHandler = vi.fn();
-    const { user } = setupUser(<Button onClickHandler={mockOnClickHandler} />);
+    const { user } = setupUser(<Button onClickHandler={mockOnClickHandler} />, ThemeProvider);
 
     const button = screen.getByRole('button');
     await user.click(button);
-    expect(mockOnClickHandler).toHaveBeenCalled();
+
+    await waitFor(() => {
+      expect(mockOnClickHandler).toHaveBeenCalled();
+    });
   });
 });

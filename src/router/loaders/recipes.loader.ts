@@ -1,4 +1,5 @@
 import config from '@config/api.config';
+import { PARAMS_MAP, STORAGE_KEY } from '@constants';
 import { apiController } from '@controllers';
 import { storageService } from '@services';
 import { data, type LoaderFunctionArgs, redirect } from 'react-router';
@@ -6,8 +7,8 @@ import { data, type LoaderFunctionArgs, redirect } from 'react-router';
 export async function recipesLoader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
 
-  const searchFromParams = url.searchParams.get('q');
-  const searchFromStorage = storageService.getItem('searchString');
+  const searchFromParams = url.searchParams.get(PARAMS_MAP[STORAGE_KEY.SEARCH_STRING]);
+  const searchFromStorage = storageService.getItem(STORAGE_KEY.SEARCH_STRING);
 
   if (searchFromParams === null && searchFromStorage) {
     const newParams = new URLSearchParams(url.searchParams);

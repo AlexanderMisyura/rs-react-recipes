@@ -1,4 +1,5 @@
-import logo from '@assets/logo.png';
+import logoIcon from '@assets/logo.png';
+import { ThemeModeButton } from '@components';
 import { UrlPath } from '@ts-enums';
 import { BoxWrapper } from 'components/BoxWrapper/BoxWrapper';
 import { NavLink } from 'react-router';
@@ -13,9 +14,10 @@ export const Header: React.FC = () => {
             fontWeight: isActive ? 'bold' : 'inherit',
           })}
           to={UrlPath.RECIPES}
+          viewTransition
         >
           <div className="flex items-center gap-2 select-none">
-            <img src={logo} alt="Hot Recipes logo" className="h-12" />
+            <img src={logoIcon} alt="Hot Recipes logo" className="h-12" />
             <span
               style={{ fontWeight: 'inherit' }}
               className="text-2xl text-orange-900 transition-colors in-[a:hover]:text-orange-950"
@@ -33,12 +35,14 @@ export const Header: React.FC = () => {
                 style={({ isActive }) => ({
                   fontWeight: isActive ? 'bold' : 'inherit',
                 })}
+                viewTransition
               >
                 About
               </NavLink>
             </li>
           </ul>
         </nav>
+        <ThemeModeButton />
       </BoxWrapper>
     </header>
   );

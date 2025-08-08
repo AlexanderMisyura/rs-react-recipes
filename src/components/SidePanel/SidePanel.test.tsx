@@ -1,9 +1,8 @@
 import { apiController } from '@controllers';
-import { setupUserWithRouter } from '@test-utils';
 import { screen, waitFor } from '@testing-library/react';
 import { instructionsResponse, recipesResponseSingle } from '@tests-mocks';
 import { UrlPath } from '@ts-enums';
-import { routes } from 'router';
+import { setupUserWithProviders } from 'tests/test-utils';
 
 beforeEach(() => {
   vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponseSingle);
@@ -12,14 +11,16 @@ beforeEach(() => {
 
 describe('SidePanel', () => {
   it('should display a correct list of instructions after clicking on a recipe and close the list', async () => {
-    const { user, router } = setupUserWithRouter(routes, [UrlPath.RECIPES]);
+    const { user, router } = setupUserWithProviders();
 
-    const recipe = await screen.findByTestId('list-item-', { exact: false });
+    const recipe = await screen.findByRole('link', { name: 'Details' });
     await user.click(recipe);
 
-    expect(router.state.location.pathname).toBe(
-      `${UrlPath.RECIPES}/${recipesResponseSingle.recipes[0].id}/`
-    );
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe(
+        `${UrlPath.RECIPES}/${recipesResponseSingle.recipes[0].id}/`
+      );
+    });
 
     await waitFor(async () => {
       const sidePanel = await screen.findByTestId('side-panel');
@@ -35,21 +36,24 @@ describe('SidePanel', () => {
       const closeLink = await screen.findByRole('link', { name: 'Close' });
       await user.click(closeLink);
 
-      expect(sidePanel).not.toBeInTheDocument();
-
-      expect(router.state.location.pathname).toBe(`${UrlPath.RECIPES}/`);
+      await waitFor(() => {
+        expect(sidePanel).not.toBeInTheDocument();
+        expect(router.state.location.pathname).toBe(`${UrlPath.RECIPES}/`);
+      });
     });
   });
 
   it('should create a correct url with query params after closing the side panel', async () => {
     const searchParamsString = '?q=test&page=1';
-    const { user, router } = setupUserWithRouter(routes, [
-      `${UrlPath.RECIPES}/1/${searchParamsString}`,
-    ]);
+    const { user, router } = setupUserWithProviders({
+      initialEntries: [`${UrlPath.RECIPES}/1/${searchParamsString}`],
+    });
 
     const closeLink = await screen.findByRole('link', { name: 'Close' });
     await user.click(closeLink);
 
-    expect(router.state.location.search).toBe(searchParamsString);
+    await waitFor(() => {
+      expect(router.state.location.search).toBe(searchParamsString);
+    });
   });
 });

@@ -1,16 +1,30 @@
-import { Header } from '@components';
-import { Outlet, ScrollRestoration } from 'react-router';
+import { Header, SelectionFlyout, Spinner } from '@components';
+import { useThemeContext } from '@hooks';
+import { clsx } from 'clsx';
+import { Outlet, ScrollRestoration, useLocation, useNavigation } from 'react-router';
+
+const getFirstPathSegment = (path: string) => path.split('/')[1];
 
 export const RootLayout: React.FC = () => {
+  const navigation = useNavigation();
+  const location = useLocation();
+  const { theme } = useThemeContext();
+
+  const isNewPageLoading =
+    navigation.state === 'loading' &&
+    getFirstPathSegment(navigation.location.pathname) !== getFirstPathSegment(location.pathname);
+
   return (
     <>
-      <div className="flex w-full grow flex-col gap-4">
+      <title>Hot Recipes</title>
+      <div className={clsx(`${theme}-layout`, 'flex w-full grow flex-col gap-4')}>
         <Header />
 
         <main className="flex grow flex-col items-center justify-center gap-4">
-          <Outlet />
+          {isNewPageLoading ? <Spinner /> : <Outlet />}
         </main>
       </div>
+      <SelectionFlyout />
       <ScrollRestoration />
     </>
   );

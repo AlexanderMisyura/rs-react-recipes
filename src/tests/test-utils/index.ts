@@ -1,3 +1,3 @@
 export { createMockRecipes } from './create-mock-recipes';
-export { renderWithRouter, setupUserWithRouter } from './render-router';
+export { renderWithRouter, setupUserWithProviders } from './render-util';
 export { setupUser } from './setup-user';

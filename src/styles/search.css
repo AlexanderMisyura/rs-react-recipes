@@ -1,0 +1,7 @@
+.light-search {
+  @apply border-sky-200 bg-gray-50 hover:border-sky-300;
+}
+
+.dark-search {
+  @apply border-amber-700 bg-gray-950 hover:border-amber-800;
+}
