@@ -21,12 +21,12 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     return mode;
   }, [mode, isBrowserDarkMode]);
 
-  const toggleMode = useCallback(() => {
-    setMode((prevTheme) => MODE_TOGGLE_MAP[themeModeSchema.parse(prevTheme)]);
-  }, [setMode]);
-
   const validatedMode = themeModeSchema.parse(mode);
   const validatedTheme = themeSchema.parse(currentTheme);
+
+  const toggleMode = useCallback(() => {
+    setMode(MODE_TOGGLE_MAP[themeModeSchema.parse(validatedMode)]);
+  }, [setMode, validatedMode]);
 
   const value = useMemo(
     () => ({
