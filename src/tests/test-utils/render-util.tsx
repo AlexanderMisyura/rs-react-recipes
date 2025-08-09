@@ -18,19 +18,19 @@ interface RenderWithRouterProps {
   }>;
 }
 
-export const renderWithRouter = ({ routes, initialEntries, wrapper }: RenderWithRouterProps) => {
-  const router = createMemoryRouter(routes, { initialEntries });
-  const renderResult = render(<RouterProvider router={router} />, { wrapper });
-
-  return { ...renderResult, router };
-};
-
 interface ExtendedRenderOptions extends RenderOptions {
   routes?: RouteObject[];
   initialEntries?: string[];
   preloadedState?: Partial<RootState>;
   store?: AppStore;
 }
+
+export const renderWithRouter = ({ routes, initialEntries, wrapper }: RenderWithRouterProps) => {
+  const router = createMemoryRouter(routes, { initialEntries });
+  const renderResult = render(<RouterProvider router={router} />, { wrapper });
+
+  return { ...renderResult, router };
+};
 
 export const setupUserWithProviders = ({
   routes = routeObjects,

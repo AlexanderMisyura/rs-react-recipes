@@ -22,16 +22,11 @@ export const useLocalStorage = ({
   }, [key, primaryValue]);
 
   const saveToStorage = useCallback(
-    (nextValue: string | ((prevValue: string) => string)) => {
-      if (typeof nextValue === 'string') {
-        storageService.setItem(key, nextValue);
-        setValue(nextValue);
-      } else {
-        storageService.setItem(key, nextValue(value));
-        setValue(nextValue(value));
-      }
+    (nextValue: string) => {
+      storageService.setItem(key, nextValue);
+      setValue(nextValue);
     },
-    [key, value]
+    [key]
   );
 
   return [value, saveToStorage] as const;

@@ -30,9 +30,9 @@ export function convertRecipesToCSV(recipes: Recipe[]) {
     return '';
   }
 
-  const longestRecipeList = recipes.reduce((acc, recipe) => {
+  const longestIngredientsListLength = recipes.reduce((acc, recipe) => {
     return recipe.ingredients.length > acc ? recipe.ingredients.length : acc;
   }, 0);
 
-  return `${createCSVHeadingRow(longestRecipeList)}${createCSVData(recipes, longestRecipeList)}`;
+  return `${createCSVHeadingRow(longestIngredientsListLength)}${createCSVData(recipes, longestIngredientsListLength)}`;
 }
