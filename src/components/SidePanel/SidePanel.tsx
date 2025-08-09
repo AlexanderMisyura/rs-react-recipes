@@ -1,4 +1,4 @@
-import { BoxWrapper, Button, ErrorFallback } from '@components';
+import { BoxWrapper, Button, ErrorFallback, Spinner } from '@components';
 import { useThemeContext } from '@hooks';
 import { UrlPath } from '@ts-enums';
 import { clsx } from 'clsx';
@@ -8,7 +8,7 @@ import { useGetDetailsQuery } from 'redux/apiRecipesSlice';
 export const SidePanel: React.FC = () => {
   const { theme } = useThemeContext();
   const { detailsId } = useParams();
-  const { data, isError, error } = useGetDetailsQuery(detailsId ?? '');
+  const { data, isError, error, refetch, isFetching } = useGetDetailsQuery(detailsId ?? '');
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -16,7 +16,9 @@ export const SidePanel: React.FC = () => {
 
   return (
     <>
-      {isError ? (
+      {isFetching ? (
+        <Spinner />
+      ) : isError ? (
         <ErrorFallback
           title={'status' in error ? error.status.toString() : 'Error'}
           error={
@@ -43,7 +45,10 @@ export const SidePanel: React.FC = () => {
                 );
               })}
             </ul>
-            <Button className="w-full text-orange-900" linkTo={`${UrlPath.RECIPES}/${queryString}`}>
+            <Button onClickHandler={() => void refetch()} disabled={isFetching} className="w-full">
+              Refetch
+            </Button>
+            <Button className="w-full" linkTo={`${UrlPath.RECIPES}/${queryString}`}>
               Close
             </Button>
           </BoxWrapper>
