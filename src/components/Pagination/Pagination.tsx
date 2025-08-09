@@ -23,7 +23,7 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
     const newPage = page + direction < 1 ? 1 : page + direction > pages ? pages : page + direction;
     params.set('page', newPage.toString());
 
-    void navigate(`${UrlPath.RECIPES}?${params.toString()}`);
+    void navigate(`${UrlPath.RECIPES}?${params}`, { viewTransition: true });
   };
 
   if (pages === 1) {

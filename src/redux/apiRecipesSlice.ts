@@ -14,7 +14,10 @@ export const recipesApi = createApi({
         const requiredParams = new URLSearchParams(params);
         requiredParams.set('select', config.SELECT_RECIPES_PARAM);
 
-        return `/search?${requiredParams.toString()}`;
+        return {
+          url: '/search',
+          params: requiredParams,
+        };
       },
       responseSchema: recipesResponseSchema,
     }),

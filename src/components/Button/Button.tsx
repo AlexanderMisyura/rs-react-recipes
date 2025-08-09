@@ -35,7 +35,13 @@ export const Button: React.FC<ButtonProps> = ({
 
   if (linkTo) {
     return (
-      <Link data-testid={testId} to={linkTo} className={combinedClasses} preventScrollReset>
+      <Link
+        data-testid={testId}
+        to={linkTo}
+        className={combinedClasses}
+        preventScrollReset
+        viewTransition
+      >
         {children}
       </Link>
     );

@@ -12,7 +12,7 @@ export const SidePanel: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const queryString = [...searchParams.values()].length ? `?${searchParams.toString()}` : '';
+  const closeDetailsUrl = `${UrlPath.RECIPES}?${searchParams}`;
 
   return (
     <>
@@ -25,7 +25,7 @@ export const SidePanel: React.FC = () => {
             new Error('data' in error ? String(error.data) : 'Something went wrong with the data')
           }
           btnChildren="Close"
-          resetFunction={() => void navigate(`${UrlPath.RECIPES}/${queryString}`)}
+          resetFunction={() => void navigate(closeDetailsUrl)}
         />
       ) : (
         data && (
@@ -48,7 +48,7 @@ export const SidePanel: React.FC = () => {
             <Button onClickHandler={() => void refetch()} disabled={isFetching} className="w-full">
               Refetch
             </Button>
-            <Button className="w-full" linkTo={`${UrlPath.RECIPES}/${queryString}`}>
+            <Button className="w-full" linkTo={closeDetailsUrl}>
               Close
             </Button>
           </BoxWrapper>

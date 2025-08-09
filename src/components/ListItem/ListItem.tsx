@@ -23,8 +23,6 @@ export const ListItem: React.FC<Props> = ({ recipe }) => {
     }
   }, [detailsId, id]);
 
-  const queryString = [...searchParams.values()].length ? `?${searchParams.toString()}` : '';
-
   return (
     <BoxWrapper
       ref={itemRef}
@@ -49,7 +47,7 @@ export const ListItem: React.FC<Props> = ({ recipe }) => {
             alt={name}
           />
           <div className="flex w-full grow flex-col items-center justify-end">
-            <Button linkTo={`${UrlPath.RECIPES}/${id}/${queryString}`} className="w-full">
+            <Button linkTo={`${UrlPath.RECIPES}/${id}?${searchParams}`} className="w-full">
               Details
             </Button>
           </div>

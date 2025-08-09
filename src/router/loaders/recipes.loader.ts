@@ -15,7 +15,7 @@ export async function recipesLoader({ request }: LoaderFunctionArgs) {
     const newParams = new URLSearchParams(url.searchParams);
     newParams.set('q', searchFromStorage);
 
-    throw redirect(`${url.pathname}?${newParams.toString()}`);
+    throw redirect(`${url.pathname}?${newParams}`);
   }
 
   const recipesParams = getRecipesFetchParams(url.searchParams);
