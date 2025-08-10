@@ -23,14 +23,12 @@ export const ListItem: React.FC<Props> = ({ recipe }) => {
     }
   }, [detailsId, id]);
 
-  const queryString = [...searchParams.values()].length ? `?${searchParams.toString()}` : '';
-
   return (
     <BoxWrapper
       ref={itemRef}
       testId={`list-item-${id}`}
       className={clsx(
-        '@container/itemWrapper flex h-full w-full scroll-mt-[83px] flex-row items-stretch gap-4 transition-transform duration-200 ease-in-out hover:scale-102'
+        '@container/itemWrapper flex h-full w-full scroll-mt-[92px] flex-row items-stretch gap-4 outline-2 outline-transparent transition-colors duration-200 ease-in-out hover:outline-orange-900'
       )}
     >
       <div
@@ -49,7 +47,7 @@ export const ListItem: React.FC<Props> = ({ recipe }) => {
             alt={name}
           />
           <div className="flex w-full grow flex-col items-center justify-end">
-            <Button linkTo={`${UrlPath.RECIPES}/${id}/${queryString}`} className="w-full">
+            <Button linkTo={`${UrlPath.RECIPES}/${id}?${searchParams}`} className="w-full">
               Details
             </Button>
           </div>

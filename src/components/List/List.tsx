@@ -28,15 +28,16 @@ export const List: React.FC<ListProps> = ({ recipesData }) => {
 
       <div
         className={clsx(
-          'grid w-full gap-2',
-          detailsId ? 'grid-cols-2 @max-md/listWrapper:grid-cols-1' : 'grid-cols-1',
+          'grid w-full',
+          '@max-md/listWrapper:grid-cols-1',
+          detailsId || isLoading ? 'grid-cols-2 gap-2' : 'grid-cols-[1fr_auto] gap-0',
           recipes.length <= total && 'mb-4'
         )}
       >
         <ul
           className={clsx(
-            'grid w-full gap-4',
-            detailsId ? 'grid-cols-1 @max-md/listWrapper:hidden' : 'grid-cols-1 sm:grid-cols-2'
+            'grid w-full grid-cols-1 gap-4',
+            detailsId || isLoading ? '@max-md/listWrapper:hidden' : 'sm:grid-cols-2'
           )}
         >
           {recipes.map((recipe) => {
@@ -47,11 +48,9 @@ export const List: React.FC<ListProps> = ({ recipesData }) => {
             );
           })}
         </ul>
-        {detailsId && (
-          <div className="sticky top-[92px] flex h-max w-full flex-col items-center justify-center">
-            {isLoading ? <Spinner /> : <Outlet />}
-          </div>
-        )}
+        <div className="sticky top-[92px] flex h-max w-full flex-col items-center justify-center">
+          {isLoading ? <Spinner /> : <Outlet />}
+        </div>
       </div>
     </div>
   );

@@ -1,22 +1,13 @@
 import { ThemeProvider } from '@context';
-import { apiController } from '@controllers';
 import { screen } from '@testing-library/react';
-import { instructionsResponse, recipesResponse, recipesResponseSingle } from '@tests-mocks';
+import { mockServer, overrides, recipesResponse } from '@tests-mocks';
 import { UrlPath } from '@ts-enums';
 import { routes } from 'router';
 import { renderWithRouter, setupUserWithProviders } from 'tests/test-utils';
 
-beforeEach(() => {
-  vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
-});
-
-afterEach(() => {
-  vi.restoreAllMocks();
-});
-
 describe('List', () => {
   it('should display heading with single recipe', async () => {
-    vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponseSingle);
+    mockServer.use(overrides.singleItemsResponse);
     setupUserWithProviders();
 
     const heading = await screen.findByText('1 Recipe Found');
@@ -38,7 +29,6 @@ describe('List', () => {
   });
 
   it('should display the spinner after the detailsId appear in the url', () => {
-    vi.spyOn(apiController, 'getDetails').mockResolvedValue(instructionsResponse);
     renderWithRouter({ routes, initialEntries: [`${UrlPath.RECIPES}/1/`], wrapper: ThemeProvider });
 
     const spinner = screen.getByText('Loading...');

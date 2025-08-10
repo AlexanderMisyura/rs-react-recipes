@@ -5,7 +5,7 @@ import { convertRecipesToCSV } from '@utils';
 import { clsx } from 'clsx';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { selectAllChecked, selectCheckedTotal, wipe } from 'redux/recipesSlice';
+import { clear, selectAllChecked, selectCheckedTotal } from 'redux/recipesSlice';
 
 export const SelectionFlyout: React.FC = () => {
   const { theme } = useThemeContext();
@@ -16,24 +16,24 @@ export const SelectionFlyout: React.FC = () => {
   const [downloadName, setDownloadName] = useState<string>('');
 
   useEffect(() => {
-    if (checkedTotal) {
-      const recipesCSVString = convertRecipesToCSV(allChecked);
+    if (!checkedTotal) return;
 
-      const { url, fileName } = fileService.createDownloadable(
-        recipesCSVString,
-        'text/csv',
-        `${checkedTotal}-items.csv`
-      );
+    const recipesCSVString = convertRecipesToCSV(allChecked);
 
-      setDownloadUrl(url);
-      setDownloadName(fileName);
+    const { url, fileName } = fileService.createDownloadable(
+      recipesCSVString,
+      'text/csv',
+      `${checkedTotal}-items.csv`
+    );
 
-      return () => {
-        URL.revokeObjectURL(url);
-        setDownloadUrl('');
-        setDownloadName('');
-      };
-    }
+    setDownloadUrl(url);
+    setDownloadName(fileName);
+
+    return () => {
+      URL.revokeObjectURL(url);
+      setDownloadUrl('');
+      setDownloadName('');
+    };
   }, [allChecked, checkedTotal]);
 
   return (
@@ -42,7 +42,7 @@ export const SelectionFlyout: React.FC = () => {
         <h3 className={clsx(`${theme}-text`, 'font-semibold')}>
           {`${checkedTotal} ${checkedTotal === 1 ? 'Recipe' : 'Recipes'} Checked`}
         </h3>
-        <Button className="w-full px-3 py-1.5 text-sm" onClickHandler={() => dispatch(wipe())}>
+        <Button className="w-full px-3 py-1.5 text-sm" onClickHandler={() => dispatch(clear())}>
           Unselect All
         </Button>
         <a

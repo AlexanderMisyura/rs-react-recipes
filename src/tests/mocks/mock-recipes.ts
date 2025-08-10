@@ -33,8 +33,14 @@ export const recipesResponseEmpty = {
   limit: 0,
 };
 
-export const instructionsResponse = {
+export const instructionsResponse_1 = {
   id: 1,
-  instructions: ['test_ingredient-1-1', 'test_ingredient-1-2', 'test_ingredient-1-3'],
-  name: 'test_name',
+  instructions: ['test_instruction-1-1', 'test_instruction-1-2', 'test_instruction-1-3'],
+  name: 'test_name-1',
+};
+
+export const instructionsResponse_2 = {
+  id: 2,
+  instructions: ['test_instruction-2-1', 'test_instruction-2-2', 'test_instruction-2-3'],
+  name: 'test_name-2',
 };

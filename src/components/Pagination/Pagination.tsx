@@ -18,20 +18,12 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
   const page = +(searchParams.get('page') ?? '1');
   const pages = Math.ceil(total / ITEMS_PER_PAGE);
 
-  const followBack = () => {
-    const prevParams = new URLSearchParams(searchParams);
-    prevParams.set('page', (page - 1 > 0 ? page - 1 : 1).toString());
-    const prevPageLink = `${UrlPath.RECIPES}?${prevParams.toString()}`;
+  const followPage = (direction: -1 | 1) => {
+    const params = new URLSearchParams(searchParams);
+    const newPage = page + direction < 1 ? 1 : page + direction > pages ? pages : page + direction;
+    params.set('page', newPage.toString());
 
-    void navigate(prevPageLink);
-  };
-
-  const followForward = () => {
-    const nextParams = new URLSearchParams(searchParams);
-    nextParams.set('page', (page + 1 > pages ? pages : page + 1).toString());
-    const prevPageLink = `${UrlPath.RECIPES}?${nextParams.toString()}`;
-
-    void navigate(prevPageLink);
+    void navigate(`${UrlPath.RECIPES}?${params}`, { viewTransition: true });
   };
 
   if (pages === 1) {
@@ -40,7 +32,13 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
 
   return (
     <div className="my-4 flex items-center justify-center gap-4">
-      <Button onClickHandler={followBack} testId="pagination-previous" disabled={page === 1}>
+      <Button
+        onClickHandler={() => {
+          followPage(-1);
+        }}
+        testId="pagination-previous"
+        disabled={page === 1}
+      >
         <img src={backIcon} className="h-6" alt="previous page" />
       </Button>
 
@@ -48,7 +46,13 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
         {page} / {pages}
       </BoxWrapper>
 
-      <Button onClickHandler={followForward} testId="pagination-next" disabled={page === pages}>
+      <Button
+        onClickHandler={() => {
+          followPage(1);
+        }}
+        testId="pagination-next"
+        disabled={page === pages}
+      >
         <img src={forwardIcon} className="h-6" alt="next page" />
       </Button>
     </div>
