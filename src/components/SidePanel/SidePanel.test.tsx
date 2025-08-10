@@ -1,5 +1,11 @@
 import { screen, waitFor } from '@testing-library/react';
-import { instructionsResponse_1, mockServer, overrides, recipe_1 } from '@tests-mocks';
+import {
+  instructionsResponse_1,
+  instructionsResponse_2,
+  mockServer,
+  overrides,
+  recipe_1,
+} from '@tests-mocks';
 import { UrlPath } from '@ts-enums';
 import { setupUserWithProviders } from 'tests/test-utils';
 
@@ -48,6 +54,49 @@ describe('SidePanel', () => {
 
     await waitFor(() => {
       expect(router.state.location.search).toBe(searchParamsString);
+    });
+  });
+
+  it('should display the error fallback when loader throws data and able to close it', async () => {
+    mockServer.use(overrides.errorDetailsResponse);
+    const { user, router } = setupUserWithProviders();
+
+    const detailsLink = await screen.findByRole('link', { name: 'Details' });
+    await user.click(detailsLink);
+
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe(`${UrlPath.RECIPES}/${recipe_1.id}`);
+    });
+
+    const errorFallback = await screen.findByTestId('error-fallback');
+    expect(errorFallback).toBeInTheDocument();
+    expect(errorFallback).toHaveTextContent('test error');
+
+    const closeButton = await screen.findByRole('button', { name: 'Close' });
+    await user.click(closeButton);
+
+    await waitFor(() => {
+      expect(errorFallback).not.toBeInTheDocument();
+      expect(router.state.location.pathname).toBe(UrlPath.RECIPES);
+    });
+  });
+
+  it("should refetch the data and update the component's content when 'Refetch' button is clicked", async () => {
+    const { user } = setupUserWithProviders({
+      initialEntries: [`${UrlPath.RECIPES}/1`],
+    });
+
+    const detailsHeading = await screen.findByText(instructionsResponse_1.name, { exact: false });
+    expect(detailsHeading).toBeInTheDocument();
+
+    mockServer.use(overrides.getSpecificDetailsResponse(instructionsResponse_2));
+
+    const refetchButton = await screen.findByTestId('refetch-details');
+    await user.click(refetchButton);
+
+    await waitFor(() => {
+      const updatedDetailsHeading = screen.getByText(instructionsResponse_2.name, { exact: false });
+      expect(updatedDetailsHeading).toBeInTheDocument();
     });
   });
 });

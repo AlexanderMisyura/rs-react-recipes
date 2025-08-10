@@ -1,9 +1,10 @@
 import config from '@config/app.config';
 import { STORAGE_KEY, THEME } from '@constants';
 import { storageService } from '@services';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { mockServer, overrides } from '@tests-mocks';
-import { setupUserWithProviders } from 'tests/test-utils';
+import { UrlPath } from '@ts-enums';
+import { createMockRecipes, setupUserWithProviders } from 'tests/test-utils';
 
 const { DATA_PREFIX } = config;
 const SEARCH_VALUE = 'test';
@@ -99,5 +100,57 @@ describe('MainPage', () => {
     const searchValue = storageService.getItem(STORAGE_KEY.SEARCH_STRING);
 
     expect(searchValue).toBe(SEARCH_VALUE);
+  });
+
+  it('should display the error fallback when loader throws data and able to navigate back', async () => {
+    mockServer.use(
+      overrides.getSpecificItemsResponse({
+        recipes: createMockRecipes(7),
+        skip: 0,
+        total: 7,
+        limit: 6,
+      })
+    );
+    const { user, router } = setupUserWithProviders();
+
+    const nextPageButton = await screen.findByTestId('pagination-next');
+    mockServer.use(overrides.errorItemsResponse);
+    await user.click(nextPageButton);
+
+    const errorFallback = await screen.findByTestId('error-fallback');
+    expect(errorFallback).toBeInTheDocument();
+    expect(errorFallback).toHaveTextContent('test error');
+
+    const backButton = await screen.findByRole('button', { name: 'Back' });
+    await user.click(backButton);
+
+    await waitFor(() => {
+      expect(errorFallback).not.toBeInTheDocument();
+      expect(router.state.location.pathname).toBe(UrlPath.RECIPES);
+    });
+  });
+
+  it('should refetch data and update the list when "Refetch" button is clicked', async () => {
+    const { user } = setupUserWithProviders();
+
+    const initialList = await screen.findAllByTestId('list-item', { exact: false });
+    expect(initialList).toHaveLength(2);
+
+    mockServer.use(
+      overrides.getSpecificItemsResponse({
+        recipes: createMockRecipes(6),
+        skip: 0,
+        total: 6,
+        limit: 6,
+      })
+    );
+
+    const refetchButton = await screen.findByRole('button', { name: 'Refetch' });
+    await user.click(refetchButton);
+
+    await waitFor(() => {
+      const updatedList = screen.getAllByTestId('list-item', { exact: false });
+      expect(updatedList).toHaveLength(6);
+    });
   });
 });

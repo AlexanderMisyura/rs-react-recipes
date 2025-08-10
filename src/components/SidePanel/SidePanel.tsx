@@ -45,7 +45,12 @@ export const SidePanel: React.FC = () => {
                 );
               })}
             </ul>
-            <Button onClickHandler={() => void refetch()} disabled={isFetching} className="w-full">
+            <Button
+              testId="refetch-details"
+              onClickHandler={() => void refetch()}
+              disabled={isFetching}
+              className="w-full"
+            >
               Refetch
             </Button>
             <Button className="w-full" linkTo={closeDetailsUrl}>
