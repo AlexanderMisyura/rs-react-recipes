@@ -28,7 +28,7 @@ export const ListItem: React.FC<Props> = ({ recipe }) => {
       ref={itemRef}
       testId={`list-item-${id}`}
       className={clsx(
-        '@container/itemWrapper flex h-full w-full scroll-mt-[83px] flex-row items-stretch gap-4 transition-transform duration-200 ease-in-out hover:scale-102'
+        '@container/itemWrapper flex h-full w-full scroll-mt-[92px] flex-row items-stretch gap-4 outline-2 outline-transparent transition-colors duration-200 ease-in-out hover:outline-orange-900'
       )}
     >
       <div
