@@ -5,7 +5,7 @@ import { createMockRecipes, setupUserWithProviders } from 'tests/test-utils';
 describe('Pagination', () => {
   it('should be able to navigate between pages and have disabled buttons', async () => {
     mockServer.use(
-      overrides.getSpecificResponse({
+      overrides.getSpecificItemsResponse({
         recipes: createMockRecipes(7),
         skip: 0,
         total: 7,

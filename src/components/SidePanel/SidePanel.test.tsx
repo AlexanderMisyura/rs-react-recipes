@@ -1,10 +1,10 @@
 import { screen, waitFor } from '@testing-library/react';
-import { instructionsResponse, mockServer, overrides, recipe_1 } from '@tests-mocks';
+import { instructionsResponse_1, mockServer, overrides, recipe_1 } from '@tests-mocks';
 import { UrlPath } from '@ts-enums';
 import { setupUserWithProviders } from 'tests/test-utils';
 
 beforeEach(() => {
-  mockServer.use(overrides.singleItemResponse);
+  mockServer.use(overrides.singleItemsResponse);
 });
 
 describe('SidePanel', () => {
@@ -26,7 +26,7 @@ describe('SidePanel', () => {
     expect(instructionsHeading).toBeInTheDocument();
 
     const instructions = await screen.findAllByTestId('instruction');
-    expect(instructions).toHaveLength(instructionsResponse.instructions.length);
+    expect(instructions).toHaveLength(instructionsResponse_1.instructions.length);
 
     const closeLink = await screen.findByRole('link', { name: 'Close' });
     await user.click(closeLink);

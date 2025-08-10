@@ -22,7 +22,7 @@ describe('ListItem', () => {
   });
 
   it('should display correct ingredients', async () => {
-    mockServer.use(overrides.singleItemResponse);
+    mockServer.use(overrides.singleItemsResponse);
 
     const ingredients = await screen.findAllByTestId('ingredient');
     expect(ingredients).toHaveLength(recipe.ingredients.length);

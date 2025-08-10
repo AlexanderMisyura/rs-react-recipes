@@ -7,7 +7,7 @@ import { renderWithRouter, setupUserWithProviders } from 'tests/test-utils';
 
 describe('List', () => {
   it('should display heading with single recipe', async () => {
-    mockServer.use(overrides.singleItemResponse);
+    mockServer.use(overrides.singleItemsResponse);
     setupUserWithProviders();
 
     const heading = await screen.findByText('1 Recipe Found');

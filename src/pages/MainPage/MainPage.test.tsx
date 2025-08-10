@@ -46,7 +46,7 @@ describe('MainPage', () => {
   });
 
   it('displays the empty data fallback', async () => {
-    mockServer.use(overrides.emptyResponse);
+    mockServer.use(overrides.emptyItemsResponse);
     setupUserWithProviders();
 
     const fallback = await screen.findByTestId('empty-fallback');
@@ -67,7 +67,7 @@ describe('MainPage', () => {
   });
 
   it('displays the error fallback', async () => {
-    mockServer.use(overrides.errorResponse);
+    mockServer.use(overrides.errorItemsResponse);
     setupUserWithProviders();
 
     const fallback = await screen.findByTestId('error-fallback');

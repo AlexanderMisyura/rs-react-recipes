@@ -1,9 +1,9 @@
 import config from '@config/api.config';
-import type { RecipesResponse } from '@ts-types';
+import type { RecipeInstructionsResponse, RecipesResponse } from '@ts-types';
 import { http, HttpResponse } from 'msw';
 
 import {
-  instructionsResponse,
+  instructionsResponse_1,
   recipesResponse,
   recipesResponseEmpty,
   recipesResponseSingle,
@@ -15,18 +15,32 @@ const getRecipesHandler = (response: RecipesResponse) => {
   });
 };
 
+const getDetailsHandler = (response: RecipeInstructionsResponse) => {
+  return http.get<{ detailsId: string }>(`${config.API_URL}/:detailsId`, () => {
+    return HttpResponse.json(response);
+  });
+};
+
 export const handlers = [
   getRecipesHandler(recipesResponse),
-  http.get(`${config.API_URL}/:detailsId`, () => {
-    return HttpResponse.json(instructionsResponse);
-  }),
+  getDetailsHandler(instructionsResponse_1),
 ];
 
 export const overrides = {
-  singleItemResponse: getRecipesHandler(recipesResponseSingle),
-  emptyResponse: getRecipesHandler(recipesResponseEmpty),
-  errorResponse: http.get(`${config.API_URL}${config.SEARCH_ENDPOINT}`, () => {
-    return HttpResponse.json({ message: 'test error' }, { status: 404 });
+  singleItemsResponse: getRecipesHandler(recipesResponseSingle),
+  emptyItemsResponse: getRecipesHandler(recipesResponseEmpty),
+  errorItemsResponse: http.get(`${config.API_URL}${config.SEARCH_ENDPOINT}`, () => {
+    return HttpResponse.json('test error', { status: 404 });
   }),
-  getSpecificResponse: (response: RecipesResponse) => getRecipesHandler(response),
+  getSpecificItemsResponse: (response: RecipesResponse) => getRecipesHandler(response),
+
+  errorDetailsResponse: http.get<{ detailsId: string }>(
+    `${config.API_URL}/:detailsId`,
+    ({ params }) => {
+      if (params.detailsId !== config.SEARCH_ENDPOINT.slice(1)) {
+        return HttpResponse.json('test error', { status: 404 });
+      }
+    }
+  ),
+  getSpecificDetailsResponse: (response: RecipeInstructionsResponse) => getDetailsHandler(response),
 };

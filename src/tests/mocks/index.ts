@@ -1,6 +1,7 @@
 export { overrides } from './handlers';
 export {
-  instructionsResponse,
+  instructionsResponse_1,
+  instructionsResponse_2,
   recipe_1,
   recipe_2,
   recipesResponse,
