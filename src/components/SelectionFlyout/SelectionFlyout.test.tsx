@@ -1,4 +1,3 @@
-import { apiController } from '@controllers';
 import { screen, waitFor } from '@testing-library/dom';
 import { recipesResponse } from '@tests-mocks';
 import { createMockRecipes, setupUserWithProviders } from 'tests/test-utils';
@@ -6,10 +5,6 @@ import { createMockRecipes, setupUserWithProviders } from 'tests/test-utils';
 beforeAll(() => {
   URL.createObjectURL = vi.fn();
   URL.revokeObjectURL = vi.fn();
-});
-
-beforeEach(() => {
-  vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
 });
 
 describe('SelectionFlyout', () => {
