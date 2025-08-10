@@ -1,12 +1,10 @@
-import { apiController } from '@controllers';
 import { screen, waitFor } from '@testing-library/react';
-import { instructionsResponse, recipesResponseSingle } from '@tests-mocks';
+import { instructionsResponse, mockServer, overrides, recipe_1 } from '@tests-mocks';
 import { UrlPath } from '@ts-enums';
 import { setupUserWithProviders } from 'tests/test-utils';
 
 beforeEach(() => {
-  vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponseSingle);
-  vi.spyOn(apiController, 'getDetails').mockResolvedValue(instructionsResponse);
+  mockServer.use(overrides.singleItemResponse);
 });
 
 describe('SidePanel', () => {
@@ -17,29 +15,25 @@ describe('SidePanel', () => {
     await user.click(recipe);
 
     await waitFor(() => {
-      expect(router.state.location.pathname).toBe(
-        `${UrlPath.RECIPES}/${recipesResponseSingle.recipes[0].id}/`
-      );
+      expect(router.state.location.pathname).toBe(`${UrlPath.RECIPES}/${recipe_1.id}`);
     });
 
-    await waitFor(async () => {
-      const sidePanel = await screen.findByTestId('side-panel');
-      expect(sidePanel).toBeInTheDocument();
-      expect(recipe).toBeInTheDocument();
+    const sidePanel = await screen.findByTestId('side-panel');
+    expect(sidePanel).toBeInTheDocument();
+    expect(recipe).toBeInTheDocument();
 
-      const instructionsHeading = await screen.findByText(recipesResponseSingle.recipes[0].name);
-      expect(instructionsHeading).toBeInTheDocument();
+    const instructionsHeading = await screen.findByText(recipe_1.name);
+    expect(instructionsHeading).toBeInTheDocument();
 
-      const instructions = await screen.findAllByTestId('instruction');
-      expect(instructions).toHaveLength(instructionsResponse.instructions.length);
+    const instructions = await screen.findAllByTestId('instruction');
+    expect(instructions).toHaveLength(instructionsResponse.instructions.length);
 
-      const closeLink = await screen.findByRole('link', { name: 'Close' });
-      await user.click(closeLink);
+    const closeLink = await screen.findByRole('link', { name: 'Close' });
+    await user.click(closeLink);
 
-      await waitFor(() => {
-        expect(sidePanel).not.toBeInTheDocument();
-        expect(router.state.location.pathname).toBe(`${UrlPath.RECIPES}/`);
-      });
+    await waitFor(() => {
+      expect(sidePanel).not.toBeInTheDocument();
+      expect(router.state.location.pathname).toBe(UrlPath.RECIPES);
     });
   });
 

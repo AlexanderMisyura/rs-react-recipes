@@ -1,10 +1,8 @@
-import { apiController } from '@controllers';
 import { screen } from '@testing-library/react';
-import { recipe_1 as recipe, recipesResponseSingle } from '@tests-mocks';
+import { mockServer, overrides, recipe_1 as recipe } from '@tests-mocks';
 import { setupUserWithProviders } from 'tests/test-utils';
 
 beforeEach(() => {
-  vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponseSingle);
   setupUserWithProviders();
 });
 
@@ -24,6 +22,8 @@ describe('ListItem', () => {
   });
 
   it('should display correct ingredients', async () => {
+    mockServer.use(overrides.singleItemResponse);
+
     const ingredients = await screen.findAllByTestId('ingredient');
     expect(ingredients).toHaveLength(recipe.ingredients.length);
 
