@@ -15,7 +15,7 @@ export const recipesApi = createApi({
         requiredParams.set('select', config.SELECT_RECIPES_PARAM);
 
         return {
-          url: '/search',
+          url: config.SEARCH_ENDPOINT,
           params: requiredParams,
         };
       },

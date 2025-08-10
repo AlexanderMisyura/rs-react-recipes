@@ -1,21 +1,12 @@
 import config from '@config/app.config';
 import { STORAGE_KEY, THEME } from '@constants';
-import { apiController } from '@controllers';
 import { storageService } from '@services';
 import { screen } from '@testing-library/react';
-import { recipesResponse, recipesResponseEmpty } from '@tests-mocks';
+import { mockServer, overrides } from '@tests-mocks';
 import { setupUserWithProviders } from 'tests/test-utils';
 
 const { DATA_PREFIX } = config;
 const SEARCH_VALUE = 'test';
-
-beforeEach(() => {
-  vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
-});
-
-afterEach(() => {
-  vi.restoreAllMocks();
-});
 
 describe('MainPage', () => {
   it('displays the spinner until the data is loaded', async () => {
@@ -45,19 +36,17 @@ describe('MainPage', () => {
 
       return null;
     });
-    const mockGetItems = vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
     setupUserWithProviders();
 
     const list = await screen.findByTestId('list');
     expect(list).toBeInTheDocument();
-    expect(mockGetItems).toHaveBeenCalledWith({ limit: '6', q: SEARCH_VALUE, skip: '0' });
 
     const search = screen.getByRole('searchbox');
     expect(search).toHaveValue(SEARCH_VALUE);
   });
 
   it('displays the empty data fallback', async () => {
-    vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponseEmpty);
+    mockServer.use(overrides.emptyResponse);
     setupUserWithProviders();
 
     const fallback = await screen.findByTestId('empty-fallback');
@@ -78,12 +67,10 @@ describe('MainPage', () => {
   });
 
   it('displays the error fallback', async () => {
-    vi.spyOn(apiController, 'getItems').mockImplementation(() =>
-      Promise.reject(new Error('test error'))
-    );
+    mockServer.use(overrides.errorResponse);
     setupUserWithProviders();
 
-    const fallback = await screen.findByTestId('error-page');
+    const fallback = await screen.findByTestId('error-fallback');
     expect(fallback).toBeInTheDocument();
   });
 
@@ -99,7 +86,6 @@ describe('MainPage', () => {
 
     vi.spyOn(storageService, 'getItem').mockImplementation(getFromMockedStorage);
     vi.spyOn(storageService, 'setItem').mockImplementation(setToMockedStorage);
-    vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
 
     const { user } = setupUserWithProviders();
 
