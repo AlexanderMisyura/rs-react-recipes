@@ -19,7 +19,7 @@ export async function recipesLoader({ request }: LoaderFunctionArgs) {
   }
 
   const recipesParams = getRecipesFetchParams(url.searchParams);
-  const recipesPromise = dispatch(recipesApi.endpoints.getItems.initiate(recipesParams));
+  const recipesPromise = dispatch(recipesApi.endpoints.getRecipes.initiate(recipesParams));
 
   try {
     const recipesResult = await recipesPromise;

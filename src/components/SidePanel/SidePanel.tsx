@@ -3,12 +3,12 @@ import { useThemeContext } from '@hooks';
 import { UrlPath } from '@ts-enums';
 import { clsx } from 'clsx';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
-import { useGetDetailsQuery } from 'redux/apiRecipesSlice';
+import { useGetRecipeDetailsQuery } from 'redux/apiRecipesSlice';
 
 export const SidePanel: React.FC = () => {
   const { theme } = useThemeContext();
   const { detailsId } = useParams();
-  const { data, isError, error, refetch, isFetching } = useGetDetailsQuery(detailsId ?? '');
+  const { data, isError, error, refetch, isFetching } = useGetRecipeDetailsQuery(detailsId ?? '');
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 

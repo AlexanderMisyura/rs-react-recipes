@@ -6,7 +6,7 @@ export async function detailsLoader({ params }: LoaderFunctionArgs) {
   const { detailsId } = params;
 
   if (detailsId) {
-    const detailsPromise = dispatch(recipesApi.endpoints.getDetails.initiate(detailsId));
+    const detailsPromise = dispatch(recipesApi.endpoints.getRecipeDetails.initiate(detailsId));
 
     try {
       const detailsResult = await detailsPromise;

@@ -9,7 +9,7 @@ export const recipesApi = createApi({
     baseUrl: config.API_URL,
   }),
   endpoints: (builder) => ({
-    getItems: builder.query<RecipesResponse, Record<string, string>>({
+    getRecipes: builder.query<RecipesResponse, Record<string, string>>({
       query: (params) => {
         const requiredParams = new URLSearchParams(params);
         requiredParams.set('select', config.SELECT_RECIPES_PARAM);
@@ -21,7 +21,7 @@ export const recipesApi = createApi({
       },
       responseSchema: recipesResponseSchema,
     }),
-    getDetails: builder.query<RecipeInstructionsResponse, string>({
+    getRecipeDetails: builder.query<RecipeInstructionsResponse, string>({
       query: (recipeId) => ({
         url: recipeId,
         params: {
@@ -33,4 +33,4 @@ export const recipesApi = createApi({
   }),
 });
 
-export const { useGetItemsQuery, useGetDetailsQuery } = recipesApi;
+export const { useGetRecipesQuery, useGetRecipeDetailsQuery } = recipesApi;

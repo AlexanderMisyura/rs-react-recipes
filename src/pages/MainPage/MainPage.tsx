@@ -10,7 +10,7 @@ import {
 } from '@components';
 import { getRecipesFetchParams } from '@utils';
 import { useLocation, useNavigate, useNavigation } from 'react-router';
-import { useGetItemsQuery } from 'redux/apiRecipesSlice';
+import { useGetRecipesQuery } from 'redux/apiRecipesSlice';
 
 export const MainPage = () => {
   const location = useLocation();
@@ -21,7 +21,7 @@ export const MainPage = () => {
     isFetching,
     isError,
     error,
-  } = useGetItemsQuery(recipesParams);
+  } = useGetRecipesQuery(recipesParams);
   const navigation = useNavigation();
   const navigate = useNavigate();
 
