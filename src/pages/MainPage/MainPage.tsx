@@ -1,16 +1,9 @@
-import {
-  BoxWrapper,
-  Button,
-  ErrorFallback,
-  Heading,
-  List,
-  Pagination,
-  Search,
-  Spinner,
-} from '@components';
+import { Button, Search } from '@components';
 import { getRecipesFetchParams } from '@utils';
-import { useLocation, useNavigate, useNavigation } from 'react-router';
+import { useLocation, useNavigation } from 'react-router';
 import { useGetRecipesQuery } from 'redux/apiRecipesSlice';
+
+import { PageContent } from './PageContent/PageContent';
 
 export const MainPage = () => {
   const location = useLocation();
@@ -23,7 +16,6 @@ export const MainPage = () => {
     error,
   } = useGetRecipesQuery(recipesParams);
   const navigation = useNavigation();
-  const navigate = useNavigate();
 
   const isListLoading =
     navigation.state === 'loading' && navigation.location.search !== location.search;
@@ -41,28 +33,12 @@ export const MainPage = () => {
         data-testid="main-page"
         className="flex w-full grow flex-col items-center justify-center gap-4"
       >
-        {isLoading ? (
-          <Spinner />
-        ) : isError ? (
-          <ErrorFallback
-            title={'status' in error ? error.status.toString() : 'Error'}
-            error={
-              new Error('data' in error ? String(error.data) : 'Something went wrong with the data')
-            }
-            btnChildren="Back"
-            resetFunction={() => void navigate(-1)}
-          />
-        ) : !recipesData?.recipes.length ? (
-          <BoxWrapper testId="empty-fallback" className="border-2 border-orange-900">
-            <Heading>Sorry, No Hot Recipes Found</Heading>
-            <p className="text-xl">Try searching for something else</p>
-          </BoxWrapper>
-        ) : (
-          <>
-            <List recipesData={recipesData} />
-            <Pagination total={recipesData.total} />
-          </>
-        )}
+        <PageContent
+          isLoading={isLoading}
+          recipesData={recipesData}
+          isError={isError}
+          error={error}
+        />
       </div>
     </>
   );
