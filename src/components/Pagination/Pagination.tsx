@@ -20,7 +20,14 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
 
   const followPage = (direction: -1 | 1) => {
     const params = new URLSearchParams(searchParams);
-    const newPage = page + direction < 1 ? 1 : page + direction > pages ? pages : page + direction;
+    let newPage = page + direction;
+
+    if (newPage < 1) {
+      newPage = 1;
+    } else if (newPage > pages) {
+      newPage = pages;
+    }
+
     params.set('page', newPage.toString());
 
     void navigate(`${UrlPath.RECIPES}?${params}`, { viewTransition: true });
