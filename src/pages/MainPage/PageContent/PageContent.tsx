@@ -5,21 +5,21 @@ import type { RecipesResponse } from '@ts-types';
 import { useNavigate } from 'react-router';
 
 interface PageContentProps {
-  isLoading: boolean;
+  isFetching: boolean;
   recipesData: RecipesResponse | undefined;
   isError: boolean;
   error: FetchBaseQueryError | SerializedError | undefined;
 }
 
 export const PageContent: React.FC<PageContentProps> = ({
-  isLoading,
+  isFetching,
   recipesData,
   isError,
   error,
 }) => {
   const navigate = useNavigate();
 
-  if (isLoading) {
+  if (isFetching) {
     return <Spinner />;
   }
 

@@ -1,6 +1,6 @@
 import { Button, Search } from '@components';
 import { getRecipesFetchParams } from '@utils';
-import { useLocation, useNavigation } from 'react-router';
+import { useLocation } from 'react-router';
 import { useGetRecipesQuery } from 'redux/apiRecipesSlice';
 
 import { PageContent } from './PageContent/PageContent';
@@ -15,18 +15,12 @@ export const MainPage = () => {
     isError,
     error,
   } = useGetRecipesQuery(recipesParams);
-  const navigation = useNavigation();
-
-  const isListLoading =
-    navigation.state === 'loading' && navigation.location.search !== location.search;
-
-  const isLoading = isListLoading || isFetching;
 
   return (
     <>
       <Search />
-      <Button onClickHandler={() => void refetch()} disabled={isLoading} className="w-[136px]">
-        {isFetching ? 'Refetching...' : 'Refetch'}
+      <Button onClickHandler={() => void refetch()} disabled={isFetching} className="w-[136px]">
+        {isFetching ? 'Fetching...' : 'Refetch'}
       </Button>
 
       <div
@@ -34,7 +28,7 @@ export const MainPage = () => {
         className="flex w-full grow flex-col items-center justify-center gap-4"
       >
         <PageContent
-          isLoading={isLoading}
+          isFetching={isFetching}
           recipesData={recipesData}
           isError={isError}
           error={error}

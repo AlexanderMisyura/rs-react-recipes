@@ -1,3 +1,4 @@
+import { storageService } from '@services';
 import { screen, waitFor } from '@testing-library/react';
 import {
   instructionsResponse_1,
@@ -44,6 +45,7 @@ describe('SidePanel', () => {
   });
 
   it('should create a correct url with query params after closing the side panel', async () => {
+    vi.spyOn(storageService, 'setItem').mockImplementation(() => null);
     const searchParamsString = '?q=test&page=1';
     const { user, router } = setupUserWithProviders({
       initialEntries: [`${UrlPath.RECIPES}/1/${searchParamsString}`],
@@ -57,7 +59,7 @@ describe('SidePanel', () => {
     });
   });
 
-  it('should display the error fallback when loader throws data and able to close it', async () => {
+  it('should display the error fallback when error response occurs and able to close it', async () => {
     mockServer.use(overrides.errorDetailsResponse);
     const { user, router } = setupUserWithProviders();
 

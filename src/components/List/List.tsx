@@ -1,7 +1,7 @@
-import { BoxWrapper, Heading, ListItem, Spinner } from '@components';
+import { BoxWrapper, Heading, ListItem } from '@components';
 import type { RecipesResponse } from '@ts-types';
 import { clsx } from 'clsx';
-import { Outlet, useNavigation, useParams } from 'react-router';
+import { Outlet, useParams } from 'react-router';
 
 interface ListProps {
   recipesData: RecipesResponse;
@@ -10,9 +10,6 @@ interface ListProps {
 export const List: React.FC<ListProps> = ({ recipesData }) => {
   const { recipes, total } = recipesData;
   const { detailsId } = useParams();
-  const navigation = useNavigation();
-
-  const isLoading = navigation.state === 'loading';
 
   return (
     <div
@@ -30,14 +27,14 @@ export const List: React.FC<ListProps> = ({ recipesData }) => {
         className={clsx(
           'grid w-full',
           '@max-md/listWrapper:grid-cols-1',
-          detailsId || isLoading ? 'grid-cols-2 gap-2' : 'grid-cols-[1fr_auto] gap-0',
+          detailsId ? 'grid-cols-2 gap-2' : 'grid-cols-[1fr_auto] gap-0',
           recipes.length <= total && 'mb-4'
         )}
       >
         <ul
           className={clsx(
             'grid w-full grid-cols-1 gap-4',
-            detailsId || isLoading ? '@max-md/listWrapper:hidden' : 'sm:grid-cols-2'
+            detailsId ? '@max-md/listWrapper:hidden' : 'sm:grid-cols-2'
           )}
         >
           {recipes.map((recipe) => {
@@ -49,7 +46,7 @@ export const List: React.FC<ListProps> = ({ recipesData }) => {
           })}
         </ul>
         <div className="sticky top-[92px] flex h-max w-full flex-col items-center justify-center">
-          {isLoading ? <Spinner /> : <Outlet />}
+          <Outlet />
         </div>
       </div>
     </div>

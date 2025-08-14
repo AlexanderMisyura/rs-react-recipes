@@ -102,7 +102,7 @@ describe('MainPage', () => {
     expect(searchValue).toBe(SEARCH_VALUE);
   });
 
-  it('should display the error fallback when loader throws data and able to navigate back', async () => {
+  it('should display the error fallback when error occurs and able to navigate back', async () => {
     mockServer.use(
       overrides.getSpecificItemsResponse({
         recipes: createMockRecipes(7),

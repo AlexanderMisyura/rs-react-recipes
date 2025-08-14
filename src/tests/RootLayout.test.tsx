@@ -1,8 +1,7 @@
-import { AboutPage, ErrorPage, MainPage } from '@pages';
+import { AboutPage, ErrorPage } from '@pages';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UrlPath } from '@ts-enums';
-import { data } from 'react-router';
 import { setupUserWithProviders } from 'tests/test-utils';
 
 import { RootLayout } from '../RootLayout';
@@ -58,7 +57,8 @@ describe('RootLayout', () => {
     expect(errorPage).toBeInTheDocument();
   });
 
-  it('displays the Error page when loader throws data and navigates back', async () => {
+  it('displays the Error page when error occurs and able to navigate back', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => null);
     setupUserWithProviders({
       routes: [
         {
@@ -67,9 +67,8 @@ describe('RootLayout', () => {
           children: [
             {
               path: UrlPath.RECIPES,
-              Component: MainPage,
-              loader: () => {
-                throw data('test error', { status: 404 });
+              Component: () => {
+                throw new Error('test error');
               },
             },
             { path: UrlPath.ABOUT, Component: AboutPage },

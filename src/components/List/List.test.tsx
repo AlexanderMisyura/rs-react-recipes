@@ -1,9 +1,8 @@
-import { ThemeProvider } from '@context';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { mockServer, overrides, recipesResponse } from '@tests-mocks';
 import { UrlPath } from '@ts-enums';
 import { routes } from 'router';
-import { renderWithRouter, setupUserWithProviders } from 'tests/test-utils';
+import { setupUserWithProviders } from 'tests/test-utils';
 
 describe('List', () => {
   it('should display heading with single recipe', async () => {
@@ -28,10 +27,15 @@ describe('List', () => {
     expect(listItems).toHaveLength(recipesResponse.recipes.length);
   });
 
-  it('should display the spinner after the detailsId appear in the url', () => {
-    renderWithRouter({ routes, initialEntries: [`${UrlPath.RECIPES}/1/`], wrapper: ThemeProvider });
+  it('should display the spinner after the detailsId appear in the url', async () => {
+    setupUserWithProviders({
+      routes,
+      initialEntries: [`${UrlPath.RECIPES}/1`],
+    });
 
-    const spinner = screen.getByText('Loading...');
-    expect(spinner).toBeInTheDocument();
+    await waitFor(() => {
+      const spinner = screen.getByText('Loading...');
+      expect(spinner).toBeInTheDocument();
+    });
   });
 });
