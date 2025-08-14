@@ -10,27 +10,12 @@ import type { AppStore, RootState } from 'redux/store';
 import { setupStore } from 'redux/store';
 import { routes as routeObjects } from 'router';
 
-interface RenderWithRouterProps {
-  routes: RouteObject[];
-  initialEntries: string[];
-  wrapper?: React.JSXElementConstructor<{
-    children: React.ReactNode;
-  }>;
-}
-
 interface ExtendedRenderOptions extends RenderOptions {
   routes?: RouteObject[];
   initialEntries?: string[];
   preloadedState?: Partial<RootState>;
   store?: AppStore;
 }
-
-export const renderWithRouter = ({ routes, initialEntries, wrapper }: RenderWithRouterProps) => {
-  const router = createMemoryRouter(routes, { initialEntries });
-  const renderResult = render(<RouterProvider router={router} />, { wrapper });
-
-  return { ...renderResult, router };
-};
 
 export const setupUserWithProviders = ({
   routes = routeObjects,

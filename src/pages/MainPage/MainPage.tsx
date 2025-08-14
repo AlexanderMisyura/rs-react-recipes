@@ -1,38 +1,38 @@
-import { BoxWrapper, Heading, List, Pagination, Search, Spinner } from '@components';
-import type { RecipesResponse } from '@ts-types';
-import { useLoaderData, useLocation, useNavigation } from 'react-router';
+import { Button, Search } from '@components';
+import { getRecipesFetchParams } from '@utils';
+import { useLocation } from 'react-router';
+import { useGetRecipesQuery } from 'redux/apiRecipesSlice';
+
+import { PageContent } from './PageContent/PageContent';
 
 export const MainPage = () => {
-  const recipesData = useLoaderData<RecipesResponse>();
-  const navigation = useNavigation();
   const location = useLocation();
-
-  const isListLoading =
-    navigation.state === 'loading' && navigation.location.search !== location.search;
+  const recipesParams = getRecipesFetchParams(new URLSearchParams(location.search));
+  const {
+    refetch,
+    data: recipesData,
+    isFetching,
+    isError,
+    error,
+  } = useGetRecipesQuery(recipesParams);
 
   return (
     <>
       <Search />
+      <Button onClickHandler={() => void refetch()} disabled={isFetching} className="w-[136px]">
+        {isFetching ? 'Fetching...' : 'Refetch'}
+      </Button>
 
       <div
         data-testid="main-page"
         className="flex w-full grow flex-col items-center justify-center gap-4"
       >
-        {isListLoading && <Spinner />}
-
-        {!isListLoading && !!recipesData.recipes.length && (
-          <>
-            <List recipesData={recipesData} />
-            <Pagination total={recipesData.total} />
-          </>
-        )}
-
-        {!isListLoading && !recipesData.recipes.length && (
-          <BoxWrapper testId="empty-fallback" className="border-2 border-orange-900">
-            <Heading>Sorry, No Hot Recipes Found</Heading>
-            <p className="text-xl">Try searching for something else</p>
-          </BoxWrapper>
-        )}
+        <PageContent
+          isFetching={isFetching}
+          recipesData={recipesData}
+          isError={isError}
+          error={error}
+        />
       </div>
     </>
   );

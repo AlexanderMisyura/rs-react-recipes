@@ -1,21 +1,13 @@
 import config from '@config/app.config';
 import { STORAGE_KEY, THEME } from '@constants';
-import { apiController } from '@controllers';
 import { storageService } from '@services';
-import { screen } from '@testing-library/react';
-import { recipesResponse, recipesResponseEmpty } from '@tests-mocks';
-import { setupUserWithProviders } from 'tests/test-utils';
+import { screen, waitFor } from '@testing-library/react';
+import { mockServer, overrides } from '@tests-mocks';
+import { UrlPath } from '@ts-enums';
+import { createMockRecipes, setupUserWithProviders } from 'tests/test-utils';
 
 const { DATA_PREFIX } = config;
 const SEARCH_VALUE = 'test';
-
-beforeEach(() => {
-  vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
-});
-
-afterEach(() => {
-  vi.restoreAllMocks();
-});
 
 describe('MainPage', () => {
   it('displays the spinner until the data is loaded', async () => {
@@ -45,19 +37,17 @@ describe('MainPage', () => {
 
       return null;
     });
-    const mockGetItems = vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
     setupUserWithProviders();
 
     const list = await screen.findByTestId('list');
     expect(list).toBeInTheDocument();
-    expect(mockGetItems).toHaveBeenCalledWith({ limit: '6', q: SEARCH_VALUE, skip: '0' });
 
     const search = screen.getByRole('searchbox');
     expect(search).toHaveValue(SEARCH_VALUE);
   });
 
   it('displays the empty data fallback', async () => {
-    vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponseEmpty);
+    mockServer.use(overrides.emptyItemsResponse);
     setupUserWithProviders();
 
     const fallback = await screen.findByTestId('empty-fallback');
@@ -78,12 +68,10 @@ describe('MainPage', () => {
   });
 
   it('displays the error fallback', async () => {
-    vi.spyOn(apiController, 'getItems').mockImplementation(() =>
-      Promise.reject(new Error('test error'))
-    );
+    mockServer.use(overrides.errorItemsResponse);
     setupUserWithProviders();
 
-    const fallback = await screen.findByTestId('error-page');
+    const fallback = await screen.findByTestId('error-fallback');
     expect(fallback).toBeInTheDocument();
   });
 
@@ -99,7 +87,6 @@ describe('MainPage', () => {
 
     vi.spyOn(storageService, 'getItem').mockImplementation(getFromMockedStorage);
     vi.spyOn(storageService, 'setItem').mockImplementation(setToMockedStorage);
-    vi.spyOn(apiController, 'getItems').mockResolvedValue(recipesResponse);
 
     const { user } = setupUserWithProviders();
 
@@ -113,5 +100,57 @@ describe('MainPage', () => {
     const searchValue = storageService.getItem(STORAGE_KEY.SEARCH_STRING);
 
     expect(searchValue).toBe(SEARCH_VALUE);
+  });
+
+  it('should display the error fallback when error occurs and able to navigate back', async () => {
+    mockServer.use(
+      overrides.getSpecificItemsResponse({
+        recipes: createMockRecipes(7),
+        skip: 0,
+        total: 7,
+        limit: 6,
+      })
+    );
+    const { user, router } = setupUserWithProviders();
+
+    const nextPageButton = await screen.findByTestId('pagination-next');
+    mockServer.use(overrides.errorItemsResponse);
+    await user.click(nextPageButton);
+
+    const errorFallback = await screen.findByTestId('error-fallback');
+    expect(errorFallback).toBeInTheDocument();
+    expect(errorFallback).toHaveTextContent('test error');
+
+    const backButton = await screen.findByRole('button', { name: 'Back' });
+    await user.click(backButton);
+
+    await waitFor(() => {
+      expect(errorFallback).not.toBeInTheDocument();
+      expect(router.state.location.pathname).toBe(UrlPath.RECIPES);
+    });
+  });
+
+  it('should refetch data and update the list when "Refetch" button is clicked', async () => {
+    const { user } = setupUserWithProviders();
+
+    const initialList = await screen.findAllByTestId('list-item', { exact: false });
+    expect(initialList).toHaveLength(2);
+
+    mockServer.use(
+      overrides.getSpecificItemsResponse({
+        recipes: createMockRecipes(6),
+        skip: 0,
+        total: 6,
+        limit: 6,
+      })
+    );
+
+    const refetchButton = await screen.findByRole('button', { name: 'Refetch' });
+    await user.click(refetchButton);
+
+    await waitFor(() => {
+      const updatedList = screen.getAllByTestId('list-item', { exact: false });
+      expect(updatedList).toHaveLength(6);
+    });
   });
 });

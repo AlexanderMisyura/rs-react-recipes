@@ -4,15 +4,12 @@ import { STORAGE_KEY } from '@constants';
 import { useParamToStorageSync, useThemeContext } from '@hooks';
 import { searchFormDataSchema } from '@schemas';
 import { clsx } from 'clsx';
-import { Form, useNavigation, useSubmit } from 'react-router';
+import { Form, useSubmit } from 'react-router';
 
 export const Search: React.FC = () => {
   const { theme } = useThemeContext();
   const [searchString, setSearchString] = useParamToStorageSync(STORAGE_KEY.SEARCH_STRING);
-  const navigation = useNavigation();
   const submit = useSubmit();
-
-  const loading = navigation.state === 'loading';
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,7 +24,7 @@ export const Search: React.FC = () => {
     if (trimmedSearch) {
       submission.q = trimmedSearch;
     }
-    void submit(submission);
+    void submit(submission, { viewTransition: true });
   };
 
   return (
@@ -39,9 +36,8 @@ export const Search: React.FC = () => {
           className={clsx(`${theme}-search`, `${theme}-text`, 'rounded-md border-2 px-4 py-2')}
           type="search"
           placeholder="Search"
-          disabled={loading}
         />
-        <Button testId="search-button" type="submit" disabled={loading}>
+        <Button testId="search-button" type="submit">
           <img src={searchIcon} className="h-6" alt="search submit" />
         </Button>
       </Form>
