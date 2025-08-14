@@ -24,7 +24,9 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
 
     if (newPage < 1) {
       newPage = 1;
-    } else if (newPage > pages) {
+    }
+
+    if (newPage > pages) {
       newPage = pages;
     }
 
