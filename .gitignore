@@ -91,3 +91,7 @@ $RECYCLE.BIN/
 
 # Testing
 /coverage
+
+# next.js
+/.next/
+/out/
