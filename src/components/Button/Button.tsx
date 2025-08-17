@@ -1,6 +1,8 @@
+'use client';
+
 import { useThemeContext } from '@hooks';
 import { clsx } from 'clsx/lite';
-import { Link } from 'react-router';
+import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -35,13 +37,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   if (linkTo) {
     return (
-      <Link
-        data-testid={testId}
-        to={linkTo}
-        className={combinedClasses}
-        preventScrollReset
-        viewTransition
-      >
+      <Link data-testid={testId} href={linkTo} className={combinedClasses}>
         {children}
       </Link>
     );

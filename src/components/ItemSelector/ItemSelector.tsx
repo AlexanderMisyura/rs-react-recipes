@@ -1,8 +1,8 @@
 import { useThemeContext } from '@hooks';
+import { add, remove } from '@redux/recipesSlice';
 import type { Recipe } from '@ts-types';
 import { clsx } from 'clsx';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { add, remove } from 'redux/recipesSlice';
 
 interface ItemSelectorProps {
   recipe: Recipe;
