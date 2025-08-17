@@ -34,6 +34,12 @@ body {
     background-size: cover;
     filter: contrast(50%) brightness(150%) grayscale(50%);
   }
+
+  &:has(.dark-wrapper) {
+    &::before {
+      filter: contrast(50%) brightness(40%) grayscale(50%);
+    }
+  }
 }
 
 input[type='checkbox'] {
