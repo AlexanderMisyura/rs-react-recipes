@@ -1,9 +1,11 @@
-import backIcon from '@assets/chevron-left.svg';
-import forwardIcon from '@assets/chevron-right.svg';
+'use client';
+
+import BackIcon from '@assets/chevron-left.svg';
+import ForwardIcon from '@assets/chevron-right.svg';
 import { BoxWrapper, Button } from '@components';
 import config from '@config/api.config';
 import { UrlPath } from '@ts-enums';
-import { useNavigate, useSearchParams } from 'react-router';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const { ITEMS_PER_PAGE } = config;
 
@@ -12,14 +14,14 @@ interface PaginationProps {
 }
 
 export const Pagination: React.FC<PaginationProps> = ({ total }) => {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const page = +(searchParams.get('page') ?? '1');
+  const page = +(searchParams?.get('page') ?? '1');
   const pages = Math.ceil(total / ITEMS_PER_PAGE);
 
   const followPage = (direction: -1 | 1) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams ?? '');
     let newPage = page + direction;
 
     if (newPage < 1) {
@@ -32,7 +34,7 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
 
     params.set('page', newPage.toString());
 
-    void navigate(`${UrlPath.RECIPES}?${params}`, { viewTransition: true });
+    router.push(`${UrlPath.RECIPES}?${params}`);
   };
 
   if (pages === 1) {
@@ -48,10 +50,10 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
         testId="pagination-previous"
         disabled={page === 1}
       >
-        <img src={backIcon} className="h-6" alt="previous page" />
+        <BackIcon width={32} height={32} className="h-6" alt="previous page" />
       </Button>
 
-      <BoxWrapper className="text-xl font-bold text-orange-900">
+      <BoxWrapper className="text-xl font-bold text-orange-900!">
         {page} / {pages}
       </BoxWrapper>
 
@@ -62,7 +64,7 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
         testId="pagination-next"
         disabled={page === pages}
       >
-        <img src={forwardIcon} className="h-6" alt="next page" />
+        <ForwardIcon width={32} height={32} className="h-6" alt="next page" />
       </Button>
     </div>
   );
