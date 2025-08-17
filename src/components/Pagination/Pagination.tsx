@@ -7,6 +7,7 @@ import config from '@config/api.config';
 import { useRouter } from '@i18n/navigation';
 import { UrlPath } from '@ts-enums';
 import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 const { ITEMS_PER_PAGE } = config;
 
@@ -15,6 +16,7 @@ interface PaginationProps {
 }
 
 export const Pagination: React.FC<PaginationProps> = ({ total }) => {
+  const t = useTranslations('Pagination');
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -51,7 +53,7 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
         testId="pagination-previous"
         disabled={page === 1}
       >
-        <BackIcon width={32} height={32} className="h-6" alt="previous page" />
+        <BackIcon width={32} height={32} className="h-6" alt={t('previous')} />
       </Button>
 
       <BoxWrapper className="text-xl font-bold text-orange-900!">
@@ -65,7 +67,7 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
         testId="pagination-next"
         disabled={page === pages}
       >
-        <ForwardIcon width={32} height={32} className="h-6" alt="next page" />
+        <ForwardIcon width={32} height={32} className="h-6" alt={t('next')} />
       </Button>
     </div>
   );

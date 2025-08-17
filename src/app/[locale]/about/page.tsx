@@ -3,42 +3,43 @@ import RssLogo from '@assets/rss-logo.svg';
 import { BoxWrapper, Heading } from '@components';
 import { Link } from '@i18n/navigation';
 import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 
 export const metadata: Metadata = {
   title: 'Hot Recipes | About',
 };
 
-const AboutPage = () => {
+const AboutPage = async () => {
+  const t = await getTranslations('AboutPage');
+
   return (
     <BoxWrapper testId="about-page" className={'max-w-2xl text-center text-xl'}>
-      <title>Hot Recipes | About</title>
       <div className="flex flex-col items-center gap-5">
-        <Heading className="text-pretty">About me and this project</Heading>
+        <Heading className="text-pretty">{t('aboutMe')}</Heading>
         <section className="flex flex-col items-center gap-2">
-          <p>Hello! My name is Alexander</p>
-          <p>Coding and developing beautiful, smooth apps 💻✨</p>
+          <p>{t('hello')}</p>
         </section>
         <section className="flex flex-col items-center gap-2">
-          <p>My github profile: </p>
+          <p>{t('github')}</p>
           <p>
             <Link
               className="inline-flex items-center gap-4 align-middle font-bold text-orange-900 transition-colors hover:text-orange-950"
               href="https://github.com/AlexanderMisyura"
               target="_blanc"
             >
-              <GithubLogo width={32} height={32} className="h-6" alt="github logo" />{' '}
+              <GithubLogo width={32} height={32} className="h-6" alt="github logo" />
               AlexanderMisyura
             </Link>
           </p>
-          <p>This project is a part of the</p>
+          <p>{t('project')}</p>
           <p>
             <Link
               className="inline-flex items-center gap-4 align-middle font-bold text-orange-900 transition-colors hover:text-orange-950"
               href="https://rs.school/courses/reactjs"
               target="_blanc"
             >
-              <RssLogo width={32} height={32} className="h-6" alt="rolling scopes school logo" /> RS
-              School React course
+              <RssLogo width={32} height={32} className="h-6" alt="rolling scopes school logo" />
+              {t('rsSchool')}
             </Link>
           </p>
         </section>

@@ -5,6 +5,7 @@ import { useRouter } from '@i18n/navigation';
 import { useGetRecipesQuery } from '@redux/apiRecipesSlice';
 import { getRecipesFetchParams } from '@utils';
 import { useParams, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 interface RecipesLayoutProps {
   children: React.ReactNode;
@@ -12,6 +13,7 @@ interface RecipesLayoutProps {
 }
 
 const RecipesLayout: React.FC<RecipesLayoutProps> = ({ sidepanel }) => {
+  const t = useTranslations('RecipesLayout');
   const searchParams = useSearchParams();
   const params = useParams<{ detailsId?: string }>();
 
@@ -28,12 +30,12 @@ const RecipesLayout: React.FC<RecipesLayoutProps> = ({ sidepanel }) => {
   if (isError) {
     PageContent = (
       <ErrorFallback
-        title={'status' in error ? error.status.toString() : 'Error'}
+        title={'status' in error ? error.status.toString() : t('error')}
         error={
           new Error(
             'data' in error
               ? String((error.data as { message: string }).message)
-              : 'Something went wrong with the data'
+              : t('fallbackMessage')
           )
         }
         btnChildren="Back"
@@ -52,8 +54,8 @@ const RecipesLayout: React.FC<RecipesLayoutProps> = ({ sidepanel }) => {
       </>
     ) : (
       <BoxWrapper testId="empty-fallback" className="border-2 border-orange-900">
-        <Heading>Sorry, No Hot Recipes Found</Heading>
-        <p className="text-xl">Try searching for something else</p>
+        <Heading>{t('emptyFallback')}</Heading>
+        <p className="text-xl">{t('emptyFallbackText')}</p>
       </BoxWrapper>
     );
   }

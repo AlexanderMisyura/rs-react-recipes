@@ -3,9 +3,10 @@
 import ComputerIcon from '@assets/computer.svg';
 import MoonIcon from '@assets/moon.svg';
 import SunIcon from '@assets/sun.svg';
-import { MODE_TOGGLE_MAP, THEME_MODE } from '@constants';
+import { THEME_MODE } from '@constants';
 import { useThemeContext } from '@hooks';
 import { clsx } from 'clsx';
+import { useTranslations } from 'next-intl';
 
 const MODE_ICON_MAP = {
   [THEME_MODE.LIGHT]: <SunIcon width={32} height={32} className="h-8" alt="light theme mode" />,
@@ -16,6 +17,7 @@ const MODE_ICON_MAP = {
 } as const;
 
 export const ThemeModeButton: React.FC = () => {
+  const t = useTranslations('ThemeModeButton');
   const { theme, mode, toggleMode } = useThemeContext();
 
   return (
@@ -26,7 +28,7 @@ export const ThemeModeButton: React.FC = () => {
         'cursor-pointer rounded-md border-2 border-transparent p-2',
         `${theme}-theme-button`
       )}
-      title={`change ${mode} mode to ${MODE_TOGGLE_MAP[mode]}`}
+      title={t(mode)}
     >
       {MODE_ICON_MAP[mode]}
     </button>

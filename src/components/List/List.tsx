@@ -4,6 +4,7 @@ import { BoxWrapper, Heading, ListItem } from '@components';
 import { usePathname } from '@i18n/navigation';
 import type { RecipesResponse } from '@ts-types';
 import { clsx } from 'clsx';
+import { useTranslations } from 'next-intl';
 
 interface ListProps {
   recipesData: RecipesResponse;
@@ -11,6 +12,7 @@ interface ListProps {
 }
 
 export const List: React.FC<ListProps> = ({ recipesData, sidePanel }) => {
+  const t = useTranslations('List');
   const { recipes, total } = recipesData;
   const pathname = usePathname();
   const detailsId = pathname.split('/')[2];
@@ -24,7 +26,7 @@ export const List: React.FC<ListProps> = ({ recipesData, sidePanel }) => {
       )}
     >
       <BoxWrapper>
-        <Heading>{total === 1 ? '1 Recipe Found' : `${total} Recipes Found`}</Heading>
+        <Heading>{`${t('recipesFound')}: ${total}`}</Heading>
       </BoxWrapper>
 
       <div

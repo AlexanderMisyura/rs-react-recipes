@@ -30,6 +30,7 @@
     "baseUrl": "./src",
     "paths": {
       "@/*": ["/*"],
+      "@app/*": ["app/*"],
       "@assets/*": ["assets/*"],
       "@components": ["components/index.ts"],
       "@config/*": ["config/*"],

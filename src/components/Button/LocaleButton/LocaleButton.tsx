@@ -6,8 +6,10 @@ import { routing } from '@i18n/routing';
 import { clsx } from 'clsx';
 import { useSearchParams } from 'next/navigation';
 import { type Locale, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 
 export const LocaleButton: React.FC = () => {
+  const t = useTranslations('LocaleButton');
   const { theme } = useThemeContext();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -35,7 +37,7 @@ export const LocaleButton: React.FC = () => {
         `${theme}-theme-button`,
         'h-[52px] w-[52px] text-xl font-bold text-orange-900'
       )}
-      title={`change ${locale} mode to ${LOCALES_TOGGLE_MAP[locale]}`}
+      title={t('changeTitle')}
     >
       {locale.toUpperCase()}
     </button>

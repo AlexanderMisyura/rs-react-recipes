@@ -5,11 +5,13 @@ import { useThemeContext } from '@hooks';
 import { fileService } from '@services';
 import { convertRecipesToCSV } from '@utils';
 import { clsx } from 'clsx';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { clear, selectAllChecked, selectCheckedTotal } from 'redux/recipesSlice';
 
 export const SelectionFlyout: React.FC = () => {
+  const t = useTranslations('SelectionFlyout');
   const { theme } = useThemeContext();
   const allChecked = useAppSelector(selectAllChecked);
   const checkedTotal = useAppSelector(selectCheckedTotal);
@@ -42,10 +44,10 @@ export const SelectionFlyout: React.FC = () => {
     <Flyout isOpen={checkedTotal > 0}>
       <div className="flex flex-col items-center gap-2">
         <h3 className={clsx(`${theme}-text`, 'font-semibold')}>
-          {`${checkedTotal} ${checkedTotal === 1 ? 'Recipe' : 'Recipes'} Checked`}
+          {`${t('selected')}: ${checkedTotal}`}
         </h3>
         <Button className="w-full px-3 py-1.5 text-sm" onClickHandler={() => dispatch(clear())}>
-          Unselect All
+          {t('unselect')}
         </Button>
         <a
           href={downloadUrl}
@@ -58,7 +60,7 @@ export const SelectionFlyout: React.FC = () => {
             'transition-colors'
           )}
         >
-          Download
+          {t('download')}
         </a>
       </div>
     </Flyout>

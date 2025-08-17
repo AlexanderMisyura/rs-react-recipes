@@ -7,6 +7,7 @@ import type { Recipe } from '@ts-types';
 import { clsx } from 'clsx';
 import Image from 'next/image';
 import { useParams, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useEffect, useRef } from 'react';
 
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export const ListItem: React.FC<Props> = ({ isSidePanelOpen, recipe }) => {
+  const t = useTranslations('ListItem');
   const { theme } = useThemeContext();
   const { name, image, ingredients, id } = recipe;
   const params = useParams<{ detailsId?: string }>();
@@ -60,12 +62,12 @@ export const ListItem: React.FC<Props> = ({ isSidePanelOpen, recipe }) => {
               linkTo={`${UrlPath.RECIPES}/${id}?${searchParams?.toString()}`}
               className="w-full"
             >
-              Details
+              {t('details')}
             </Button>
           </div>
         </figure>
         <div className={clsx('flex grow flex-col gap-4', 'w-full')}>
-          <h3 className="font-bold text-orange-900">Ingredients</h3>
+          <h3 className="font-bold text-orange-900">{t('ingredients')}</h3>
           <ul className="flex list-disc flex-col gap-1 pl-6 text-left text-sm">
             {ingredients.map((ingredient) => {
               return (

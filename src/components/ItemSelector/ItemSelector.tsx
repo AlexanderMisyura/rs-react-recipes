@@ -2,6 +2,7 @@ import { useThemeContext } from '@hooks';
 import { add, remove } from '@redux/recipesSlice';
 import type { Recipe } from '@ts-types';
 import { clsx } from 'clsx';
+import { useTranslations } from 'next-intl';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 interface ItemSelectorProps {
@@ -9,6 +10,7 @@ interface ItemSelectorProps {
 }
 
 export const ItemSelector: React.FC<ItemSelectorProps> = ({ recipe }) => {
+  const t = useTranslations('ItemSelector');
   const { theme } = useThemeContext();
   const dispatch = useAppDispatch();
 
@@ -35,7 +37,7 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({ recipe }) => {
         'transition-colors'
       )}
     >
-      <span className="text-inherit">Select</span>
+      <span className="text-inherit">{t('select')}</span>
       <input
         data-testid="item-selector"
         className={`${theme}-selector`}

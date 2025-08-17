@@ -1,0 +1,83 @@
+{
+  "NotFoundFallback": {
+    "title": "Страница не найдена",
+    "description": "Страница, которую вы ищите, не существует",
+    "toRecipes": "На страницу рецептов"
+  },
+  "ErrorFallback": {
+    "title": "Что-то пошло не так",
+    "fix": "Исправить"
+  },
+  "SidePanelErrorFallback": {
+    "fallbackMessage": "Что-то пошло не так с данными"
+  },
+  "Header": {
+    "recipes": "Горячие Рецепты",
+    "recipesAlt": "Логотип Горячих Рецептов",
+    "about": "О проекте"
+  },
+  "Search": {
+    "placeholder": "Поиск",
+    "submit": "подтвердить поиск"
+  },
+  "ItemSelector": {
+    "select": "Выбрать"
+  },
+  "CloseLink": {
+    "text": "Закрыть"
+  },
+  "List": {
+    "recipesFound": "Найдено рецептов"
+  },
+  "ListItem": {
+    "details": "Подробнее",
+    "ingredients": "Ингредиенты"
+  },
+  "Pagination": {
+    "previous": "предыдущая страница",
+    "next": "следующая страница"
+  },
+  "ListPage": {
+    "found_one": "Найден 1 рецепт",
+    "found_other": "Найдено {total} рецептов",
+    "empty_title": "Горячих рецептов не найдено",
+    "empty_subtitle": "Попробуйте поискать что-то другое",
+    "refetch": "Обновить",
+    "fetching": "Обновление..."
+  },
+
+  "Spinner": {
+    "loading": "Загрузка..."
+  },
+  "SidePanel": {
+    "title": "Инструкция по приготовлению",
+    "close": "Закрыть",
+    "refetch": "Обновить"
+  },
+  "SelectionFlyout": {
+    "selected": "Рецептов выбрано",
+    "unselect": "Отменить выбор",
+    "download": "Скачать"
+  },
+  "ThemeModeButton": {
+    "light": "Переключить на системную тему",
+    "dark": "Переключить на светлую тему",
+    "system": "Переключить на тёмную тему"
+  },
+  "RecipesLayout": {
+    "error": "Ошибка",
+    "fallbackMessage": "Что-то пошло не так с данными",
+    "emptyFallback": "Горячих рецептов не нашлось",
+    "emptyFallbackText": "Попробуйте изменить параметры поиска"
+  },
+  "LocaleButton": {
+    "changeTitle": "Сменить язык на английский"
+  },
+  "AboutPage": {
+    "aboutMe": "Обо мне и этом проекте",
+    "hello": "Привет! Меня зовут Александр",
+    "github": "Мой github профиль:",
+    "project": "Этот проект является частью",
+    "rsSchool": "курса RS School React"
+  }
+}

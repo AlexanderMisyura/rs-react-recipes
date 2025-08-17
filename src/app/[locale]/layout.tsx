@@ -30,7 +30,7 @@ const RootLayout: React.FC<RootLayoutProps> = async ({ children, params }) => {
   await dispatch(recipesApi.endpoints.getRecipes.initiate({}));
 
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className="flex h-full grow flex-col items-center justify-center">
         <Provider>
           <NextIntlClientProvider>

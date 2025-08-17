@@ -1,6 +1,7 @@
 import { BoxWrapper, CloseLink, SidePanelErrorFallback } from '@components';
 import { recipesApi } from '@redux/apiRecipesSlice';
 import { dispatch } from '@redux/store';
+import { getTranslations } from 'next-intl/server';
 
 interface SidePanelProps {
   params: Promise<{ detailsId?: string }>;
@@ -8,6 +9,7 @@ interface SidePanelProps {
 
 const SidePanel: React.FC<SidePanelProps> = async ({ params }) => {
   const { detailsId } = await params;
+  const t = await getTranslations('SidePanel');
 
   if (!detailsId) {
     return null;
@@ -25,7 +27,7 @@ const SidePanel: React.FC<SidePanelProps> = async ({ params }) => {
         return (
           <BoxWrapper testId="side-panel" className={'flex w-full max-w-2xl flex-col gap-4'}>
             <h3 className="text-center font-bold text-balance text-orange-900">
-              Instructions for cooking {data.name}
+              {`${t('title')} ${data.name}`}
             </h3>
 
             <ul className="flex list-disc flex-col gap-1 pl-6 text-sm">

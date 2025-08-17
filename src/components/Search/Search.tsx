@@ -8,8 +8,10 @@ import { useRouter } from '@i18n/navigation';
 import { searchFormDataSchema } from '@schemas';
 import { UrlPath } from '@ts-enums';
 import { clsx } from 'clsx';
+import { useTranslations } from 'next-intl';
 
 export const Search: React.FC = () => {
+  const t = useTranslations('Search');
   const { theme } = useThemeContext();
   const [searchString, setSearchString] = useParamToStorageSync(STORAGE_KEY.SEARCH_STRING);
   const router = useRouter();
@@ -40,10 +42,10 @@ export const Search: React.FC = () => {
           defaultValue={searchString}
           className={clsx(`${theme}-search`, `${theme}-text`, 'rounded-md border-2 px-4 py-2')}
           type="search"
-          placeholder="Search"
+          placeholder={t('placeholder')}
         />
         <Button testId="search-button" type="submit">
-          <SearchIcon width={32} height={32} className="h-6" alt="search submit" />
+          <SearchIcon width={32} height={32} className="h-6" alt={t('submit')} />
         </Button>
       </form>
     </BoxWrapper>
