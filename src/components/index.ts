@@ -1,12 +1,15 @@
 export { BoxWrapper } from './BoxWrapper/BoxWrapper';
 export { Button } from './Button/Button';
 export { ThemeModeButton } from './Button/ThemeModeButton/ThemeModeButton';
-export { ErrorBoundary } from './ErrorBoundary/ErrorBoundary';
 export { ErrorFallback } from './ErrorFallback/ErrorFallback';
+export { NotFoundFallback } from './ErrorFallback/NotFoundFallback/NotFoundFallback';
+export { SidePanelErrorFallback } from './ErrorFallback/SidePanelErrorFallback/SidePanelErrorFallback';
 export { Flyout } from './Flyout/Flyout';
 export { Header } from './Header/Header';
 export { Heading } from './Heading/Heading';
 export { ItemSelector } from './ItemSelector/ItemSelector';
+export { CloseLink } from './Link/CloseLink/CloseLink';
+export { NavLink } from './Link/NavLink/NavLink';
 export { List } from './List/List';
 export { ListItem } from './ListItem/ListItem';
 export { Pagination } from './Pagination/Pagination';
