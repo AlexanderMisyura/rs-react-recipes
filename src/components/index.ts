@@ -12,5 +12,4 @@ export { ListItem } from './ListItem/ListItem';
 export { Pagination } from './Pagination/Pagination';
 export { Search } from './Search/Search';
 export { SelectionFlyout } from './SelectionFlyout/SelectionFlyout';
-export { SidePanel } from './SidePanel/SidePanel';
 export { Spinner } from './Spinner/Spinner';

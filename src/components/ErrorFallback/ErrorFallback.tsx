@@ -8,6 +8,7 @@ interface ErrorFallbackProps {
   resetFunction?: () => void;
   btnChildren?: React.ReactNode;
   testId?: string;
+  children?: React.ReactNode;
 }
 
 export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
@@ -16,6 +17,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
   resetFunction,
   btnChildren,
   testId,
+  children,
 }) => {
   const { theme } = useThemeContext();
 
@@ -25,8 +27,9 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
       className={clsx(`${theme}-text`, 'max-w-2xl border-2 border-red-600')}
     >
       <Heading className="text-red-600">{title ?? 'Something went wrong'}</Heading>
-      <p className="text-xl">{error.message}</p>
+      <p className="text-center text-xl text-balance">{error.message}</p>
       {resetFunction && <Button onClickHandler={resetFunction}>{btnChildren ?? 'Fix'}</Button>}
+      {children}
     </BoxWrapper>
   );
 };
