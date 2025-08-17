@@ -16,8 +16,7 @@ const MODE_ICON_MAP = {
 } as const;
 
 export const ThemeModeButton: React.FC = () => {
-  const { mode, toggleMode } = useThemeContext();
-  const { theme } = useThemeContext();
+  const { theme, mode, toggleMode } = useThemeContext();
 
   return (
     <button

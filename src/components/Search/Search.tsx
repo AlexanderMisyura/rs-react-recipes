@@ -4,10 +4,10 @@ import SearchIcon from '@assets/search.svg';
 import { BoxWrapper, Button } from '@components';
 import { PARAMS_MAP, STORAGE_KEY } from '@constants';
 import { useParamToStorageSync, useThemeContext } from '@hooks';
+import { useRouter } from '@i18n/navigation';
 import { searchFormDataSchema } from '@schemas';
 import { UrlPath } from '@ts-enums';
 import { clsx } from 'clsx';
-import { useRouter } from 'next/navigation';
 
 export const Search: React.FC = () => {
   const { theme } = useThemeContext();

@@ -1,11 +1,9 @@
 'use client';
 
+import { Link, usePathname } from '@i18n/navigation';
 import { clsx } from 'clsx/lite';
-import type { LinkProps } from 'next/link';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
-interface NavLinkProps extends LinkProps {
+interface NavLinkProps {
   className?: string;
   activeClassName?: string;
   href: string;

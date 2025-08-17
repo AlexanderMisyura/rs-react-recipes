@@ -1,8 +1,8 @@
 'use client';
 
 import { useThemeContext } from '@hooks';
+import { Link } from '@i18n/navigation';
 import { clsx } from 'clsx/lite';
-import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {

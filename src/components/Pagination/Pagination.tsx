@@ -4,8 +4,9 @@ import BackIcon from '@assets/chevron-left.svg';
 import ForwardIcon from '@assets/chevron-right.svg';
 import { BoxWrapper, Button } from '@components';
 import config from '@config/api.config';
+import { useRouter } from '@i18n/navigation';
 import { UrlPath } from '@ts-enums';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 const { ITEMS_PER_PAGE } = config;
 

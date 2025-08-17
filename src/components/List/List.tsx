@@ -1,9 +1,9 @@
 'use client';
 
 import { BoxWrapper, Heading, ListItem } from '@components';
+import { usePathname } from '@i18n/navigation';
 import type { RecipesResponse } from '@ts-types';
 import { clsx } from 'clsx';
-import { usePathname } from 'next/navigation';
 
 interface ListProps {
   recipesData: RecipesResponse;
@@ -13,7 +13,7 @@ interface ListProps {
 export const List: React.FC<ListProps> = ({ recipesData, sidePanel }) => {
   const { recipes, total } = recipesData;
   const pathname = usePathname();
-  const detailsId = pathname?.split('/')[2];
+  const detailsId = pathname.split('/')[2];
 
   return (
     <div

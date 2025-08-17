@@ -1,5 +1,5 @@
 import logoIcon from '@assets/logo.png';
-import { NavLink, ThemeModeButton } from '@components';
+import { LocaleButton, NavLink, ThemeModeButton } from '@components';
 import { UrlPath } from '@ts-enums';
 import { BoxWrapper } from 'components/BoxWrapper/BoxWrapper';
 import Image from 'next/image';
@@ -36,7 +36,10 @@ export const Header: React.FC = () => {
             </li>
           </ul>
         </nav>
-        <ThemeModeButton />
+        <div className="flex items-center gap-2">
+          <ThemeModeButton />
+          <LocaleButton />
+        </div>
       </BoxWrapper>
     </header>
   );
