@@ -1,3 +1,5 @@
+'use client';
+
 import { Button, Flyout } from '@components';
 import { useThemeContext } from '@hooks';
 import { fileService } from '@services';
