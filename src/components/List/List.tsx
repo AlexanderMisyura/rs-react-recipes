@@ -1,15 +1,19 @@
+'use client';
+
 import { BoxWrapper, Heading, ListItem } from '@components';
 import type { RecipesResponse } from '@ts-types';
 import { clsx } from 'clsx';
-import { Outlet, useParams } from 'react-router';
+import { usePathname } from 'next/navigation';
 
 interface ListProps {
   recipesData: RecipesResponse;
+  sidePanel?: React.ReactNode;
 }
 
-export const List: React.FC<ListProps> = ({ recipesData }) => {
+export const List: React.FC<ListProps> = ({ recipesData, sidePanel }) => {
   const { recipes, total } = recipesData;
-  const { detailsId } = useParams();
+  const pathname = usePathname();
+  const detailsId = pathname?.split('/')[2];
 
   return (
     <div
@@ -40,14 +44,16 @@ export const List: React.FC<ListProps> = ({ recipesData }) => {
           {recipes.map((recipe) => {
             return (
               <li key={recipe.id}>
-                <ListItem recipe={recipe} />
+                <ListItem isSidePanelOpen={!!detailsId} recipe={recipe} />
               </li>
             );
           })}
         </ul>
-        <div className="sticky top-[92px] flex h-max w-full flex-col items-center justify-center">
-          <Outlet />
-        </div>
+        {detailsId && (
+          <div className="sticky top-[92px] flex h-max w-full flex-col items-center justify-center">
+            {sidePanel}
+          </div>
+        )}
       </div>
     </div>
   );
