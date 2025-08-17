@@ -1,5 +1,6 @@
 export { BoxWrapper } from './BoxWrapper/BoxWrapper';
 export { Button } from './Button/Button';
+export { LocaleButton } from './Button/LocaleButton/LocaleButton';
 export { ThemeModeButton } from './Button/ThemeModeButton/ThemeModeButton';
 export { ErrorFallback } from './ErrorFallback/ErrorFallback';
 export { NotFoundFallback } from './ErrorFallback/NotFoundFallback/NotFoundFallback';
