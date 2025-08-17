@@ -1,8 +1,8 @@
 import GithubLogo from '@assets/github-logo.svg';
 import RssLogo from '@assets/rss-logo.svg';
 import { BoxWrapper, Heading } from '@components';
+import { Link } from '@i18n/navigation';
 import type { Metadata } from 'next';
-import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Hot Recipes | About',

@@ -1,9 +1,10 @@
 'use client';
 
 import { BoxWrapper, ErrorFallback, Heading, List, Pagination, Search, Spinner } from '@components';
+import { useRouter } from '@i18n/navigation';
 import { useGetRecipesQuery } from '@redux/apiRecipesSlice';
 import { getRecipesFetchParams } from '@utils';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 
 interface RecipesLayoutProps {
   children: React.ReactNode;
