@@ -37,6 +37,7 @@
       "@context": ["context/index.ts"],
       "@controllers": ["controllers/index.ts"],
       "@hooks": ["hooks/index.ts"],
+      "@i18n/*": ["i18n/*"],
       "@pages": ["pages/index.ts"],
       "@redux/*": ["redux/*"],
       "@schemas": ["schemas/index.ts"],
@@ -57,7 +58,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "./dist/types/**/*.ts",
-    "eslint.config.ts"
+    "eslint.config.ts",
+    "next.config.mjs"
   ],
   "exclude": ["node_modules"]
 }
