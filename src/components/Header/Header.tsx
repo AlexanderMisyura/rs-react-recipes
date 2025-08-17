@@ -1,8 +1,8 @@
 import logoIcon from '@assets/logo.png';
-import { ThemeModeButton } from '@components';
+import { NavLink, ThemeModeButton } from '@components';
 import { UrlPath } from '@ts-enums';
 import { BoxWrapper } from 'components/BoxWrapper/BoxWrapper';
-import { NavLink } from 'react-router';
+import Image from 'next/image';
 
 export const Header: React.FC = () => {
   return (
@@ -10,14 +10,11 @@ export const Header: React.FC = () => {
       <BoxWrapper className="m-0 w-full flex-row flex-wrap justify-between gap-4 p-2 max-sm:justify-center">
         <NavLink
           className="transition-colors hover:text-orange-950"
-          style={({ isActive }) => ({
-            fontWeight: isActive ? 'bold' : 'inherit',
-          })}
-          to={UrlPath.RECIPES}
-          viewTransition
+          activeClassName="font-bold"
+          href={UrlPath.RECIPES}
         >
           <div className="flex items-center gap-2 select-none">
-            <img src={logoIcon} alt="Hot Recipes logo" className="h-12" />
+            <Image width={48} height={48} src={logoIcon} alt="Hot Recipes logo" className="h-12" />
             <span
               style={{ fontWeight: 'inherit' }}
               className="text-2xl text-orange-900 transition-colors in-[a:hover]:text-orange-950"
@@ -31,11 +28,8 @@ export const Header: React.FC = () => {
             <li className="flex flex-col text-xl text-orange-900">
               <NavLink
                 className="transition-colors hover:text-orange-950"
-                to={UrlPath.ABOUT}
-                style={({ isActive }) => ({
-                  fontWeight: isActive ? 'bold' : 'inherit',
-                })}
-                viewTransition
+                activeClassName="font-bold"
+                href={UrlPath.ABOUT}
               >
                 About
               </NavLink>
