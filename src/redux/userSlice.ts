@@ -1,3 +1,4 @@
+import { countryList } from '@constants';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import type { User } from '@ts-interfaces';
@@ -6,9 +7,10 @@ import type { RootState } from './store';
 
 export interface RecipesState {
   users: User[];
+  countries: string[];
 }
 
-const initialState: RecipesState = { users: [] };
+const initialState: RecipesState = { users: [], countries: countryList };
 
 export const usersSlice = createSlice({
   name: 'users',
@@ -25,3 +27,4 @@ export const { add } = usersSlice.actions;
 export default usersSlice.reducer;
 
 export const selectAllUsers = (state: RootState) => state.users.users;
+export const selectAllCountries = (state: RootState) => state.users.countries;
