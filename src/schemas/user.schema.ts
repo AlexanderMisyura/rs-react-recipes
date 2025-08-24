@@ -11,7 +11,10 @@ export const UserNameSchema = z
   }, 'Name must start with a capital letter')
   .nonempty('Name is required');
 
-export const AgeSchema = z.int('Age must be an integer').positive('Age must be a positive number');
+export const AgeSchema = z.coerce
+  .number('Age must be an number')
+  .int('Age must be an integer')
+  .positive('Age must be a positive number');
 
 export const EmailSchema = z.email('Invalid email address');
 
@@ -22,6 +25,10 @@ export const ConfirmPasswordSchema = z.string().nonempty('Confirm password is re
 export const CountrySchema = z.string().nonempty('Country is required');
 
 export const GenderSchema = z.literal(GENDERS, 'Gender is required');
+
+const ImagePreprocess = (files: File[]) => {
+  return files[0];
+};
 
 export const ImageSchema = z
   .file('Image is required')
@@ -41,6 +48,27 @@ export const UserSchema = z
     country: CountrySchema,
     gender: GenderSchema,
     image: ImageSchema,
+    areTermsAccepted: TermsSchema,
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+    when(payload) {
+      return UserSchema.pick({ password: true, confirmPassword: true }).safeParse(payload.value)
+        .success;
+    },
+  });
+
+export const UserSchemaImagePreprocess = z
+  .object({
+    name: UserNameSchema,
+    age: AgeSchema,
+    email: EmailSchema,
+    password: PasswordSchema,
+    confirmPassword: ConfirmPasswordSchema,
+    country: CountrySchema,
+    gender: GenderSchema,
+    image: z.preprocess(ImagePreprocess, ImageSchema),
     areTermsAccepted: TermsSchema,
   })
   .refine((data) => data.password === data.confirmPassword, {

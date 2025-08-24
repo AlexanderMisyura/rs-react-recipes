@@ -1,2 +1,2 @@
 export { PasswordStrengthSchema } from './password-strength.schema';
-export { UserSchema } from './user.schema';
+export { UserSchema, UserSchemaImagePreprocess } from './user.schema';
