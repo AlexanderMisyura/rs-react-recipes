@@ -5,12 +5,12 @@ import type { User } from '@ts-interfaces';
 
 import type { RootState } from './store';
 
-export interface RecipesState {
+export interface UsersState {
   users: User[];
   countries: string[];
 }
 
-const initialState: RecipesState = { users: [], countries: countryList };
+const initialState: UsersState = { users: [], countries: countryList };
 
 export const usersSlice = createSlice({
   name: 'users',
