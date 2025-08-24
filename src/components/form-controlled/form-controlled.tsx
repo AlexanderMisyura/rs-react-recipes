@@ -12,8 +12,6 @@ interface FormControlledProps {
   closeModal?: () => void;
 }
 
-// type UserErrors = Partial<Record<keyof Omit<User, 'id'> | 'confirmPassword', string>>;
-
 const PASSWORD_STRENGTH_MAP = {
   0: 'Strong',
   1: 'Medium',
@@ -23,7 +21,6 @@ const PASSWORD_STRENGTH_MAP = {
 };
 
 export const FormControlled: React.FC<FormControlledProps> = ({ closeModal }) => {
-  // const [userErrors, setUserErrors] = useState<UserErrors>({});
   const {
     register,
     handleSubmit,
@@ -47,76 +44,6 @@ export const FormControlled: React.FC<FormControlledProps> = ({ closeModal }) =>
   if (passwordStrength !== null) {
     passwordStrengthMessage = `(${PASSWORD_STRENGTH_MAP[passwordStrength as 0 | 1 | 2 | 3 | 4]})`;
   }
-
-  // const saveUser: SubmitHandler<{
-  //   name: string;
-  //   age: number;
-  //   email: string;
-  //   password: string;
-  //   confirmPassword: string;
-  //   country: string;
-  //   gender: 'Male' | 'Female';
-  //   image: File;
-  //   areTermsAccepted: true;
-  // }> = async (_, e) => {
-  //   if (!e) {
-  //     return;
-  //   }
-
-  //   if (
-  //     e.nativeEvent instanceof SubmitEvent &&
-  //     e.nativeEvent.submitter instanceof HTMLButtonElement &&
-  //     e.nativeEvent.submitter.name === 'save'
-  //   ) {
-  //     console.log(e.nativeEvent.target);
-  //     const formData = new FormData(e.nativeEvent.target as HTMLFormElement);
-  //     const rawData: Record<string, unknown> = Object.fromEntries(formData.entries());
-  //     const imageFile = formData.get('image') as File | null;
-
-  //     if (typeof rawData.age === 'string') {
-  //       rawData.age = +rawData.age;
-  //     }
-
-  //     rawData.areTermsAccepted = rawData.areTermsAccepted !== undefined;
-
-  //     if (imageFile?.size === 0) {
-  //       rawData.image = null;
-  //     } else {
-  //       rawData.image = imageFile ?? null;
-  //     }
-
-  //     const result = UserSchema.safeParse(rawData);
-  //     console.log('result', result);
-  //     if (!result.success) {
-  //       const errors: UserErrors = {};
-  //       result.error.issues.forEach((issue) => {
-  //         errors[issue.path[0] as keyof UserErrors] = issue.message;
-  //       });
-  //       // setUserErrors(errors);
-  //       e.preventDefault();
-  //       return;
-  //     }
-
-  //     const validatedData = result.data;
-
-  //     let base64Image = '';
-
-  //     if (imageFile instanceof File) {
-  //       base64Image = await fileToBase64(imageFile);
-  //     }
-
-  //     const user: User = {
-  //       ...validatedData,
-  //       id: crypto.randomUUID(),
-  //       image: base64Image,
-  //     };
-
-  //     console.log('user', user);
-
-  //     dispatch(add(user));
-  //     reset();
-  //   }
-  // };
 
   const saveUser: SubmitHandler<{
     name: string;
