@@ -36,7 +36,7 @@
       "@services": ["services/index.ts"],
       "@styles/*": ["styles/*"],
       "@tests-mocks": ["tests/mocks/index.ts"],
-      "@test-utils": ["tests/utils/index.ts"],
+      "@test-utils": ["tests/test-utils/index.ts"],
       "@ts-enums": ["models/enums/index.ts"],
       "@ts-interfaces": ["models/interfaces/index.ts"],
       "@ts-types": ["models/types/index.ts"],
