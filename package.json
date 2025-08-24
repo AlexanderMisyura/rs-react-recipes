@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/AlexanderMisyura/rs-react-recipes#readme",
   "dependencies": {
+    "@hookform/resolvers": "^5.2.1",
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/vite": "^4.1.11",
     "98.css": "^0.1.21",
