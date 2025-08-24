@@ -1,0 +1,282 @@
+import { GENDERS } from '@constants';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useAppDispatch, useAppSelector } from '@redux/hooks';
+import { add, selectAllCountries } from '@redux/userSlice';
+import { PasswordStrengthSchema, UserSchemaImagePreprocess } from '@schemas';
+import type { User } from '@ts-interfaces';
+import { fileToBase64 } from '@utils';
+import { useEffect, useRef, useState } from 'react';
+import { type SubmitHandler, useForm } from 'react-hook-form';
+
+interface FormControlledProps {
+  closeModal?: () => void;
+}
+
+// type UserErrors = Partial<Record<keyof Omit<User, 'id'> | 'confirmPassword', string>>;
+
+const PASSWORD_STRENGTH_MAP = {
+  0: 'Strong',
+  1: 'Medium',
+  2: 'Medium',
+  3: 'Medium',
+  4: 'Weak',
+};
+
+export const FormControlled: React.FC<FormControlledProps> = ({ closeModal }) => {
+  // const [userErrors, setUserErrors] = useState<UserErrors>({});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    reset,
+  } = useForm({ resolver: zodResolver(UserSchemaImagePreprocess), mode: 'onChange' });
+  const [passwordStrength, setPasswordStrength] = useState<number | null>(null);
+  const firsInputRef = useRef<HTMLInputElement>(null);
+  const { ref, ...nameInputProps } = register('name');
+
+  const dispatch = useAppDispatch();
+  const countries = useAppSelector(selectAllCountries);
+
+  useEffect(() => {
+    if (firsInputRef.current) {
+      firsInputRef.current.focus();
+    }
+  }, []);
+
+  let passwordStrengthMessage = '';
+  if (passwordStrength !== null) {
+    passwordStrengthMessage = `(${PASSWORD_STRENGTH_MAP[passwordStrength as 0 | 1 | 2 | 3 | 4]})`;
+  }
+
+  // const saveUser: SubmitHandler<{
+  //   name: string;
+  //   age: number;
+  //   email: string;
+  //   password: string;
+  //   confirmPassword: string;
+  //   country: string;
+  //   gender: 'Male' | 'Female';
+  //   image: File;
+  //   areTermsAccepted: true;
+  // }> = async (_, e) => {
+  //   if (!e) {
+  //     return;
+  //   }
+
+  //   if (
+  //     e.nativeEvent instanceof SubmitEvent &&
+  //     e.nativeEvent.submitter instanceof HTMLButtonElement &&
+  //     e.nativeEvent.submitter.name === 'save'
+  //   ) {
+  //     console.log(e.nativeEvent.target);
+  //     const formData = new FormData(e.nativeEvent.target as HTMLFormElement);
+  //     const rawData: Record<string, unknown> = Object.fromEntries(formData.entries());
+  //     const imageFile = formData.get('image') as File | null;
+
+  //     if (typeof rawData.age === 'string') {
+  //       rawData.age = +rawData.age;
+  //     }
+
+  //     rawData.areTermsAccepted = rawData.areTermsAccepted !== undefined;
+
+  //     if (imageFile?.size === 0) {
+  //       rawData.image = null;
+  //     } else {
+  //       rawData.image = imageFile ?? null;
+  //     }
+
+  //     const result = UserSchema.safeParse(rawData);
+  //     console.log('result', result);
+  //     if (!result.success) {
+  //       const errors: UserErrors = {};
+  //       result.error.issues.forEach((issue) => {
+  //         errors[issue.path[0] as keyof UserErrors] = issue.message;
+  //       });
+  //       // setUserErrors(errors);
+  //       e.preventDefault();
+  //       return;
+  //     }
+
+  //     const validatedData = result.data;
+
+  //     let base64Image = '';
+
+  //     if (imageFile instanceof File) {
+  //       base64Image = await fileToBase64(imageFile);
+  //     }
+
+  //     const user: User = {
+  //       ...validatedData,
+  //       id: crypto.randomUUID(),
+  //       image: base64Image,
+  //     };
+
+  //     console.log('user', user);
+
+  //     dispatch(add(user));
+  //     reset();
+  //   }
+  // };
+
+  const saveUser: SubmitHandler<{
+    name: string;
+    age: number;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    country: string;
+    gender: 'Male' | 'Female';
+    image: File;
+    areTermsAccepted: true;
+  }> = async (data) => {
+    const base64Image = await fileToBase64(data.image as unknown as File);
+    const user: User = {
+      ...data,
+      id: crypto.randomUUID(),
+      image: base64Image,
+    };
+    dispatch(add(user));
+    reset();
+    closeModal?.();
+  };
+
+  const checkPasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const result = PasswordStrengthSchema.safeParse(e.target.value);
+
+    if (!result.success) {
+      setPasswordStrength(result.error.issues.length);
+    } else {
+      setPasswordStrength(0);
+    }
+  };
+
+  return (
+    <form className="window" onSubmit={(e) => void handleSubmit(saveUser)(e)}>
+      <div className="title-bar">
+        <div className="title-bar-text">Controlled Form</div>
+        <div className="title-bar-controls">
+          <button onClick={closeModal} type="button" aria-label="Close" />
+        </div>
+      </div>
+
+      <div className="window-body">
+        <fieldset>
+          <div className="field-row">
+            <label className="w-[100px] font-bold" htmlFor="name">
+              Name
+            </label>
+            <input
+              ref={(e) => {
+                firsInputRef.current = e;
+                ref(e);
+              }}
+              {...nameInputProps}
+              type="text"
+              id="name"
+              autoComplete="given-name"
+            />
+          </div>
+          <p className="h-[17px] text-red-800">{errors.name?.message}</p>
+          <div className="field-row">
+            <label className="w-[100px] font-bold" htmlFor="age">
+              Age
+            </label>
+            <input {...register('age')} type="number" id="age" />
+          </div>
+          <p className="h-[17px] text-red-800">{errors.age?.message}</p>
+          <div className="field-row">
+            <label className="w-[100px] font-bold" htmlFor="email">
+              Email
+            </label>
+            <input {...register('email')} type="email" id="email" autoComplete="email" />
+          </div>
+          <p className="h-[17px] text-red-800">{errors.email?.message}</p>
+          <div className="field-row">
+            <label className="w-[100px] font-bold" htmlFor="country">
+              Country
+            </label>
+            <input
+              {...register('country')}
+              list="countryData"
+              type="text"
+              id="country"
+              autoComplete="off"
+            />
+            <datalist id="countryData">
+              {countries.map((country) => (
+                <option key={country}>{country}</option>
+              ))}
+            </datalist>
+          </div>
+          <p className="h-[17px] text-red-800">{errors.country?.message}</p>
+          <div className="field-row">
+            {GENDERS.map((gender) => (
+              <div key={gender}>
+                <input {...register('gender')} id={gender} type="radio" value={gender} />
+                <label className="font-bold" htmlFor={gender}>
+                  {gender}
+                </label>
+              </div>
+            ))}
+          </div>
+          <p className="h-[17px] text-red-800">{errors.gender?.message}</p>
+        </fieldset>
+        <fieldset>
+          <div className="">
+            <label className="w-[100px] font-bold" htmlFor="image">
+              Upload Image
+            </label>
+            <input {...register('image')} type="file" id="image" />
+          </div>
+          <p className="h-[17px] text-red-800">{errors.image?.message}</p>
+        </fieldset>
+        <fieldset>
+          <div className="field-row">
+            <label className="w-[110px] font-bold" htmlFor="password">
+              Password {passwordStrengthMessage}
+            </label>
+            <input
+              {...register('password')}
+              className={`password-strength-${passwordStrength}`}
+              onChange={checkPasswordStrength}
+              type="password"
+              id="password"
+              autoComplete="new-password"
+            />
+          </div>
+          <p className="h-[17px] text-red-800">{errors.password?.message}</p>
+          <div className="field-row">
+            <label className="w-[110px] font-bold" htmlFor="password">
+              Confirm Password
+            </label>
+            <input
+              {...register('confirmPassword')}
+              type="password"
+              id="confirmPassword"
+              autoComplete="new-password"
+            />
+          </div>
+          <p className="h-[17px] text-red-800">{errors.confirmPassword?.message}</p>
+        </fieldset>
+        <fieldset>
+          <div className="">
+            <input {...register('areTermsAccepted')} type="checkbox" id="areTermsAccepted" />
+            <label className="font-bold" htmlFor="areTermsAccepted">
+              Accept the Terms and Conditions
+            </label>
+          </div>
+          <p className="h-[17px] text-red-800">{errors.areTermsAccepted?.message}</p>
+        </fieldset>
+      </div>
+
+      <div className="window-body flex justify-around">
+        <button className="font-bold" onClick={closeModal} type="button" aria-label="Cancel">
+          Cancel
+        </button>
+        <button disabled={!isValid} className="font-bold" name="save" type="submit">
+          Save
+        </button>
+      </div>
+    </form>
+  );
+};
