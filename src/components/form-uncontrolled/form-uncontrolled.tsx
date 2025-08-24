@@ -130,7 +130,13 @@ export const FormUncontrolled: React.FC = () => {
             <label className="w-[100px] font-bold" htmlFor="country">
               Country
             </label>
-            <input list="countryData" type="text" id="country" name="country" autoComplete="off" />
+            <input
+              list="countryData"
+              type="text"
+              id="country"
+              name="country"
+              autoComplete="country"
+            />
             <datalist id="countryData">
               {countries.map((country) => (
                 <option key={country}>{country}</option>
@@ -152,10 +158,10 @@ export const FormUncontrolled: React.FC = () => {
         </fieldset>
         <fieldset>
           <div className="">
-            <label className="w-[100px] font-bold" htmlFor="image">
+            <label className="w-full font-bold" htmlFor="image">
               Upload Image
             </label>
-            <input type="file" id="image" name="image" />
+            <input className="w-full" type="file" id="image" name="image" />
           </div>
           <p className="h-[17px] text-red-800">{userErrors.image}</p>
         </fieldset>

@@ -127,7 +127,7 @@ export const FormControlled: React.FC<FormControlledProps> = ({ closeModal }) =>
               list="countryData"
               type="text"
               id="country"
-              autoComplete="off"
+              autoComplete="country"
             />
             <datalist id="countryData">
               {countries.map((country) => (
@@ -150,10 +150,10 @@ export const FormControlled: React.FC<FormControlledProps> = ({ closeModal }) =>
         </fieldset>
         <fieldset>
           <div className="">
-            <label className="w-[100px] font-bold" htmlFor="image">
+            <label className="w-full font-bold" htmlFor="image">
               Upload Image
             </label>
-            <input {...register('image')} type="file" id="image" />
+            <input {...register('image')} className="w-full" type="file" id="image" />
           </div>
           <p className="h-[17px] text-red-800">{errors.image?.message}</p>
         </fieldset>

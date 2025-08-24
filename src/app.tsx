@@ -36,7 +36,7 @@ export const App: React.FC = () => {
             Uncontrolled
           </button>
         </header>
-        <main className="flex flex-wrap gap-4">
+        <main className="flex flex-wrap justify-center gap-4">
           {usersList.map((user) => (
             <UserItem user={user} key={user.id} />
           ))}
