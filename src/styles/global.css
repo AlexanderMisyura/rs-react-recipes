@@ -1,0 +1,50 @@
+@import 'tailwindcss';
+
+:root {
+  background-color: #008080;
+
+  &:has(dialog[open]) {
+    overflow: hidden;
+  }
+}
+
+dialog[open]::backdrop {
+  background-color: rgb(0 0 0 / 50%);
+  backdrop-filter: blur(3px);
+}
+
+fieldset {
+  border-color: ButtonFace;
+  border-style: groove;
+  border-width: 2px;
+}
+
+.user-item:last-child {
+  animation: appear 5s;
+}
+
+@keyframes appear {
+  from {
+    background-color: lightgreen;
+  }
+}
+
+.password-strength-0 {
+  background-color: lightgreen !important;
+}
+
+.password-strength-1 {
+  background-color: lightyellow !important;
+}
+
+.password-strength-2 {
+  background-color: yellow !important;
+}
+
+.password-strength-3 {
+  background-color: orange !important;
+}
+
+.password-strength-4 {
+  background-color: red !important;
+}
