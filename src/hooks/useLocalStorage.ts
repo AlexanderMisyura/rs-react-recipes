@@ -14,7 +14,7 @@ export const useLocalStorage = ({
   primaryValue,
   defaultValue = '',
 }: UseLocalStorageOptions) => {
-  const [value, setValue] = useState(/* () => storageService.getItem(key) ?? */ defaultValue);
+  const [value, setValue] = useState(defaultValue);
 
   useEffect(() => {
     const storedValue = storageService.getItem(key);

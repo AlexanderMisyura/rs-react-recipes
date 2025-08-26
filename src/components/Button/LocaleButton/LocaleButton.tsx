@@ -21,11 +21,10 @@ export const LocaleButton: React.FC = () => {
     [routing.locales[1]]: routing.locales[0],
   };
 
-  const toggleLocale = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const params = new URLSearchParams(searchParams ?? '');
-
-    router.replace(`${pathname}?${params}`, { locale: LOCALES_TOGGLE_MAP[locale] });
+  const toggleLocale = () => {
+    router.replace(`${pathname}?${searchParams.toString()}`, {
+      locale: LOCALES_TOGGLE_MAP[locale],
+    });
   };
 
   return (
