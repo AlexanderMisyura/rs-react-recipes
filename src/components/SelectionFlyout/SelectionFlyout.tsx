@@ -1,9 +1,7 @@
 'use client';
 
 import { Button, Flyout } from '@components';
-import { useThemeContext } from '@hooks';
 import { Link } from '@i18n/navigation';
-import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -11,7 +9,6 @@ import { clear, selectAllChecked, selectCheckedTotal } from 'redux/recipesSlice'
 
 export const SelectionFlyout: React.FC = () => {
   const t = useTranslations('SelectionFlyout');
-  const { theme } = useThemeContext();
   const allChecked = useAppSelector(selectAllChecked);
   const checkedTotal = useAppSelector(selectCheckedTotal);
   const dispatch = useAppDispatch();
@@ -56,9 +53,7 @@ export const SelectionFlyout: React.FC = () => {
   return (
     <Flyout isOpen={checkedTotal > 0}>
       <div className="flex flex-col items-center gap-2">
-        <h3 className={clsx(`${theme}-text`, 'font-semibold')}>
-          {`${t('selected')}: ${checkedTotal}`}
-        </h3>
+        <h3 className="text font-semibold">{`${t('selected')}: ${checkedTotal}`}</h3>
         <Button className="w-full px-3 py-1.5 text-sm" onClickHandler={() => dispatch(clear())}>
           {t('unselect')}
         </Button>
@@ -67,13 +62,7 @@ export const SelectionFlyout: React.FC = () => {
             void downloadCsv();
           }}
           disabled={isDownloading}
-          className={clsx(
-            'flex w-full items-center justify-center gap-4 px-3 py-1.5 text-sm',
-            'cursor-pointer rounded-md border-2 border-transparent text-center font-bold tracking-wide text-orange-900 shadow-sm select-none',
-            'active:shadow-inner',
-            `${theme}-button`,
-            'transition-colors'
-          )}
+          className="w-full px-3 py-1.5 text-sm"
         >
           {t('download')}
         </Button>

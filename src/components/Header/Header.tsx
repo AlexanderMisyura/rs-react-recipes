@@ -9,8 +9,8 @@ export const Header: React.FC = () => {
   const t = useTranslations('Header');
 
   return (
-    <header className="sticky top-0 z-10 flex w-full justify-center">
-      <BoxWrapper className="m-0 w-full flex-row flex-wrap justify-between gap-4 p-2 max-sm:justify-center">
+    <header className="header">
+      <BoxWrapper className="m-0 w-full flex-row flex-wrap justify-between p-2 max-sm:justify-center">
         <NavLink
           className="transition-colors hover:text-orange-950"
           activeClassName="font-bold"

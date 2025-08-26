@@ -1,7 +1,5 @@
-import { useThemeContext } from '@hooks';
 import { add, remove } from '@redux/recipesSlice';
 import type { Recipe } from '@ts-types';
-import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
@@ -11,7 +9,6 @@ interface ItemSelectorProps {
 
 export const ItemSelector: React.FC<ItemSelectorProps> = ({ recipe }) => {
   const t = useTranslations('ItemSelector');
-  const { theme } = useThemeContext();
   const dispatch = useAppDispatch();
 
   const { id } = recipe;
@@ -28,19 +25,11 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({ recipe }) => {
   };
 
   return (
-    <label
-      className={clsx(
-        'flex w-full items-center justify-center gap-2 px-4 py-2',
-        'cursor-pointer rounded-md border-2 border-transparent text-center font-bold tracking-wide text-orange-900 shadow-sm select-none',
-        'active:shadow-inner',
-        `${theme}-button`,
-        'transition-colors'
-      )}
-    >
-      <span className="text-inherit">{t('select')}</span>
+    <label className="button flex w-full items-center justify-center gap-2">
+      <span>{t('select')}</span>
       <input
         data-testid="item-selector"
-        className={`${theme}-selector`}
+        className="selector"
         onChange={handleCheck}
         checked={isChecked}
         type="checkbox"

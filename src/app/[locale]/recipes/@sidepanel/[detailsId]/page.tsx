@@ -26,7 +26,7 @@ const SidePanel: React.FC<SidePanelProps> = async ({ params }) => {
 
     if (data) {
       return (
-        <BoxWrapper testId="side-panel" className={'flex w-full max-w-2xl flex-col gap-4'}>
+        <BoxWrapper testId="side-panel" className="w-full max-w-2xl">
           <h3 className="text-center font-bold text-balance text-orange-900">
             {`${t('title')} ${data.name}`}
           </h3>

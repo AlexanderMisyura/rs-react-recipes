@@ -1,7 +1,0 @@
-.light-text {
-  @apply text-inherit;
-}
-
-.dark-text {
-  @apply text-amber-900;
-}

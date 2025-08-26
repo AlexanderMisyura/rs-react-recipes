@@ -3,16 +3,14 @@
 import SearchIcon from '@assets/search.svg';
 import { BoxWrapper, Button } from '@components';
 import { PARAMS_MAP, STORAGE_KEY } from '@constants';
-import { useParamToStorageSync, useThemeContext } from '@hooks';
+import { useParamToStorageSync } from '@hooks';
 import { useRouter } from '@i18n/navigation';
 import { searchFormDataSchema } from '@schemas';
 import { UrlPath } from '@ts-enums';
-import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
 export const Search: React.FC = () => {
   const t = useTranslations('Search');
-  const { theme } = useThemeContext();
   const [searchString, setSearchString] = useParamToStorageSync(STORAGE_KEY.SEARCH_STRING);
   const router = useRouter();
 
@@ -40,7 +38,7 @@ export const Search: React.FC = () => {
         <input
           name={PARAMS_MAP[STORAGE_KEY.SEARCH_STRING]}
           defaultValue={searchString}
-          className={clsx(`${theme}-search`, `${theme}-text`, 'rounded-md border-2 px-4 py-2')}
+          className="search-input text"
           type="search"
           placeholder={t('placeholder')}
         />

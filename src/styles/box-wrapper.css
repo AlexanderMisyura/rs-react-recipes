@@ -1,7 +1,0 @@
-.light-wrapper {
-  @apply bg-amber-50;
-}
-
-.dark-wrapper {
-  @apply bg-neutral-900;
-}

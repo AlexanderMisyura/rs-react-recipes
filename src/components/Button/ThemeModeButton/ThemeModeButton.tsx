@@ -5,7 +5,6 @@ import MoonIcon from '@assets/moon.svg';
 import SunIcon from '@assets/sun.svg';
 import { THEME_MODE } from '@constants';
 import { useThemeContext } from '@hooks';
-import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
 const MODE_ICON_MAP = {
@@ -18,18 +17,10 @@ const MODE_ICON_MAP = {
 
 export const ThemeModeButton: React.FC = () => {
   const t = useTranslations('ThemeModeButton');
-  const { theme, mode, toggleMode } = useThemeContext();
+  const { mode, toggleMode } = useThemeContext();
 
   return (
-    <button
-      type="button"
-      onClick={toggleMode}
-      className={clsx(
-        'cursor-pointer rounded-md border-2 border-transparent p-2',
-        `${theme}-theme-button`
-      )}
-      title={t(mode)}
-    >
+    <button type="button" onClick={toggleMode} className="toggle-button" title={t(mode)}>
       {MODE_ICON_MAP[mode]}
     </button>
   );

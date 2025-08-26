@@ -1,7 +1,6 @@
 'use client';
 
 import { BoxWrapper, Button, ItemSelector } from '@components';
-import { useThemeContext } from '@hooks';
 import { UrlPath } from '@ts-enums';
 import type { Recipe } from '@ts-types';
 import { clsx } from 'clsx';
@@ -17,7 +16,6 @@ interface Props {
 
 export const ListItem: React.FC<Props> = ({ isSidePanelOpen, recipe }) => {
   const t = useTranslations('ListItem');
-  const { theme } = useThemeContext();
   const { name, image, ingredients, id } = recipe;
   const params = useParams<{ detailsId?: string }>();
   const searchParams = useSearchParams();
@@ -34,7 +32,7 @@ export const ListItem: React.FC<Props> = ({ isSidePanelOpen, recipe }) => {
       ref={itemRef}
       testId={`list-item-${id}`}
       className={clsx(
-        '@container/itemWrapper flex h-full w-full scroll-mt-[92px] flex-row items-stretch gap-4 outline-2 outline-transparent transition-colors duration-200 ease-in-out hover:outline-orange-900'
+        '@container/itemWrapper h-full w-full scroll-mt-[92px] flex-row items-stretch outline-2 outline-transparent transition-colors duration-200 ease-in-out hover:outline-orange-900'
       )}
     >
       <div
@@ -71,7 +69,7 @@ export const ListItem: React.FC<Props> = ({ isSidePanelOpen, recipe }) => {
           <ul className="flex list-disc flex-col gap-1 pl-6 text-left text-sm">
             {ingredients.map((ingredient) => {
               return (
-                <li className={`${theme}-text`} data-testid="ingredient" key={ingredient}>
+                <li className="text" data-testid="ingredient" key={ingredient}>
                   {ingredient}
                 </li>
               );

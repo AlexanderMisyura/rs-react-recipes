@@ -1,11 +1,7 @@
 @import 'tailwindcss';
-@import './box-wrapper.css';
-@import './button.css';
-@import './text.css';
-@import './search.css';
-@import './root-layout.css';
-@import './item-selector.css';
-@import './theme-button.css';
+@import './ui.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 html {
   scrollbar-gutter: stable;
@@ -34,8 +30,10 @@ body {
     background-size: cover;
     filter: contrast(50%) brightness(150%) grayscale(50%);
   }
+}
 
-  &:has(.dark-wrapper) {
+html.dark {
+  body {
     &::before {
       filter: contrast(50%) brightness(40%) grayscale(50%);
     }
