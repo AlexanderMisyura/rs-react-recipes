@@ -24,10 +24,10 @@ export const ListItem: React.FC<Props> = ({ isSidePanelOpen, recipe }) => {
   const itemRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (params?.detailsId === id.toString()) {
+    if (params.detailsId === id.toString()) {
       itemRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [params?.detailsId, id, isSidePanelOpen]);
+  }, [params.detailsId, id, isSidePanelOpen]);
 
   return (
     <BoxWrapper
@@ -59,7 +59,7 @@ export const ListItem: React.FC<Props> = ({ isSidePanelOpen, recipe }) => {
           />
           <div className="flex w-full grow flex-col items-center justify-end">
             <Button
-              linkTo={`${UrlPath.RECIPES}/${id}?${searchParams?.toString()}`}
+              linkTo={`${UrlPath.RECIPES}/${id}?${searchParams.toString()}`}
               className="w-full"
             >
               {t('details')}

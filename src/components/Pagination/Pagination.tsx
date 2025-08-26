@@ -20,11 +20,11 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const page = +(searchParams?.get('page') ?? '1');
+  const page = +(searchParams.get('page') ?? '1');
   const pages = Math.ceil(total / ITEMS_PER_PAGE);
 
   const followPage = (direction: -1 | 1) => {
-    const params = new URLSearchParams(searchParams ?? '');
+    const params = new URLSearchParams(searchParams);
     let newPage = page + direction;
 
     if (newPage < 1) {

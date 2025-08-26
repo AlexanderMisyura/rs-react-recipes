@@ -13,7 +13,7 @@ interface CloseLinkProps {
 export const CloseLink: React.FC<CloseLinkProps> = ({ className, text }) => {
   const t = useTranslations('CloseLink');
   const searchParams = useSearchParams();
-  const closeDetailsUrl = `${UrlPath.RECIPES}?${searchParams?.toString()}`;
+  const closeDetailsUrl = `${UrlPath.RECIPES}?${searchParams.toString()}`;
 
   return (
     <Button className={className} linkTo={closeDetailsUrl}>
