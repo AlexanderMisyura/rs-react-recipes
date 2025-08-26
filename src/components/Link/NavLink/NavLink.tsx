@@ -2,6 +2,7 @@
 
 import { Link, usePathname } from '@i18n/navigation';
 import { clsx } from 'clsx/lite';
+import { useRef } from 'react';
 
 interface NavLinkProps {
   className?: string;
@@ -18,14 +19,14 @@ export const NavLink: React.FC<NavLinkProps> = ({
   ...rest
 }) => {
   const pathname = usePathname();
-  let isActive = false;
+  const isActiveRef = useRef(false);
 
   if (pathname) {
-    isActive = href.includes(pathname.split('/')[1]);
+    isActiveRef.current = href.includes(pathname.split('/')[1]);
   }
 
   return (
-    <Link href={href} className={clsx(className, isActive && activeClassName)} {...rest}>
+    <Link href={href} className={clsx(className, isActiveRef.current && activeClassName)} {...rest}>
       {children}
     </Link>
   );
