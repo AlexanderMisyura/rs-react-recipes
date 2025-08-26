@@ -13,6 +13,7 @@ export { CloseLink } from './Link/CloseLink/CloseLink';
 export { NavLink } from './Link/NavLink/NavLink';
 export { List } from './List/List';
 export { ListItem } from './ListItem/ListItem';
+export { PageContent } from './PageContent/PageContent';
 export { Pagination } from './Pagination/Pagination';
 export { Search } from './Search/Search';
 export { SelectionFlyout } from './SelectionFlyout/SelectionFlyout';
