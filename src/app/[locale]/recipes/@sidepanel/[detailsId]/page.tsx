@@ -13,44 +13,44 @@ const SidePanel: React.FC<SidePanelProps> = async ({ params }) => {
 
   if (!detailsId) {
     return null;
-  } else {
-    const detailsPromise = dispatch(recipesApi.endpoints.getRecipeDetails.initiate(detailsId));
+  }
 
-    try {
-      const { data, isError, error } = await detailsPromise;
+  const detailsPromise = dispatch(recipesApi.endpoints.getRecipeDetails.initiate(detailsId));
 
-      if (isError) {
-        return <SidePanelErrorFallback error={error} />;
-      }
+  try {
+    const { data, isError, error } = await detailsPromise;
 
-      if (data) {
-        return (
-          <BoxWrapper testId="side-panel" className={'flex w-full max-w-2xl flex-col gap-4'}>
-            <h3 className="text-center font-bold text-balance text-orange-900">
-              {`${t('title')} ${data.name}`}
-            </h3>
-
-            <ul className="flex list-disc flex-col gap-1 pl-6 text-sm">
-              {data.instructions.map((instruction) => {
-                return (
-                  <li data-testid="instruction" key={instruction}>
-                    {instruction}
-                  </li>
-                );
-              })}
-            </ul>
-
-            <CloseLink className="w-full" />
-          </BoxWrapper>
-        );
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        return <SidePanelErrorFallback error={error} />;
-      }
-    } finally {
-      detailsPromise.unsubscribe();
+    if (isError) {
+      return <SidePanelErrorFallback error={error} />;
     }
+
+    if (data) {
+      return (
+        <BoxWrapper testId="side-panel" className={'flex w-full max-w-2xl flex-col gap-4'}>
+          <h3 className="text-center font-bold text-balance text-orange-900">
+            {`${t('title')} ${data.name}`}
+          </h3>
+
+          <ul className="flex list-disc flex-col gap-1 pl-6 text-sm">
+            {data.instructions.map((instruction) => {
+              return (
+                <li data-testid="instruction" key={instruction}>
+                  {instruction}
+                </li>
+              );
+            })}
+          </ul>
+
+          <CloseLink className="w-full" />
+        </BoxWrapper>
+      );
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return <SidePanelErrorFallback error={error} />;
+    }
+  } finally {
+    detailsPromise.unsubscribe();
   }
 };
 
