@@ -26,10 +26,13 @@ export const recipesSlice = createSlice({
     clear: (state) => {
       state.recipesChecked = [];
     },
+    restore: (state, action: PayloadAction<Recipe[]>) => {
+      state.recipesChecked = action.payload;
+    },
   },
 });
 
-export const { add, remove, clear } = recipesSlice.actions;
+export const { add, remove, clear, restore } = recipesSlice.actions;
 
 export default recipesSlice.reducer;
 
