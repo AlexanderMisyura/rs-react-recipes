@@ -72,12 +72,12 @@ export const Table = memo<ListProps>(function Table({
               <tr key={country}>
                 <th>{country}</th>
                 <Cell value={iso_code} />
-                <Cell value={data[0].population} />
-                <Cell value={data[0].year} />
-                <Cell value={data[0].co2} />
-                <Cell value={data[0].co2_per_capita} />
-                {optionalData.methane && <Cell value={data[0].methane} />}
-                {optionalData.oil_co2 && <Cell value={data[0].oil_co2} />}
+                <Cell value={data[0]?.population} />
+                <Cell value={data[0]?.year} />
+                <Cell value={data[0]?.co2} />
+                <Cell value={data[0]?.co2_per_capita} />
+                {optionalData.methane && <Cell value={data[0]?.methane} />}
+                {optionalData.oil_co2 && <Cell value={data[0]?.oil_co2} />}
                 {optionalData.temperature_change_from_co2 && (
                   <Cell value={data[0].temperature_change_from_co2} />
                 )}
