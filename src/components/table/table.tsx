@@ -79,7 +79,7 @@ export const Table = memo<ListProps>(function Table({
                 {optionalData.methane && <Cell value={data[0]?.methane} />}
                 {optionalData.oil_co2 && <Cell value={data[0]?.oil_co2} />}
                 {optionalData.temperature_change_from_co2 && (
-                  <Cell value={data[0].temperature_change_from_co2} />
+                  <Cell value={data[0]?.temperature_change_from_co2} />
                 )}
               </tr>
             );
