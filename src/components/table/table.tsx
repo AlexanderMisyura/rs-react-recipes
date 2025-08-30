@@ -42,7 +42,7 @@ export const Table = memo<ListProps>(function Table({
         return a.country.localeCompare(b.country) * direction;
       }
 
-      return ((a.data[0].population ?? 0) - (b.data[0].population ?? 0)) * direction;
+      return ((a.data[0]?.population ?? 0) - (b.data[0]?.population ?? 0)) * direction;
     });
   }, [yearFiltered, sortConfig]);
 
