@@ -1,11 +1,15 @@
 import type { SortConfig, SortDirection, SortKey } from '@ts-interfaces';
+import { memo } from 'react';
 
 interface SortSelectorProps {
   sortConfig: SortConfig;
   updateSortConfig: (sortConfig: SortConfig) => void;
 }
 
-export const SortSelector: React.FC<SortSelectorProps> = ({ sortConfig, updateSortConfig }) => {
+export const SortSelector = memo<SortSelectorProps>(function SortSelector({
+  sortConfig,
+  updateSortConfig,
+}) {
   const handleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
     const formData = new FormData(e.currentTarget);
     const key = formData.get('key') as SortKey;
@@ -60,4 +64,4 @@ export const SortSelector: React.FC<SortSelectorProps> = ({ sortConfig, updateSo
       </fieldset>
     </form>
   );
-};
+});

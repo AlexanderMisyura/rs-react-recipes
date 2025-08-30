@@ -3,7 +3,7 @@ import config from '@config/api.config';
 import { defaultOptionalData } from '@constants';
 import { DatasetSchema } from '@schemas';
 import type { OptionalData, SortConfig } from '@ts-interfaces';
-import { Suspense, useState } from 'react';
+import { Suspense, useCallback, useState } from 'react';
 
 const datasetPromise = fetch(config.API_URL)
   .then((res) => res.json())
@@ -28,6 +28,25 @@ export const App = () => {
   const [optionalData, setOptionalData] = useState<OptionalData>(defaultOptionalData);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const updateYearFilter = useCallback((year: number) => {
+    setYear(year);
+  }, []);
+  const updateCountryFilter = useCallback((str: string) => {
+    setSearchString(str);
+  }, []);
+  const updateSortConfig = useCallback((config: SortConfig) => {
+    setSortConfig(config);
+  }, []);
+  const updateOptionalData = useCallback((data: OptionalData) => {
+    setOptionalData(data);
+  }, []);
+  const openModal = useCallback(() => {
+    setIsModalOpen(true);
+  }, []);
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+
   return (
     <>
       <section className="section">
@@ -36,12 +55,10 @@ export const App = () => {
           year={year}
           searchString={searchString}
           sortConfig={sortConfig}
-          updateCountryFilter={setSearchString}
-          updateYearFilter={setYear}
-          updateSortConfig={setSortConfig}
-          openModal={() => {
-            setIsModalOpen(true);
-          }}
+          updateCountryFilter={updateCountryFilter}
+          updateYearFilter={updateYearFilter}
+          updateSortConfig={updateSortConfig}
+          openModal={openModal}
         />
       </section>
       <section className="section">
@@ -55,15 +72,10 @@ export const App = () => {
           />
         </Suspense>
       </section>
-      <Modal
-        isOpen={isModalOpen}
-        handleClose={() => {
-          setIsModalOpen(false);
-        }}
-      >
+      <Modal isOpen={isModalOpen} handleClose={closeModal}>
         <OptionalColumnSelector
           optionalData={optionalData}
-          updateOptionalData={setOptionalData}
+          updateOptionalData={updateOptionalData}
           handleClose={() => {
             setIsModalOpen(false);
           }}

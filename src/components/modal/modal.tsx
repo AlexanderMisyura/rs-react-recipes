@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 interface ModalProps {
@@ -7,7 +7,7 @@ interface ModalProps {
   children?: React.ReactNode;
 }
 
-export const Modal: React.FC<ModalProps> = ({ children, isOpen, handleClose }) => {
+export const Modal = memo<ModalProps>(function Modal({ children, isOpen, handleClose }) {
   const modalRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
 
@@ -61,4 +61,4 @@ export const Modal: React.FC<ModalProps> = ({ children, isOpen, handleClose }) =
     </div>,
     document.body
   );
-};
+});

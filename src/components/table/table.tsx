@@ -1,6 +1,6 @@
 import type { OptionalData, SortConfig } from '@ts-interfaces';
 import type { DatasetStored } from '@ts-types';
-import { use, useRef } from 'react';
+import { memo, use, useMemo } from 'react';
 
 import { Cell } from './cell/cell';
 
@@ -12,23 +12,30 @@ interface ListProps {
   sortConfig: SortConfig;
 }
 
-export const Table: React.FC<ListProps> = ({
+export const Table = memo<ListProps>(function Table({
   datasetPromise,
   optionalData,
   yearFilter,
   searchFilter,
   sortConfig,
-}) => {
-  const rawDataRef = useRef<DatasetStored>(use(datasetPromise));
+}) {
+  const rawData = use(datasetPromise);
 
-  const processedData = rawDataRef.current
-    .filter(({ country }) => country.toLowerCase().includes(searchFilter.toLowerCase()))
-    .map((entry) => {
+  const searchFiltered = useMemo(() => {
+    return rawData.filter(({ country }) =>
+      country.toLowerCase().includes(searchFilter.toLowerCase())
+    );
+  }, [searchFilter, rawData]);
+
+  const yearFiltered = useMemo(() => {
+    return searchFiltered.map((entry) => {
       const filteredDataItems = entry.data.filter((item) => item.year === yearFilter);
       return { ...entry, data: filteredDataItems };
-    })
-    .filter(({ data }) => data.find((item) => item.year === yearFilter))
-    .sort((a, b) => {
+    });
+  }, [yearFilter, searchFiltered]);
+
+  const sorted = useMemo(() => {
+    return yearFiltered.sort((a, b) => {
       const { key, direction } = sortConfig;
 
       if (key === 'country') {
@@ -37,8 +44,9 @@ export const Table: React.FC<ListProps> = ({
 
       return ((a.data[0].population ?? 0) - (b.data[0].population ?? 0)) * direction;
     });
+  }, [yearFiltered, sortConfig]);
 
-  if (!processedData.length) {
+  if (!sorted.length) {
     return <div className="box container w-max! text-2xl">No data found</div>;
   }
 
@@ -59,7 +67,7 @@ export const Table: React.FC<ListProps> = ({
           </tr>
         </thead>
         <tbody>
-          {processedData.map(({ country, data, iso_code }) => {
+          {sorted.map(({ country, data, iso_code }) => {
             return (
               <tr key={country}>
                 <th>{country}</th>
@@ -80,4 +88,4 @@ export const Table: React.FC<ListProps> = ({
       </table>
     </div>
   );
-};
+});

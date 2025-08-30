@@ -1,7 +1,7 @@
 import { Search, SortSelector, YearSelector } from '@components';
 import type { SortConfig } from '@ts-interfaces';
 import type { DatasetStored } from '@ts-types';
-import { Suspense } from 'react';
+import { memo, Suspense } from 'react';
 
 interface ControlsProps {
   datasetPromise: Promise<DatasetStored>;
@@ -14,7 +14,7 @@ interface ControlsProps {
   openModal: () => void;
 }
 
-export const Controls: React.FC<ControlsProps> = ({
+export const Controls = memo<ControlsProps>(function Controls({
   datasetPromise,
   year,
   searchString,
@@ -23,7 +23,7 @@ export const Controls: React.FC<ControlsProps> = ({
   updateCountryFilter,
   updateSortConfig,
   openModal,
-}) => {
+}) {
   return (
     <Suspense fallback={<div className="skeleton-block h-[68px]"></div>}>
       <div className="level">
@@ -55,4 +55,4 @@ export const Controls: React.FC<ControlsProps> = ({
       </div>
     </Suspense>
   );
-};
+});

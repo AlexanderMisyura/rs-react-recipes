@@ -1,5 +1,5 @@
 import type { DatasetStored } from '@ts-types';
-import { use, useRef } from 'react';
+import { memo, use, useMemo } from 'react';
 
 interface YearSelectorProps {
   datasetPromise: Promise<DatasetStored>;
@@ -7,16 +7,20 @@ interface YearSelectorProps {
   year: number;
 }
 
-export const YearSelector: React.FC<YearSelectorProps> = ({
+export const YearSelector = memo<YearSelectorProps>(function YearSelector({
   datasetPromise,
   updateYearFilter,
   year,
-}) => {
-  const yearsRef = useRef(new Set<number>());
+}) {
+  const dataset = use(datasetPromise);
 
-  use(datasetPromise).forEach(({ data }) => {
-    data.forEach(({ year }) => yearsRef.current.add(year));
-  });
+  const years = useMemo(() => {
+    const yearsSet = new Set<number>();
+    dataset.forEach(({ data }) => {
+      data.forEach(({ year }) => yearsSet.add(year));
+    });
+    return [...yearsSet].reverse();
+  }, [dataset]);
 
   return (
     <div className="select">
@@ -27,7 +31,7 @@ export const YearSelector: React.FC<YearSelectorProps> = ({
           updateYearFilter(+e.target.value);
         }}
       >
-        {[...yearsRef.current].reverse().map((year) => (
+        {years.map((year) => (
           <option key={year} value={year}>
             {year}
           </option>
@@ -35,4 +39,4 @@ export const YearSelector: React.FC<YearSelectorProps> = ({
       </select>
     </div>
   );
-};
+});

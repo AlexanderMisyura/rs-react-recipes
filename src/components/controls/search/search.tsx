@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { memo, useRef } from 'react';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 
 interface SearchProps {
@@ -6,7 +6,7 @@ interface SearchProps {
   country: string;
 }
 
-export const Search: React.FC<SearchProps> = ({ updateCountryFilter, country }) => {
+export const Search = memo<SearchProps>(function Search({ updateCountryFilter, country }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const submitSearch = (e: React.FormEvent<HTMLFormElement>) => {
@@ -57,4 +57,4 @@ export const Search: React.FC<SearchProps> = ({ updateCountryFilter, country }) 
       </p>
     </form>
   );
-};
+});

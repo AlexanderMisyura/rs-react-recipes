@@ -1,6 +1,6 @@
-import { useLayoutEffect, useRef } from 'react';
+import { memo, useLayoutEffect, useRef } from 'react';
 
-export const Cell: React.FC<{ value: string | number | undefined }> = ({ value }) => {
+export const Cell = memo<{ value: string | number | undefined }>(function Cell({ value }) {
   const cellRef = useRef<HTMLTableCellElement>(null);
   const prevRef = useRef<string | number | undefined>(value);
   const timerIdRef = useRef<ReturnType<typeof setTimeout>>(null);
@@ -39,4 +39,4 @@ export const Cell: React.FC<{ value: string | number | undefined }> = ({ value }
       {value ?? 'N/A'}
     </td>
   );
-};
+});
