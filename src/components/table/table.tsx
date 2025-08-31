@@ -28,10 +28,12 @@ export const Table = memo<ListProps>(function Table({
   }, [searchFilter, rawData]);
 
   const yearFiltered = useMemo(() => {
-    return searchFiltered.map((entry) => {
-      const filteredDataItems = entry.data.filter((item) => item.year === yearFilter);
-      return { ...entry, data: filteredDataItems };
-    });
+    return searchFiltered
+      .map((entry) => {
+        const filteredDataItems = entry.data.filter((item) => item.year === yearFilter);
+        return { ...entry, data: filteredDataItems };
+      })
+      .filter((entry) => entry.data.length);
   }, [yearFilter, searchFiltered]);
 
   const sorted = useMemo(() => {
