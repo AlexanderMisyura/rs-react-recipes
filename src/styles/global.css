@@ -1,0 +1,14 @@
+@import 'https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css';
+@import 'tailwindcss';
+
+:root {
+  background-color: aliceblue;
+}
+
+.cell {
+  transition: background-color 2000ms linear;
+}
+
+.cell.highlight {
+  background-color: lightgreen;
+}
