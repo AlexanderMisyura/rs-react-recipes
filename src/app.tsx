@@ -76,9 +76,7 @@ export const App = () => {
         <OptionalColumnSelector
           optionalData={optionalData}
           updateOptionalData={updateOptionalData}
-          handleClose={() => {
-            setIsModalOpen(false);
-          }}
+          handleClose={closeModal}
         />
       </Modal>
     </>
