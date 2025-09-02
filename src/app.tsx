@@ -50,16 +50,18 @@ export const App = () => {
   return (
     <>
       <section className="section">
-        <Controls
-          datasetPromise={datasetPromise}
-          year={year}
-          searchString={searchString}
-          sortConfig={sortConfig}
-          updateCountryFilter={updateCountryFilter}
-          updateYearFilter={updateYearFilter}
-          updateSortConfig={updateSortConfig}
-          openModal={openModal}
-        />
+        <Suspense fallback={<div className="skeleton-block h-[68px]"></div>}>
+          <Controls
+            datasetPromise={datasetPromise}
+            year={year}
+            searchString={searchString}
+            sortConfig={sortConfig}
+            updateCountryFilter={updateCountryFilter}
+            updateYearFilter={updateYearFilter}
+            updateSortConfig={updateSortConfig}
+            openModal={openModal}
+          />
+        </Suspense>
       </section>
       <section className="section">
         <Suspense fallback={<progress className="progress is-large is-info" max="100"></progress>}>
