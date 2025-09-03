@@ -22,51 +22,53 @@ export const FormUncontrolled: React.FC = () => {
 
   const saveUser = async (e: React.FormEvent<HTMLFormElement>) => {
     if (
-      e.nativeEvent instanceof SubmitEvent &&
-      e.nativeEvent.submitter instanceof HTMLButtonElement &&
-      e.nativeEvent.submitter.name === 'save'
+      !(e.nativeEvent instanceof SubmitEvent) ||
+      !(e.nativeEvent.submitter instanceof HTMLButtonElement) ||
+      !(e.nativeEvent.submitter.name === 'save')
     ) {
-      const formData = new FormData(e.currentTarget);
-      const rawData: Record<string, unknown> = Object.fromEntries(formData.entries());
-      const imageFile = formData.get('image') as File | null;
-
-      rawData.areTermsAccepted = rawData.areTermsAccepted !== undefined;
-
-      if (imageFile?.size === 0) {
-        rawData.image = null;
-      } else {
-        rawData.image = imageFile ?? null;
-      }
-
-      const result = UserSchema.safeParse(rawData);
-
-      if (!result.success) {
-        const errors: UserErrors = {};
-        result.error.issues.forEach((issue) => {
-          errors[issue.path[0] as keyof UserErrors] = issue.message;
-        });
-        setUserErrors(errors);
-        e.preventDefault();
-        return;
-      }
-
-      const validatedData = result.data;
-
-      let base64Image = '';
-
-      if (imageFile instanceof File) {
-        base64Image = await fileToBase64(imageFile);
-      }
-
-      const user: User = {
-        ...validatedData,
-        id: crypto.randomUUID(),
-        image: base64Image,
-      };
-
-      dispatch(add(user));
-      setUserErrors({});
+      return;
     }
+
+    const formData = new FormData(e.currentTarget);
+    const rawData: Record<string, unknown> = Object.fromEntries(formData.entries());
+    const imageFile = formData.get('image') as File | null;
+
+    rawData.areTermsAccepted = rawData.areTermsAccepted !== undefined;
+
+    if (imageFile?.size === 0) {
+      rawData.image = null;
+    } else {
+      rawData.image = imageFile ?? null;
+    }
+
+    const result = UserSchema.safeParse(rawData);
+
+    if (!result.success) {
+      const errors: UserErrors = {};
+      result.error.issues.forEach((issue) => {
+        errors[issue.path[0] as keyof UserErrors] = issue.message;
+      });
+      setUserErrors(errors);
+      e.preventDefault();
+      return;
+    }
+
+    const validatedData = result.data;
+
+    let base64Image = '';
+
+    if (imageFile instanceof File) {
+      base64Image = await fileToBase64(imageFile);
+    }
+
+    const user: User = {
+      ...validatedData,
+      id: crypto.randomUUID(),
+      image: base64Image,
+    };
+
+    dispatch(add(user));
+    setUserErrors({});
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
