@@ -26,15 +26,43 @@ describe('Modal', () => {
   });
 
   it('should close on outside click', async () => {
-    const { user } = setupUserWithProviders(<App />);
-    await user.click(screen.getByRole('button', { name: 'Controlled' }));
+    const { user } = setupUserWithProviders(
+      <div id="root">
+        <App />
+      </div>
+    );
+
+    const openButton = screen.getByRole('button', { name: 'Controlled' });
+    await user.click(openButton);
+
+    const dialog = await screen.findByRole('dialog');
+    expect(dialog).toBeInTheDocument();
+
+    const backdrop = await screen.findByTestId('backdrop');
+    await user.click(backdrop);
+
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+  });
+
+  it('should close on escape key press', async () => {
+    const { user } = setupUserWithProviders(
+      <div id="root">
+        <App />
+      </div>
+    );
+
+    const openButton = screen.getByRole('button', { name: 'Controlled' });
+    await user.click(openButton);
 
     const dialog = screen.getByRole('dialog');
     expect(dialog).toBeInTheDocument();
 
-    await user.click(dialog);
+    await user.keyboard('{Escape}');
+
     await waitFor(() => {
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+      expect(dialog).not.toBeInTheDocument();
     });
   });
 
