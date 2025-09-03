@@ -5,14 +5,16 @@ import { PasswordStrengthSchema, UserSchema } from '@schemas';
 import type { User } from '@ts-interfaces';
 import type { PasswordStrengthKey } from '@ts-types';
 import { fileToBase64 } from '@utils';
+import { clsx } from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 
 type UserErrors = Partial<Record<keyof Omit<User, 'id'> | 'confirmPassword', string>>;
 
 export const FormUncontrolled: React.FC = () => {
   const [userErrors, setUserErrors] = useState<UserErrors>({});
-  const [passwordStrength, setPasswordStrength] = useState<PasswordStrengthKey | null>(null);
+  const [passwordStrength, setPasswordStrength] = useState<PasswordStrengthKey>(0);
   const firsInputRef = useRef<HTMLInputElement>(null);
+  const [isPasswordDirty, setIsPasswordDirty] = useState(false);
 
   const dispatch = useAppDispatch();
   const countries = useAppSelector(selectAllCountries);
@@ -22,11 +24,6 @@ export const FormUncontrolled: React.FC = () => {
       firsInputRef.current.focus();
     }
   }, []);
-
-  let passwordStrengthMessage = '';
-  if (passwordStrength !== null) {
-    passwordStrengthMessage = `(${PASSWORD_STRENGTH_MAP[passwordStrength]})`;
-  }
 
   const saveUser = async (e: React.FormEvent<HTMLFormElement>) => {
     if (
@@ -77,14 +74,21 @@ export const FormUncontrolled: React.FC = () => {
     }
   };
 
-  const checkPasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const result = PasswordStrengthSchema.safeParse(e.target.value);
-
-    if (!result.success) {
-      setPasswordStrength(result.error.issues.length as PasswordStrengthKey);
-    } else {
-      setPasswordStrength(0);
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!isPasswordDirty) {
+      setIsPasswordDirty(true);
     }
+    const checkPasswordStrength = (value: string) => {
+      const result = PasswordStrengthSchema.safeParse(value);
+
+      if (!result.success) {
+        setPasswordStrength(result.error.issues.length as PasswordStrengthKey);
+      } else {
+        setPasswordStrength(0);
+      }
+    };
+
+    checkPasswordStrength(e.target.value);
   };
 
   return (
@@ -161,11 +165,14 @@ export const FormUncontrolled: React.FC = () => {
         <fieldset>
           <div className="field-row">
             <label className="w-[110px] font-bold" htmlFor="password">
-              Password {passwordStrengthMessage}
+              Password {isPasswordDirty && PASSWORD_STRENGTH_MAP[passwordStrength]}
             </label>
             <input
-              className={`password-strength-${passwordStrength}`}
-              onChange={checkPasswordStrength}
+              className={clsx({ [`password-strength-${passwordStrength}`]: isPasswordDirty })}
+              onChange={handlePasswordChange}
+              onBlur={() => {
+                setIsPasswordDirty(true);
+              }}
               type="password"
               id="password"
               name="password"

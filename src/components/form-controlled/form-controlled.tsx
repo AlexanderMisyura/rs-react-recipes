@@ -6,6 +6,7 @@ import { PasswordStrengthSchema, UserSchemaImagePreprocess } from '@schemas';
 import type { User } from '@ts-interfaces';
 import type { PasswordStrengthKey } from '@ts-types';
 import { fileToBase64 } from '@utils';
+import { clsx } from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 
@@ -19,10 +20,14 @@ export const FormControlled: React.FC<FormControlledProps> = ({ closeModal }) =>
     handleSubmit,
     formState: { errors, isValid },
     reset,
+    watch,
+    getFieldState,
   } = useForm({ resolver: zodResolver(UserSchemaImagePreprocess), mode: 'onChange' });
-  const [passwordStrength, setPasswordStrength] = useState<PasswordStrengthKey | null>(null);
+  const [passwordStrength, setPasswordStrength] = useState<PasswordStrengthKey>(0);
   const firsInputRef = useRef<HTMLInputElement>(null);
   const { ref, ...nameInputProps } = register('name');
+  const passwordValue = watch('password');
+  const { isDirty: isPasswordDirty } = getFieldState('password');
 
   const dispatch = useAppDispatch();
   const countries = useAppSelector(selectAllCountries);
@@ -33,10 +38,23 @@ export const FormControlled: React.FC<FormControlledProps> = ({ closeModal }) =>
     }
   }, []);
 
-  let passwordStrengthMessage = '';
-  if (passwordStrength !== null) {
-    passwordStrengthMessage = `(${PASSWORD_STRENGTH_MAP[passwordStrength]})`;
-  }
+  useEffect(() => {
+    if (!isPasswordDirty) {
+      return;
+    }
+
+    const checkPasswordStrength = (value: string) => {
+      const result = PasswordStrengthSchema.safeParse(value);
+
+      if (!result.success) {
+        setPasswordStrength(result.error.issues.length as PasswordStrengthKey);
+      } else {
+        setPasswordStrength(0);
+      }
+    };
+
+    checkPasswordStrength(passwordValue);
+  }, [passwordValue, isPasswordDirty]);
 
   const saveUser: SubmitHandler<{
     name: string;
@@ -58,16 +76,6 @@ export const FormControlled: React.FC<FormControlledProps> = ({ closeModal }) =>
     dispatch(add(user));
     reset();
     closeModal?.();
-  };
-
-  const checkPasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const result = PasswordStrengthSchema.safeParse(e.target.value);
-
-    if (!result.success) {
-      setPasswordStrength(result.error.issues.length as PasswordStrengthKey);
-    } else {
-      setPasswordStrength(0);
-    }
   };
 
   return (
@@ -153,12 +161,11 @@ export const FormControlled: React.FC<FormControlledProps> = ({ closeModal }) =>
         <fieldset>
           <div className="field-row">
             <label className="w-[110px] font-bold" htmlFor="password">
-              Password {passwordStrengthMessage}
+              Password {isPasswordDirty && PASSWORD_STRENGTH_MAP[passwordStrength]}
             </label>
             <input
               {...register('password')}
-              className={`password-strength-${passwordStrength}`}
-              onChange={checkPasswordStrength}
+              className={clsx({ [`password-strength-${passwordStrength}`]: isPasswordDirty })}
               type="password"
               id="password"
               autoComplete="new-password"

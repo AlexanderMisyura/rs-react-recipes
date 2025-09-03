@@ -18,7 +18,10 @@ export const AgeSchema = z.coerce
 
 export const EmailSchema = z.email('Invalid email address');
 
-export const PasswordSchema = z.string().nonempty('Password is required');
+export const PasswordSchema = z
+  .string()
+  .nonempty('Password is required')
+  .min(12, 'Password must be at least 12 characters');
 
 export const ConfirmPasswordSchema = z.string().nonempty('Confirm password is required');
 
