@@ -1,24 +1,17 @@
-import { GENDERS } from '@constants';
+import { GENDERS, PASSWORD_STRENGTH_MAP } from '@constants';
 import { useAppDispatch, useAppSelector } from '@redux/hooks';
 import { add, selectAllCountries } from '@redux/userSlice';
 import { PasswordStrengthSchema, UserSchema } from '@schemas';
 import type { User } from '@ts-interfaces';
+import type { PasswordStrengthKey } from '@ts-types';
 import { fileToBase64 } from '@utils';
 import { useEffect, useRef, useState } from 'react';
 
 type UserErrors = Partial<Record<keyof Omit<User, 'id'> | 'confirmPassword', string>>;
 
-const PASSWORD_STRENGTH_MAP = {
-  0: 'Strong',
-  1: 'Medium',
-  2: 'Medium',
-  3: 'Medium',
-  4: 'Weak',
-};
-
 export const FormUncontrolled: React.FC = () => {
   const [userErrors, setUserErrors] = useState<UserErrors>({});
-  const [passwordStrength, setPasswordStrength] = useState<number | null>(null);
+  const [passwordStrength, setPasswordStrength] = useState<PasswordStrengthKey | null>(null);
   const firsInputRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useAppDispatch();
@@ -32,7 +25,7 @@ export const FormUncontrolled: React.FC = () => {
 
   let passwordStrengthMessage = '';
   if (passwordStrength !== null) {
-    passwordStrengthMessage = `(${PASSWORD_STRENGTH_MAP[passwordStrength as 0 | 1 | 2 | 3 | 4]})`;
+    passwordStrengthMessage = `(${PASSWORD_STRENGTH_MAP[passwordStrength]})`;
   }
 
   const saveUser = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -88,7 +81,7 @@ export const FormUncontrolled: React.FC = () => {
     const result = PasswordStrengthSchema.safeParse(e.target.value);
 
     if (!result.success) {
-      setPasswordStrength(result.error.issues.length);
+      setPasswordStrength(result.error.issues.length as PasswordStrengthKey);
     } else {
       setPasswordStrength(0);
     }

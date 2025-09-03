@@ -1,9 +1,10 @@
-import { GENDERS } from '@constants';
+import { GENDERS, PASSWORD_STRENGTH_MAP } from '@constants';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppDispatch, useAppSelector } from '@redux/hooks';
 import { add, selectAllCountries } from '@redux/userSlice';
 import { PasswordStrengthSchema, UserSchemaImagePreprocess } from '@schemas';
 import type { User } from '@ts-interfaces';
+import type { PasswordStrengthKey } from '@ts-types';
 import { fileToBase64 } from '@utils';
 import { useEffect, useRef, useState } from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
@@ -12,14 +13,6 @@ interface FormControlledProps {
   closeModal?: () => void;
 }
 
-const PASSWORD_STRENGTH_MAP = {
-  0: 'Strong',
-  1: 'Medium',
-  2: 'Medium',
-  3: 'Medium',
-  4: 'Weak',
-};
-
 export const FormControlled: React.FC<FormControlledProps> = ({ closeModal }) => {
   const {
     register,
@@ -27,7 +20,7 @@ export const FormControlled: React.FC<FormControlledProps> = ({ closeModal }) =>
     formState: { errors, isValid },
     reset,
   } = useForm({ resolver: zodResolver(UserSchemaImagePreprocess), mode: 'onChange' });
-  const [passwordStrength, setPasswordStrength] = useState<number | null>(null);
+  const [passwordStrength, setPasswordStrength] = useState<PasswordStrengthKey | null>(null);
   const firsInputRef = useRef<HTMLInputElement>(null);
   const { ref, ...nameInputProps } = register('name');
 
@@ -42,7 +35,7 @@ export const FormControlled: React.FC<FormControlledProps> = ({ closeModal }) =>
 
   let passwordStrengthMessage = '';
   if (passwordStrength !== null) {
-    passwordStrengthMessage = `(${PASSWORD_STRENGTH_MAP[passwordStrength as 0 | 1 | 2 | 3 | 4]})`;
+    passwordStrengthMessage = `(${PASSWORD_STRENGTH_MAP[passwordStrength]})`;
   }
 
   const saveUser: SubmitHandler<{
@@ -71,7 +64,7 @@ export const FormControlled: React.FC<FormControlledProps> = ({ closeModal }) =>
     const result = PasswordStrengthSchema.safeParse(e.target.value);
 
     if (!result.success) {
-      setPasswordStrength(result.error.issues.length);
+      setPasswordStrength(result.error.issues.length as PasswordStrengthKey);
     } else {
       setPasswordStrength(0);
     }
