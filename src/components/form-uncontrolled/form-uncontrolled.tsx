@@ -1,4 +1,5 @@
 import { GENDERS, PASSWORD_STRENGTH_MAP } from '@constants';
+import { useFocusOnInput } from '@hooks';
 import { useAppDispatch, useAppSelector } from '@redux/hooks';
 import { add, selectAllCountries } from '@redux/userSlice';
 import { PasswordStrengthSchema, UserSchema } from '@schemas';
@@ -6,7 +7,7 @@ import type { User } from '@ts-interfaces';
 import type { PasswordStrengthKey } from '@ts-types';
 import { fileToBase64 } from '@utils';
 import { clsx } from 'clsx';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 type UserErrors = Partial<Record<keyof Omit<User, 'id'> | 'confirmPassword', string>>;
 
@@ -15,15 +16,10 @@ export const FormUncontrolled: React.FC = () => {
   const [passwordStrength, setPasswordStrength] = useState<PasswordStrengthKey>(0);
   const firsInputRef = useRef<HTMLInputElement>(null);
   const [isPasswordDirty, setIsPasswordDirty] = useState(false);
+  useFocusOnInput(firsInputRef);
 
   const dispatch = useAppDispatch();
   const countries = useAppSelector(selectAllCountries);
-
-  useEffect(() => {
-    if (firsInputRef.current) {
-      firsInputRef.current.focus();
-    }
-  }, []);
 
   const saveUser = async (e: React.FormEvent<HTMLFormElement>) => {
     if (

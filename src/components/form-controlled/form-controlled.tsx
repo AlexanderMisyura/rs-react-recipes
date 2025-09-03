@@ -1,5 +1,6 @@
 import { GENDERS, PASSWORD_STRENGTH_MAP } from '@constants';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useFocusOnInput } from '@hooks';
 import { useAppDispatch, useAppSelector } from '@redux/hooks';
 import { add, selectAllCountries } from '@redux/userSlice';
 import { PasswordStrengthSchema, UserSchemaImagePreprocess } from '@schemas';
@@ -28,15 +29,10 @@ export const FormControlled: React.FC<FormControlledProps> = ({ closeModal }) =>
   const { ref, ...nameInputProps } = register('name');
   const passwordValue = watch('password');
   const { isDirty: isPasswordDirty } = getFieldState('password');
+  useFocusOnInput(firsInputRef);
 
   const dispatch = useAppDispatch();
   const countries = useAppSelector(selectAllCountries);
-
-  useEffect(() => {
-    if (firsInputRef.current) {
-      firsInputRef.current.focus();
-    }
-  }, []);
 
   useEffect(() => {
     if (!isPasswordDirty) {
