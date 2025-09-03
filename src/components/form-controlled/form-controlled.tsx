@@ -135,7 +135,7 @@ export const FormControlled: React.FC<FormControlledProps> = ({ closeModal }) =>
           <p className="h-[17px] text-red-800">{errors.gender?.message}</p>
         </fieldset>
         <fieldset>
-          <div className="">
+          <div>
             <label className="w-full font-bold" htmlFor="image">
               Upload Image
             </label>
