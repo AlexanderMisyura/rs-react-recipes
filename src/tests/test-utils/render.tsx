@@ -1,6 +1,5 @@
-import { countryList } from '@constants';
 import type { AppStore, RootState } from '@redux/store';
-import { setupStore } from '@redux/store';
+import { store as reduxStore } from '@redux/store';
 import type { RenderOptions } from '@testing-library/react';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -14,11 +13,7 @@ interface ExtendedRenderOptions extends RenderOptions {
 
 export const setupUserWithProviders = (
   ui: React.ReactElement,
-  {
-    preloadedState = { users: { users: [], countries: countryList } },
-    store = setupStore(preloadedState),
-    ...restOptions
-  }: ExtendedRenderOptions = {}
+  { store = reduxStore, ...restOptions }: ExtendedRenderOptions = {}
 ) => {
   const Wrapper = ({ children }: PropsWithChildren) => (
     <ReduxProvider store={store}>{children}</ReduxProvider>
