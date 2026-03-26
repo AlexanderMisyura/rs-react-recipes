@@ -1,10 +1,10 @@
 'use client';
 
 import { BoxWrapper, ErrorFallback, Heading, List, Pagination, Spinner } from '@components';
+import { useRecipesFetchParams } from '@hooks';
 import { useRouter } from '@i18n/navigation';
 import { useGetRecipesQuery } from '@redux/apiRecipesSlice';
-import { getRecipesFetchParams } from '@utils';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 interface PageContentProps {
@@ -13,9 +13,7 @@ interface PageContentProps {
 
 export const PageContent: React.FC<PageContentProps> = ({ sidePanel }) => {
   const t = useTranslations('RecipesLayout');
-  const searchParams = useSearchParams();
-
-  const recipesParams = getRecipesFetchParams(new URLSearchParams(searchParams));
+  const recipesParams = useRecipesFetchParams();
   const { data: recipesData, isFetching, isError, error } = useGetRecipesQuery(recipesParams);
   const params = useParams<{ detailsId?: string }>();
   const router = useRouter();
