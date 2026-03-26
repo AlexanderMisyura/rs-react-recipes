@@ -2,8 +2,6 @@ import '@styles/global.css';
 
 import { Header, SelectionFlyout } from '@components';
 import { routing } from '@i18n/routing';
-import { recipesApi } from '@redux/apiRecipesSlice';
-import { dispatch } from '@redux/store';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
@@ -26,8 +24,6 @@ const RootLayout: React.FC<RootLayoutProps> = async ({ children, params }) => {
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
-
-  await dispatch(recipesApi.endpoints.getRecipes.initiate({}));
 
   return (
     <html lang={locale}>
