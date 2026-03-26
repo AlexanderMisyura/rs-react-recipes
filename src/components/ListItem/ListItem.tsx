@@ -23,7 +23,7 @@ export const ListItem: React.FC<Props> = ({ isSidePanelOpen, recipe }) => {
 
   useEffect(() => {
     if (params.detailsId === id.toString()) {
-      itemRef.current?.scrollIntoView({ behavior: 'smooth' });
+      itemRef.current?.scrollIntoView({ behavior: isSidePanelOpen ? 'smooth' : 'auto' });
     }
   }, [params.detailsId, id, isSidePanelOpen]);
 
