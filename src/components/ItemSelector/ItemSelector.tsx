@@ -1,7 +1,7 @@
+import { useAppDispatch, useAppSelector } from '@redux/hooks';
 import { add, remove } from '@redux/recipesSlice';
 import type { Recipe } from '@ts-types';
 import { useTranslations } from 'next-intl';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 interface ItemSelectorProps {
   recipe: Recipe;

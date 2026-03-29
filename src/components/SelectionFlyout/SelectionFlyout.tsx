@@ -2,10 +2,10 @@
 
 import { Button, Flyout } from '@components';
 import { Link } from '@i18n/navigation';
+import { useAppDispatch, useAppSelector } from '@redux/hooks';
+import { clear, selectAllChecked, selectCheckedTotal } from '@redux/recipesSlice';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { clear, selectAllChecked, selectCheckedTotal } from 'redux/recipesSlice';
 
 export const SelectionFlyout: React.FC = () => {
   const t = useTranslations('SelectionFlyout');
