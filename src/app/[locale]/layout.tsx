@@ -12,8 +12,11 @@ export const metadata: Metadata = {
   title: 'Hot Recipes',
 };
 
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
 interface RootLayoutProps {
-  searchParams: Promise<{ q: string; page: string }>;
   children: React.ReactNode;
   params: Promise<{ locale?: string }>;
 }
