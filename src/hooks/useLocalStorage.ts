@@ -1,3 +1,5 @@
+'use client';
+
 import { storageService } from '@services';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -12,7 +14,14 @@ export const useLocalStorage = ({
   primaryValue,
   defaultValue = '',
 }: UseLocalStorageOptions) => {
-  const [value, setValue] = useState(() => storageService.getItem(key) ?? defaultValue);
+  const [value, setValue] = useState(defaultValue);
+
+  useEffect(() => {
+    const storedValue = storageService.getItem(key);
+    if (storedValue) {
+      setValue(storedValue);
+    }
+  }, [key]);
 
   useEffect(() => {
     if (primaryValue !== undefined) {
@@ -22,9 +31,9 @@ export const useLocalStorage = ({
   }, [key, primaryValue]);
 
   const saveToStorage = useCallback(
-    (nextValue: string) => {
-      storageService.setItem(key, nextValue);
-      setValue(nextValue);
+    (newValue: string) => {
+      storageService.setItem(key, newValue);
+      setValue(newValue);
     },
     [key]
   );

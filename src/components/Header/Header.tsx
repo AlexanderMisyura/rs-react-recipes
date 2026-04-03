@@ -1,28 +1,28 @@
 import logoIcon from '@assets/logo.png';
-import { ThemeModeButton } from '@components';
+import { LocaleButton, NavLink, ThemeModeButton } from '@components';
 import { UrlPath } from '@ts-enums';
 import { BoxWrapper } from 'components/BoxWrapper/BoxWrapper';
-import { NavLink } from 'react-router';
+import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 export const Header: React.FC = () => {
+  const t = useTranslations('Header');
+
   return (
-    <header className="sticky top-0 z-10 flex w-full justify-center">
-      <BoxWrapper className="m-0 w-full flex-row flex-wrap justify-between gap-4 p-2 max-sm:justify-center">
+    <header className="header">
+      <BoxWrapper className="m-0 w-full flex-row flex-wrap justify-between gap-0 p-2">
         <NavLink
           className="transition-colors hover:text-orange-950"
-          style={({ isActive }) => ({
-            fontWeight: isActive ? 'bold' : 'inherit',
-          })}
-          to={UrlPath.RECIPES}
-          viewTransition
+          activeClassName="font-bold"
+          href={UrlPath.RECIPES}
         >
           <div className="flex items-center gap-2 select-none">
-            <img src={logoIcon} alt="Hot Recipes logo" className="h-12" />
+            <Image width={48} height={48} src={logoIcon} alt={t('recipesAlt')} className="h-12" />
             <span
               style={{ fontWeight: 'inherit' }}
               className="text-2xl text-orange-900 transition-colors in-[a:hover]:text-orange-950"
             >
-              Hot Recipes
+              {t('recipes')}
             </span>
           </div>
         </NavLink>
@@ -31,18 +31,18 @@ export const Header: React.FC = () => {
             <li className="flex flex-col text-xl text-orange-900">
               <NavLink
                 className="transition-colors hover:text-orange-950"
-                to={UrlPath.ABOUT}
-                style={({ isActive }) => ({
-                  fontWeight: isActive ? 'bold' : 'inherit',
-                })}
-                viewTransition
+                activeClassName="font-bold"
+                href={UrlPath.ABOUT}
               >
-                About
+                {t('about')}
               </NavLink>
             </li>
           </ul>
         </nav>
-        <ThemeModeButton />
+        <div className="max-xs:w-full flex items-center justify-center gap-2">
+          <ThemeModeButton />
+          <LocaleButton />
+        </div>
       </BoxWrapper>
     </header>
   );

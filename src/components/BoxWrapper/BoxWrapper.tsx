@@ -1,4 +1,5 @@
-import { useThemeContext } from '@hooks';
+'use client';
+
 import { clsx } from 'clsx/lite';
 import { twMerge } from 'tailwind-merge';
 
@@ -10,14 +11,9 @@ interface BowWrapperProps {
 }
 
 export const BoxWrapper: React.FC<BowWrapperProps> = ({ children, className, testId, ref }) => {
-  const { theme } = useThemeContext();
-
   const combinedClasses = twMerge(
     clsx(
-      'rounded-sm bg-amber-50 shadow-xl',
-      'p-4 flex flex-col place-items-center gap-4',
-      'max-w-5xl',
-      `${theme}-wrapper`,
+      'wrapper text max-w-5xl gap-4 rounded-sm p-4 shadow-xl place-items-center flex-col',
       className
     )
   );

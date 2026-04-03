@@ -1,11 +1,11 @@
 @import 'tailwindcss';
-@import './box-wrapper.css';
-@import './button.css';
-@import './text.css';
-@import './search.css';
-@import './root-layout.css';
-@import './item-selector.css';
-@import './theme-button.css';
+@import './ui.css';
+
+@theme {
+  --breakpoint-xs: 30rem;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 html {
   scrollbar-gutter: stable;
@@ -15,7 +15,7 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100dvh;
 
   &::before {
     content: '';
@@ -33,6 +33,14 @@ body {
     background-position: center;
     background-size: cover;
     filter: contrast(50%) brightness(150%) grayscale(50%);
+  }
+}
+
+html.dark {
+  body {
+    &::before {
+      filter: contrast(50%) brightness(40%) grayscale(50%);
+    }
   }
 }
 

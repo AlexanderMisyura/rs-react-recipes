@@ -1,9 +1,13 @@
-import backIcon from '@assets/chevron-left.svg';
-import forwardIcon from '@assets/chevron-right.svg';
+'use client';
+
+import BackIcon from '@assets/chevron-left.svg';
+import ForwardIcon from '@assets/chevron-right.svg';
 import { BoxWrapper, Button } from '@components';
 import config from '@config/api.config';
+import { useRouter } from '@i18n/navigation';
 import { UrlPath } from '@ts-enums';
-import { useNavigate, useSearchParams } from 'react-router';
+import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 const { ITEMS_PER_PAGE } = config;
 
@@ -12,8 +16,9 @@ interface PaginationProps {
 }
 
 export const Pagination: React.FC<PaginationProps> = ({ total }) => {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const t = useTranslations('Pagination');
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const page = +(searchParams.get('page') ?? '1');
   const pages = Math.ceil(total / ITEMS_PER_PAGE);
@@ -32,7 +37,7 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
 
     params.set('page', newPage.toString());
 
-    void navigate(`${UrlPath.RECIPES}?${params}`, { viewTransition: true });
+    router.push(`${UrlPath.RECIPES}?${params}`);
   };
 
   if (pages === 1) {
@@ -48,10 +53,10 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
         testId="pagination-previous"
         disabled={page === 1}
       >
-        <img src={backIcon} className="h-6" alt="previous page" />
+        <BackIcon width={32} height={32} className="h-6" alt={t('previous')} />
       </Button>
 
-      <BoxWrapper className="text-xl font-bold text-orange-900">
+      <BoxWrapper className="text-xl font-bold text-orange-900!">
         {page} / {pages}
       </BoxWrapper>
 
@@ -62,7 +67,7 @@ export const Pagination: React.FC<PaginationProps> = ({ total }) => {
         testId="pagination-next"
         disabled={page === pages}
       >
-        <img src={forwardIcon} className="h-6" alt="next page" />
+        <ForwardIcon width={32} height={32} className="h-6" alt={t('next')} />
       </Button>
     </div>
   );

@@ -1,0 +1,72 @@
+{
+  "NotFoundFallback": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist",
+    "toRecipes": "To Recipes Page"
+  },
+  "ErrorFallback": {
+    "title": "Something went wrong",
+    "fix": "Fix"
+  },
+  "SidePanelErrorFallback": {
+    "fallbackMessage": "Something went wrong with the data"
+  },
+  "Header": {
+    "recipes": "Hot Recipes",
+    "recipesAlt": "Hot Recipes Logo",
+    "about": "About"
+  },
+  "Search": {
+    "placeholder": "Search",
+    "submit": "search submit"
+  },
+  "ItemSelector": {
+    "select": "Select"
+  },
+  "CloseLink": {
+    "text": "Close"
+  },
+  "List": {
+    "recipesFound": "Recipes Found"
+  },
+  "ListItem": {
+    "details": "Details",
+    "ingredients": "Ingredients"
+  },
+  "Pagination": {
+    "previous": "previous page",
+    "next": "next page"
+  },
+  "Spinner": {
+    "loading": "Loading..."
+  },
+  "SidePanel": {
+    "title": "Instructions for cooking"
+  },
+  "SelectionFlyout": {
+    "selected": "Recipes selected",
+    "unselect": "Unselect All",
+    "download": "Download"
+  },
+  "ThemeModeButton": {
+    "light": "Switch to system theme",
+    "dark": "Switch to light theme",
+    "system": "Switch to dark theme"
+  },
+  "RecipesLayout": {
+    "error": "Error",
+    "fallbackMessage": "Something went wrong with the data",
+    "emptyFallback": "Hot recipes not found",
+    "emptyFallbackText": "Try searching for something else"
+  },
+  "LocaleButton": {
+    "changeTitle": "Change language to russian"
+  },
+  "AboutPage": {
+    "aboutMe": "About me and this project",
+    "hello": "Hello! My name is Alexander",
+    "github": "My github profile:",
+    "project": "This project is a part of the",
+    "rsSchool": "RS School React course"
+  }
+}

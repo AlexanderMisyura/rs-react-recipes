@@ -1,4 +1,4 @@
 export { useBrowserDarkMode } from './useBrowserDarkMode';
 export { useLocalStorage } from './useLocalStorage';
-export { useParamToStorageSync } from './useParamToStorageSync';
+export { useRecipesFetchParams } from './useRecipesFetchParams';
 export { useThemeContext } from './useThemeContext';

@@ -1,0 +1,35 @@
+.wrapper {
+  @apply flex bg-amber-50 text-inherit dark:bg-neutral-900 dark:text-amber-900;
+}
+
+.text {
+  @apply text-inherit dark:text-amber-900;
+}
+
+.button {
+  @apply cursor-pointer rounded-md border-2 border-transparent bg-sky-200 px-4 py-2 text-center font-bold tracking-wide text-orange-900 shadow-sm transition-colors select-none hover:border-sky-300 active:border-sky-200 active:bg-sky-100 active:text-gray-500 active:shadow-inner disabled:pointer-events-none disabled:opacity-50 disabled:hover:border-transparent dark:bg-amber-700 dark:text-amber-950 dark:hover:border-amber-900 dark:active:border-amber-900 dark:active:bg-amber-800 dark:active:text-amber-900;
+}
+
+.toggle-button {
+  @apply h-[52px] w-[52px] cursor-pointer rounded-md border-2 border-transparent p-2 text-xl font-bold text-orange-900 hover:border-orange-100 dark:hover:border-amber-950;
+}
+
+.selector {
+  @apply border-sky-100! dark:border-amber-800!;
+}
+
+.search-input {
+  @apply rounded-md border-2 border-sky-200 bg-gray-50 px-4 py-2 hover:border-sky-300 dark:border-amber-700 dark:bg-gray-950 dark:hover:border-amber-800;
+}
+
+.flyout {
+  @apply fixed right-1 bottom-1 translate-y-[calc(100%+1rem)] border-2 border-amber-900 p-2 opacity-0 shadow-lg transition-all duration-300 ease-in-out;
+
+  &.flyout__open {
+    @apply translate-y-0 opacity-100;
+  }
+}
+
+.header {
+  @apply sticky top-0 z-10 flex w-full justify-center;
+}

@@ -1,15 +1,25 @@
-import searchIcon from '@assets/search.svg';
+'use client';
+
+import SearchIcon from '@assets/search.svg';
 import { BoxWrapper, Button } from '@components';
-import { STORAGE_KEY } from '@constants';
-import { useParamToStorageSync, useThemeContext } from '@hooks';
+import { PARAMS_MAP, STORAGE_KEY } from '@constants';
+import { useRouter } from '@i18n/navigation';
 import { searchFormDataSchema } from '@schemas';
-import { clsx } from 'clsx';
-import { Form, useSubmit } from 'react-router';
+import { UrlPath } from '@ts-enums';
+import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { useEffect, useRef } from 'react';
 
 export const Search: React.FC = () => {
-  const { theme } = useThemeContext();
-  const [searchString, setSearchString] = useParamToStorageSync(STORAGE_KEY.SEARCH_STRING);
-  const submit = useSubmit();
+  const t = useTranslations('Search');
+  const searchParams = useSearchParams();
+  const searchString = searchParams.get(PARAMS_MAP[STORAGE_KEY.SEARCH_STRING]) ?? '';
+  const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,30 +27,39 @@ export const Search: React.FC = () => {
     const searchData = searchFormDataSchema.parse(Object.fromEntries(formData));
     const trimmedSearch = searchData.q.trim();
 
-    setSearchString(trimmedSearch);
-
     const submission: { q?: string } = {};
 
     if (trimmedSearch) {
       submission.q = trimmedSearch;
     }
-    void submit(submission, { viewTransition: true });
+
+    const params = new URLSearchParams(submission);
+    router.push(`${UrlPath.RECIPES}?${params}`);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const trimmedSearch = e.target.value.trim();
+    if (trimmedSearch === '') {
+      router.push(UrlPath.RECIPES);
+    }
   };
 
   return (
     <BoxWrapper className="mx-2 flex">
-      <Form onSubmit={handleSubmit} className="flex items-center gap-2">
+      <form onSubmit={handleSubmit} className="flex items-center gap-2">
         <input
-          name="q"
+          ref={inputRef}
+          name={PARAMS_MAP[STORAGE_KEY.SEARCH_STRING]}
           defaultValue={searchString}
-          className={clsx(`${theme}-search`, `${theme}-text`, 'rounded-md border-2 px-4 py-2')}
+          className="search-input text"
           type="search"
-          placeholder="Search"
+          placeholder={t('placeholder')}
+          onChange={handleChange}
         />
         <Button testId="search-button" type="submit">
-          <img src={searchIcon} className="h-6" alt="search submit" />
+          <SearchIcon width={32} height={32} className="h-6" alt={t('submit')} />
         </Button>
-      </Form>
+      </form>
     </BoxWrapper>
   );
 };

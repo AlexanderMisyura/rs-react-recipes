@@ -1,4 +1,65 @@
 {
-  "files": [],
-  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["/*"],
+      "@app/*": ["app/*"],
+      "@assets/*": ["assets/*"],
+      "@components": ["components/index.ts"],
+      "@config/*": ["config/*"],
+      "@constants": ["constants/index.ts"],
+      "@context": ["context/index.ts"],
+      "@controllers": ["controllers/index.ts"],
+      "@hooks": ["hooks/index.ts"],
+      "@i18n/*": ["i18n/*"],
+      "@pages": ["pages/index.ts"],
+      "@redux/*": ["redux/*"],
+      "@schemas": ["schemas/index.ts"],
+      "@services": ["services/index.ts"],
+      "@styles/*": ["styles/*"],
+      "@tests-mocks": ["tests/mocks/index.ts"],
+      "@test-utils": ["tests/utils/index.ts"],
+      "@ts-enums": ["models/enums/index.ts"],
+      "@ts-interfaces": ["models/interfaces/index.ts"],
+      "@ts-types": ["models/types/index.ts"],
+      "@utils": ["utils/index.ts"]
+    },
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "./dist/types/**/*.ts",
+    "eslint.config.ts",
+    "next.config.mjs",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
 }

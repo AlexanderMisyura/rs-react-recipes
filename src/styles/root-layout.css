@@ -1,7 +1,0 @@
-.light-layout {
-  @apply bg-transparent;
-}
-
-.dark-layout {
-  @apply bg-[#171717d8];
-}

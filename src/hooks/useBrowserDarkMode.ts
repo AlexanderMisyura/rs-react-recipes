@@ -1,20 +1,30 @@
-import { useEffect, useMemo, useState } from 'react';
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
 
 export function useBrowserDarkMode() {
-  const matchMedia = useMemo(() => window.matchMedia('(prefers-color-scheme: dark)'), []);
-  const [isDark, setIsDark] = useState<boolean>(() => matchMedia.matches);
+  const matchMediaRef = useRef<MediaQueryList | null>(null);
+  const [isDark, setIsDark] = useState<boolean>(false);
 
   useEffect(() => {
+    matchMediaRef.current ??= window.matchMedia('(prefers-color-scheme: dark)');
+
+    setIsDark(matchMediaRef.current.matches);
+  }, []);
+
+  useEffect(() => {
+    matchMediaRef.current ??= window.matchMedia('(prefers-color-scheme: dark)');
+
     const saveBrowserDarkMode = (event: MediaQueryListEvent): void => {
       setIsDark(event.matches);
     };
 
-    matchMedia.addEventListener('change', saveBrowserDarkMode);
+    matchMediaRef.current.addEventListener('change', saveBrowserDarkMode);
 
     return () => {
-      matchMedia.removeEventListener('change', saveBrowserDarkMode);
+      matchMediaRef.current?.removeEventListener('change', saveBrowserDarkMode);
     };
-  }, [matchMedia]);
+  }, []);
 
   return isDark;
 }
