@@ -10,7 +10,7 @@ export const Header: React.FC = () => {
 
   return (
     <header className="header">
-      <BoxWrapper className="m-0 w-full flex-row flex-wrap justify-between p-2 max-sm:justify-center">
+      <BoxWrapper className="m-0 w-full flex-row flex-wrap justify-between gap-0 p-2">
         <NavLink
           className="transition-colors hover:text-orange-950"
           activeClassName="font-bold"
@@ -39,7 +39,7 @@ export const Header: React.FC = () => {
             </li>
           </ul>
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="max-xs:w-full flex items-center justify-center gap-2">
           <ThemeModeButton />
           <LocaleButton />
         </div>

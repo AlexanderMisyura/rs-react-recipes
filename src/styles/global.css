@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 @import './ui.css';
 
+@theme {
+  --breakpoint-xs: 30rem;
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 html {
@@ -11,7 +15,7 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100dvh;
 
   &::before {
     content: '';
